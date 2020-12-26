@@ -36,45 +36,96 @@ class Tile
     return @tile_no
   end
 
+  def map
+    @map
+  end
+
+  def to_s
+    return '<' + @tile_no + '>'
+  end
+
   def hashes()
     hashes = []
     @sides.values.each do |side|
-      hashes << side.smaller_hash
+      hashes << side.hash()
     end
     return hashes
   end
 
+  def hash(direction)
+    @sides[direction].hash()
+  end
+
+  def rotate_to(left_hash, top_hash)
+    while !(left_hash == @sides[:west].hash() && top_hash == @sides[:north].hash())
+      if left_hash == @sides[:west].hash() || top_hash == @sides[:north].hash()
+        flip()
+      else
+        rotate()
+      end
+    end
+  end
+
+  def flip
+    temp = @sides[:north]
+    @sides[:north] = @sides[:south]
+    @sides[:south] = temp
+    @map = @map.reverse
+  end
+
   def rotate
-    temp = @sides[:north].rotate(:east)
-    @sides[:north] = @sides[:west].rotate(:north)
-    @sides[:west] = @sides[:south].rotate(:west)
-    @sides[:south] = @sides[:east].rotate(:south)
+    temp = @sides[:north]
+    @sides[:north] = @sides[:west]
+    @sides[:west] = @sides[:south]
+    @sides[:south] = @sides[:east]
     @sides[:east] = temp
 
     next_map = []
+    @map.size.times do |i|
+      next_map << ''
+    end
     @map.each do |line|
-      
+      line.size.times do |i|
+        next_map[i].insert(0, line[i])
+      end
+    end
+    @map = next_map
+  end
+
+  def map
+    return @map
+  end
+
+  def clear_hash(hash)
+    @sides.values.each do |side|
+      side.clear_hash(hash)
+    end
+  end
+
+  def is_corner?
+    return hashes().count(-1) == 2
   end
 
 end
 
 class Side
   def initialize(value_str)
-    @hash = value_str.to_i(2)
-    @inverted_hash = value_str.reverse.to_i(2)
-  end
-
-  def rotate(to_direction)
-    if to_direction == :south || :to_direction == :north
-      temp = @hash
+    hash = value_str.to_i(2)
+    inverted_hash = value_str.reverse.to_i(2)
+    if hash < inverted_hash
+      @hash = hash
+    else
       @hash = inverted_hash
-      @inverted_hash = temp
     end
-    return this
   end
 
-  def smaller_hash()
-    return @hash if @hash < @inverted_hash
-    return @inverted_hash
+  def hash
+    return @hash
+  end
+
+  def clear_hash(hash)
+    if @hash == hash
+      @hash = -1
+    end
   end
 end
