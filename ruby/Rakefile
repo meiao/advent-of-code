@@ -1,0 +1,67 @@
+require 'rubocop/rake_task'
+require 'fileutils'
+task default: [:test]
+
+test_files = []
+Dir['./**/*-test.rb'].each do |test_file|
+  test_files << test_file.split('/')[-1].split('.')[0]
+end
+
+test_files.sort!
+
+# runs all tests, using the tasks defined below
+task test: test_files
+
+# creates a job to run each test individually
+# for instance, to test 2022 day 1, run: rake 2022-01
+test_files.each do |test_file|
+  task test_file[0..6] do
+    if test_file.match(/\d{4}-\d{2}/)
+      year = "#{test_file[0..3]}"
+      day = "#{test_file[5..6]}"
+      folder = "#{year}/#{day}"
+      ruby("#{folder}/#{test_file}.rb")
+    else
+      ruby("utils/#{test_file}.rb")
+    end
+  end
+end
+
+
+RuboCop::RakeTask.new
+
+require 'erb'
+
+# creates the file for a given year and date
+# run: rake create[yyyy-dd]
+task :create, [:file_name] do |_t, args|
+  file_name = args.file_name
+  puts "Creating files for #{file_name}"
+  file_data = FileData.new(file_name)
+  create_files(file_data)
+end
+
+def create_files(file_data)
+  FileUtils.mkdir_p file_data.folder
+  apply_template('./skel/src.erb', "./#{file_data.base_filepath}.rb", file_data)
+  apply_template('./skel/test.erb', "./#{file_data.base_filepath}-test.rb", file_data)
+end
+
+def apply_template(template_file, destination, file_data)
+  template = IO.readlines(template_file).join
+  renderer = ERB.new(template)
+  @file_data = file_data
+  IO.write(destination, renderer.result)
+end
+
+class FileData
+  attr_accessor :year, :day, :folder, :file_name, :base_filepath
+  def initialize(data)
+    raise Exception.new("File name does not match expected format: yyyy-dd") unless data[0..6].match(/\d{4}-\d{2}/)
+    @year = data[0..3]
+    @day = data[5..6]
+    @folder = "#{@year}/#{@day}"
+    @file_name = "#{@year}-#{@day}"
+    @base_filepath = "#{@folder}/#{@file_name}"
+  end
+end

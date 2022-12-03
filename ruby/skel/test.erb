@@ -1,0 +1,17 @@
+require 'minitest/autorun'
+require_relative '<%= @file_data.file_name %>'
+
+# Tests for <%= @file_data.year %> day <%= @file_data.day %>
+class Test<%= @file_data.file_name %> < Minitest::Test
+  def setup
+    @solver = Solver.new
+  end
+
+  def test_small
+    assert_equal(1, @solver.solve)
+  end
+
+  #def test_large
+  #  assert_equal(1, @solver.solve)
+  #end
+end
