@@ -3,15 +3,23 @@ require_relative '<%= @file_data.file_name %>'
 
 # Tests for <%= @file_data.year %> day <%= @file_data.day %>
 class Test<%= @file_data.year %>_<%= @file_data.day %> < Minitest::Test
-  def setup
-    @solver = Solver.new
+  def test_part1_small
+    solver = Solver.new
+    assert_equal(1, solver.solve)
   end
 
-  def test_small
-    assert_equal(1, @solver.solve)
-  end
+  #def test_part1_large
+  #  solver = Solver.new
+  #  assert_equal(1, solver.solve)
+  #end
 
-  #def test_large
-  #  assert_equal(1, @solver.solve)
+  #def test_part2_small
+  #  solver = Solver2.new
+  #  assert_equal(1, solver.solve)
+  #end
+
+  #def test_part2_large
+  #  solver = Solver2.new
+  #  assert_equal(1, solver.solve)
   #end
 end
