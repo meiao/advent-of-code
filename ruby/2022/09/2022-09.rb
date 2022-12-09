@@ -7,16 +7,18 @@
 # Author::    Andre Onuki
 # License::   GPL3
 class Solver
-  def solve(input)
-    @h = [0, 0]
-    @t = [0, 0]
+  def solve(input, knot_count)
+    @knots = []
+    knot_count.times {@knots << [0,0]}
     @visited = {}
 
     input.each do |line|
       direction, count = line.strip.split(' ')
       count.to_i.times do
         move_head(direction)
-        move_tail
+        (1..(knot_count - 1)).each do |i|
+          move_knot(i)
+        end
         mark_visited
       end
     end
@@ -24,50 +26,48 @@ class Solver
   end
 
   def move_head(direction)
+    head = @knots[0]
     case direction
     when 'U'
-      @h[1] += 1
+      head[1] += 1
     when 'D'
-      @h[1] -= 1
+      head[1] -= 1
     when 'L'
-      @h[0] -= 1
+      head[0] -= 1
     when 'R'
-      @h[0] += 1
+      head[0] += 1
     end
   end
 
-  def move_tail
-    dist = ht_distance()
+  def move_knot(i)
+    knot = @knots[i]
+    previous = @knots[i-1]
+    dist = knot_distance(knot, previous)
     return if dist < 2
-    if dist == 2
-      return if (@h[0] - @t[0]).abs == 1
+    if dist == 2 || dist == 4
+      return if (previous[0] - knot[0]).abs == 1
 
-      @t[0] = (@h[0] + @t[0]) / 2
-      @t[1] = (@h[1] + @t[1]) / 2
+      knot[0] = (previous[0] + knot[0]) / 2
+      knot[1] = (previous[1] + knot[1]) / 2
     else
-      if (@h[0] - @t[0]).abs == 1
-        @t[0] = @h[0]
-        @t[1] = (@h[1] + @t[1]) / 2
+      if (previous[0] - knot[0]).abs == 1
+        knot[0] = previous[0]
+        knot[1] = (previous[1] + knot[1]) / 2
       else
-        @t[0] = (@h[0] + @t[0]) / 2
-        @t[1] = @h[1]
+        knot[0] = (previous[0] + knot[0]) / 2
+        knot[1] = previous[1]
       end
     end
   end
 
-  def ht_distance
-    return (@h[0] - @t[0]).abs + (@h[1] - @t[1]).abs
+  def knot_distance(knot, previous)
+    return (previous[0] - knot[0]).abs + (previous[1] - knot[1]).abs
   end
 
   def mark_visited
-    @visited[Array.new(@t)] = true
+    @visited[Array.new(@knots[-1])] = true
   end
 
 
 
-end
-
-class Solver2
-  def solve
-  end
 end
