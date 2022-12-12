@@ -4,22 +4,30 @@ require_relative '<%= @file_data.file_name %>'
 # Tests for <%= @file_data.year %> day <%= @file_data.day %>
 class Test<%= @file_data.year %>_<%= @file_data.day %> < Minitest::Test
   def test_part1_small
+    file_name = File.join(File.dirname(__FILE__), './input.small')
+    input = File.open(file_name).readlines
     solver = Solver.new
-    assert_equal(1, solver.solve)
+    assert_equal(1, solver.solve(input))
   end
 
   #def test_part1_large
+  #  file_name = File.join(File.dirname(__FILE__), './input')
+  #  input = File.open(file_name).readlines
   #  solver = Solver.new
-  #  assert_equal(1, solver.solve)
+  #  assert_equal(1, solver.solve(input))
   #end
 
   #def test_part2_small
-  #  solver = Solver2.new
-  #  assert_equal(1, solver.solve)
+  #  file_name = File.join(File.dirname(__FILE__), './input.small')
+  #  input = File.open(file_name).readlines
+  #  solver = Solver.new
+  #  assert_equal(1, solver.solve2(input))
   #end
 
   #def test_part2_large
-  #  solver = Solver2.new
-  #  assert_equal(1, solver.solve)
+  #  file_name = File.join(File.dirname(__FILE__), './input')
+  #  input = File.open(file_name).readlines
+  #  solver = Solver.new
+  #  assert_equal(1, solver.solve2(input))
   #end
 end
