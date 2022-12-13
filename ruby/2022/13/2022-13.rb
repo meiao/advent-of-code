@@ -12,14 +12,16 @@ class Solver
     sum = 0
     until input.empty?
       left, right, _blank = input.shift(3)
-      sum += index if compare(eval(left.strip), eval(right.strip)) < 0
+      sum += index if compare(eval(left), eval(right)) < 0
       index += 1
     end
     sum
   end
 
   def solve2(input)
-    items = input.map{|line| line.strip}.filter{|line| !line.empty?}.map{|line| eval(line)}
+    items = input
+      .filter{|line| !line.strip.empty?}
+      .map{|line| eval(line)}
     items << [[2]]
     items << [[6]]
     items.sort!{|a,b| compare(a,b)}
@@ -38,6 +40,6 @@ class Solver
       diff = compare(left[i], right[i])
       return diff if diff != 0
     end
-    return left.size - right.size
+    return left.size <=> right.size
   end
 end
