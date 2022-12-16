@@ -29,6 +29,17 @@ class Solver
     covered_points
   end
 
+  def solve2(limit)
+    (0..limit).each do |row|
+      ranges = @sensors.map{|s| s.x_at_row(row)}.compact
+      ranges = ranges.map{|r| ([0, r.first].max)..([limit, r.last].min)}
+      ranges = minimize_ranges(ranges)
+      if ranges.size > 1
+       return 4000000 * (ranges.sort[0].last + 1) + row
+      end
+    end
+  end
+
   def minimize_ranges(ranges)
     has_changes = true
     new_ranges = Array.new(ranges)
@@ -40,7 +51,8 @@ class Solver
         range = old_ranges.shift
         next if old_ranges.any?{|old_range| old_range.cover?(range)}
         old_ranges.each do |old_range|
-          if old_range.first <= range.last && old_range.last >= range.first
+          if (old_range.first <= range.last && old_range.last >= range.first) ||
+             ((old_range.first - range.last).abs == 1 || (range.first - old_range.last).abs == 1)
             range = ([old_range.first, range.first].min..[old_range.last, range.last].max)
             has_changes = true
           end
