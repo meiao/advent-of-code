@@ -15,19 +15,27 @@ class Test2022_17 < Minitest::Test
   #   assert_equal(input + input, actual)
   # end
 
- #  def test_part1_small
- #    file_name = File.join(File.dirname(__FILE__), './input.small')
- #    input = File.open(file_name).readlines
- #    solver = Solver.new(input[0].strip)
- #    assert_equal(3068, solver.solve(2022))
- #  end
- #
+  def test_part1_small
+    file_name = File.join(File.dirname(__FILE__), './input.small')
+    input = File.open(file_name).readlines
+    solver = Solver.new(input[0].strip)
+    assert_equal(3068, solver.solve(2022))
+  end
+
   def test_part1_large
    file_name = File.join(File.dirname(__FILE__), './input')
    input = File.open(file_name).readlines
    solver = Solver.new(input[0].strip)
    assert_equal(3059, solver.solve(2022))
   end
+
+  def test_part1_large_10000
+   file_name = File.join(File.dirname(__FILE__), './input')
+   input = File.open(file_name).readlines
+   solver = Solver.new(input[0].strip)
+   assert_equal(15037, solver.solve(10000))
+  end
+
  #
  #  def test_part2_small
  #   file_name = File.join(File.dirname(__FILE__), './input.small')

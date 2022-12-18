@@ -12,14 +12,14 @@ class Solver
   def initialize(input)
     @rock_factory = RockFactory.new
     @jet_stream = JetStream.new(input)
-    @map = Hash.new('.')
-    (0..6).each {|x| @map[[x, 0]] = '-'}
+    @map = Hash.new(0)
+    @map[0] = 127
     @highest = 0
   end
 
   def solve(rock_count)
     rock_count.times do |i|
-      puts "#{i} #{@highest}" if i % 100000 == 0
+      puts "#{i} #{@highest}" if i % 1000000 == 0
       drop_rock
     end
     print_map
@@ -32,7 +32,9 @@ class Solver
       rock.move(@jet_stream.get_next, @map)
       if !rock.move('V', @map)
         rock_highest = rock.highest
-        @highest = rock_highest if rock_highest > @highest
+        if rock_highest > @highest
+          @highest = rock_highest
+        end
         rock.stop(@map)
         return
       end
@@ -42,7 +44,7 @@ class Solver
   def print_map
     @highest.downto(0) do |y|
       line = '|'
-      (0..6).each {|x| line << @map[[x,y]]}
+      line << @map[y].to_s(2).rjust(7,'0').tr('01', '.#')
       line << '|'
       puts line
     end
@@ -56,7 +58,10 @@ class JetStream
   end
 
   def get_next
-    @i = -1 if @i == @commands.size - 1
+    if @i == @commands.size - 1
+      @i = -1
+      puts "JetStream reset"
+    end
     @i += 1
     @commands[@i]
   end
@@ -64,11 +69,11 @@ end
 
 class RockFactory
   ROCKS = [
-    [[2, 0], [3, 0], [4, 0], [5, 0]],
-    [[3, 2], [2, 1], [3, 1], [4, 1], [3, 0]],
-    [[4, 2], [4, 1], [2, 0], [3, 0], [4, 0]],
-    [[2, 3], [2, 2], [2, 1], [2, 0]],
-    [[2, 1], [3, 1], [2, 0], [3, 0]]
+    [30],
+    [8, 28, 8],
+    [28, 4, 4],
+    [16, 16, 16, 16],
+    [24, 24]
   ]
   def initialize
     @i = -1
@@ -77,16 +82,21 @@ class RockFactory
   def get_next(row)
     @i = -1 if @i == ROCKS.size - 1
     @i += 1
-    points = ROCKS[@i].map{|point| [point[0], point[1] + row]}
+    points = []
+    j = 0
+    ROCKS[@i].each do |line|
+      points << [line, row + j]
+      j += 1
+    end
     Rock.new(points)
   end
 end
 
 class Rock
-  DIR = {
-    '<' => [-1, 0],
-    '>' => [1, 0],
-    'V' => [0, -1]
+  BOUNDARY_CHECK = {
+    '<' => 64,
+    '>' => 1,
+    'V' => 0
   }
 
   def initialize(points)
@@ -94,19 +104,32 @@ class Rock
   end
 
   def move(direction, map)
-    dir = DIR[direction]
-    new_points = @points.map{|p| [p[0] + dir[0], p[1] + dir[1]]}
-    return false if new_points.any?{|p| map.has_key?(p)}
-    if direction != 'V'
-      return false if new_points.any?{|p| p[0] < 0 || p[0] > 6}
+    if direction == '<' || direction == '>'
+      return false if @points.any?{|p| p[0] & BOUNDARY_CHECK[direction] != 0}
     end
-    @points = new_points
+
+    next_points = do_move(direction)
+
+    return false if next_points.any?{|p| p[0] & map[p[1]] != 0}
+
+    @points = next_points
     true
   end
 
-  def stop(map)
-    @points.each{|p| map[p] = '#'}
+  def do_move(direction)
+    if direction == 'V'
+      return @points.map{|p| [p[0], p[1] - 1]}
+    elsif direction == '>'
+      return @points.map{|p| [p[0] >> 1, p[1]]}
+    else
+      return @points.map{|p| [p[0] << 1, p[1]]}
+    end
+  end
 
+  def stop(map)
+    @points.each do |p|
+      map[p[1]] |= p[0]
+    end
   end
 
   def highest
