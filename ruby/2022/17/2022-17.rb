@@ -14,56 +14,61 @@ class Solver
     @jet_stream = JetStream.new(input)
     @map = Hash.new(0)
     @map[0] = 127
-    @highest = 0
+    @heights = [0]
+    @reset = [false]
+    @reset_rock = []
   end
 
   def solve(rock_count)
     rock_count.times do |i|
-      puts "#{i} #{@highest}" if i % 1000000 == 0
       drop_rock
+      if @reset[0]
+        @reset[0] = false
+        @reset_rock << i
+        break if @reset_rock.size == 10
+      end
     end
-    print_map
-    @highest
+
+    if @reset_rock.size < 2
+      return @heights[-1]
+    end
+
+    cycle_length = @reset_rock[1] - @reset_rock[0]
+    cycles = (rock_count - @reset_rock[0]) / cycle_length
+    remaining = rock_count - @reset_rock[0] - (cycle_length * cycles)
+    a= @heights[@reset_rock[0]]
+    b= cycles * (@heights[@reset_rock[1]] - @heights[@reset_rock[0]])
+    c= @heights[@reset_rock[0] + remaining] - @heights[@reset_rock[0]]
+    a+b+c
   end
 
   def drop_rock
-    rock = @rock_factory.get_next(@highest + 4)
+    rock = @rock_factory.get_next(@heights[-1] + 4)
     loop do
-      rock.move(@jet_stream.get_next, @map)
+      rock.move(@jet_stream.get_next(@reset), @map)
       if !rock.move('V', @map)
-        rock_highest = rock.highest
-        if rock_highest > @highest
-          @highest = rock_highest
-        end
+        @heights << [rock.highest, @heights[-1]].max
         rock.stop(@map)
         return
       end
-    end
-  end
-
-  def print_map
-    @highest.downto(0) do |y|
-      line = '|'
-      line << @map[y].to_s(2).rjust(7,'0').tr('01', '.#')
-      line << '|'
-      puts line
     end
   end
 end
 
 class JetStream
   def initialize(line)
-    @commands = line
-    @i = -1
+    @directions = line
+    @i = 0
   end
 
-  def get_next
-    if @i == @commands.size - 1
-      @i = -1
-      puts "JetStream reset"
-    end
+  def get_next(reset)
+    direction = @directions[@i]
     @i += 1
-    @commands[@i]
+    if @i == @directions.size
+      @i = 0
+      reset[0] = true
+    end
+    direction
   end
 end
 
@@ -109,7 +114,6 @@ class Rock
     end
 
     next_points = do_move(direction)
-
     return false if next_points.any?{|p| p[0] & map[p[1]] != 0}
 
     @points = next_points
