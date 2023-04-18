@@ -39,16 +39,15 @@ class Solver
       keys_on_line = map.keys.filter{|k| k[1] == y}.sort
       left = map[keys_on_line[0]]
       right = map[keys_on_line[-1]]
-      left.set_next_cell(:L, right)
-      right.set_next_cell(:R, left)
+      left.set_next_cell(:L, right, :L)
+      right.set_next_cell(:R, left, :R)
     end
     lines[0].rstrip.length.times do |x|
       keys_on_row = map.keys.filter{|k| k[0] == x}.sort
-      p keys_on_row
       top = map[keys_on_row[0]]
       bottom = map[keys_on_row[-1]]
-      top.set_next_cell(:U, bottom)
-      bottom.set_next_cell(:D, top)
+      top.set_next_cell(:U, bottom, :U)
+      bottom.set_next_cell(:D, top, :D)
     end
     map
   end
