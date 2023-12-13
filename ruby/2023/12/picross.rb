@@ -9,17 +9,16 @@ class Picross
 
   def Picross.create(springs, numbers)
     springs = "" if springs == nil
+    # p [springs, numbers]
+    # p caller(1)
     return NumberlessPicross.new(springs) if numbers.empty?
     Picross.new(springs, numbers)
   end
 
   def calculate
-    p state
     return @@cache[state] if @@cache[state] != nil
     minimized = self.minimize
     return @@cache[minimized.state] if @@cache[minimized.state] != nil
-    p minimized.state
-    puts
     value = minimized.do_calculate
     @@cache[state] = value
     @@cache[minimized.state] = value
@@ -40,18 +39,18 @@ class Picross
       modified = previous.operational_around_max
                          .join_operational
                          .clean_edges
-                         .remove_broken
-                         .remove_longest_from_start
-                         .remove_leading_unknown
-                         .remove_leading_unknown_small
-                         .force_leading_broken
-                         .reverse
-                         .remove_broken
-                         .remove_longest_from_start
-                         .remove_leading_unknown
-                         .remove_leading_unknown_small
-                         .force_leading_broken
-                         .reverse
+                         # .remove_broken
+                         # .remove_longest_from_start
+                         # .remove_leading_unknown
+                         # .remove_leading_unknown_small
+                         # .force_leading_broken
+                         # .reverse
+                         # .remove_broken
+                         # .remove_longest_from_start
+                         # .remove_leading_unknown
+                         # .remove_leading_unknown_small
+                         # .force_leading_broken
+                         # .reverse
       break if modified == previous
       previous = modified
     end
@@ -71,7 +70,8 @@ class Picross
   end
 
   def remove_broken
-    return self if @springs[0] != '#'
+    return self if @springs.index('#'*@numbers[0]) != 0
+    return Picross.create('#', []) if @springs[@numbers[0]] == '#'
     Picross.create(@springs[(@numbers[0]+1)..-1], @numbers[1..-1])
   end
 
@@ -80,13 +80,15 @@ class Picross
     return self if @numbers[0] != max || @numbers.count(max) > 1
     index = @springs.index('#' * max)
     return self if index == nil
-    Picross.create(@springs[(index+max)..-1], @numbers[1..-1])
+    return Picross.create('#', []) if @springs[index+max+1] == '#'
+    Picross.create(@springs[(index+max+1)..-1], @numbers[1..-1])
   end
 
   def operational_around_max
     max = @numbers.max
     offset = 0
     springs = @springs.clone
+    return Picross.create('#', []) if @springs.index('#' * (max+1)) != nil
     while true
       index = @springs.index('#' * max, offset)
       break if index == nil
@@ -102,20 +104,22 @@ class Picross
 
   def remove_leading_unknown
     return self if @springs[0] != '?'
-    i = 0
-    j = 0
-    while @springs[i] == '?' && i < @numbers[0] do
-      i += 1
+    leading_unknowns = 1
+    while @springs[leading_unknowns] == '?'
+      leading_unknowns += 1
+      return self if leading_unknowns > @numbers[0]
     end
-    while @springs[i + j] == '#' do
-      if i < @numbers[0]
-        i += 1
-      else
-        j += 1
-      end
+
+    broken_next = 0
+    while @springs[leading_unknowns + broken_next] == '#'
+      broken_next += 1
     end
-    return self if j == 0
-    Picross.create(@springs[j..-1], @numbers)
+
+    return self if broken_next == 0
+    return Picross.create('#', []) if broken_next > @numbers[0]
+    removable_unknowns = leading_unknowns - (@numbers[0] - broken_next)
+    return self if removable_unknowns <= 0
+    Picross.create(@springs[removable_unknowns..-1], @numbers)
   end
 
   def remove_leading_unknown_small
@@ -160,15 +164,63 @@ class Picross
       return 0 if @springs.count('#') > 0
       return 1
     end
-    return 0 if @numbers.sum > @springs.count('#') + springs.count('?')
+    return 0 if @numbers.sum > @springs.count('#') + @springs.count('?')
     return 0 if @numbers.sum < @springs.count('#')
-    return 1 if @numbers.sum == @springs.count('#') + springs.count('?')
-    # if @springs.include? '.'
-    #   calculate_split
-    # else
+    return 0 if @springs.include?('#' * (@numbers.max + 1))
+    if @springs.count('?') <= 5
       calculate_simple
-    # end
+    elsif @springs.include? '.'
+      calculate_split
+    elsif @springs.include? '#?#'
+      split_between_broken.map{|pic| pic.do_calculate}.sum
+    else
+      split_random_unknown.map{|pic| pic.do_calculate}.sum
+    end
   end
+
+  def calculate_split
+    sum = 0
+    split.each do |pair|
+      value_1 = pair[0].calculate
+      value_2 = value_1 == 0 ? 0 : pair[1].do_calculate
+      sum += value_1 * value_2
+    end
+    sum
+  end
+
+  def split
+    springs = @springs.split('.', 2)
+    splits = []
+    (@numbers.size + 1).times do |i|
+      splits << [
+        Picross.create(springs[0], @numbers[0,i]),
+        Picross.create(springs[1], @numbers[i,@numbers.size])
+      ]
+    end
+    splits
+  end
+
+  def split_between_broken
+    return [self] unless @springs.include? '#?#'
+    i = @springs.index('#?#')
+    springs1 = @springs.clone
+    springs1[i+1] = '.'
+    springs2 = @springs.clone
+    springs2[i+1] = '#'
+    [Picross.create(springs1, @numbers), Picross.create(springs2, @numbers)]
+  end
+
+  def split_random_unknown
+    return [self] unless @springs.include? '?'
+    i = @springs.index('?', @springs.size/3)
+    i = @springs.index('?') if i == nil
+    springs1 = @springs.clone
+    springs1[i] = '.'
+    springs2 = @springs.clone
+    springs2[i] = '#'
+    [Picross.create(springs1, @numbers), Picross.create(springs2, @numbers)]
+  end
+
 
   def calculate_simple
     expected_broken = @numbers.sum - @springs.count('#')

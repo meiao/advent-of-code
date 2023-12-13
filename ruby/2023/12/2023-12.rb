@@ -10,7 +10,8 @@ class Solver
       data = line.split
       springs = data[0]
       numbers = data[1].split(',').map{|n| n.to_i}
-      Picross.new(springs, numbers).calculate
+      val = Picross.new(springs, numbers).calculate
+      val
     end.sum
   end
 
@@ -19,7 +20,9 @@ class Solver
       data = line.split
       springs = ((data[0]+'?')*5)[0..-2]
       numbers = ((data[1]+',')*5)[0..-2].split(',').map{|n| n.to_i}
-      Picross.new(springs, numbers).calculate
+      p [line]
+      val = Picross.new(springs, numbers).calculate
+      val
     end.sum
   end
 
