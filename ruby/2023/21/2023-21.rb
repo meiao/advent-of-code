@@ -38,7 +38,7 @@ class Solver
   end
 
   def solve2(steps)
-    positions = {@origin => {@origin => true}}
+    positions = {@origin => {[0,0] => true}}
     while steps > 0
       p steps
       next_positions = Hash.new {|h, k| h[k] = {}}
@@ -47,9 +47,14 @@ class Solver
         [[0, 1], [0, -1], [1, 0], [-1, 0]].each do |inc|
           next_pos = [(pos[0] + inc[0]) % @mod_x, (pos[1] + inc[1]) % @mod_y]
           if @map[next_pos] == '.'
-            all.keys.each do |p|
-              p2 = [p[0] + inc[0], p[1] + inc[1]]
-              next_positions[next_pos][p2] = true
+            if next_pos == [pos[0] + inc[0], pos[1] + inc[1]]
+              all.keys.each do |o|
+                next_positions[next_pos][o] = true
+              end
+            else
+              all.keys.each do |o|
+                next_positions[next_pos][[o[0] + inc[0], o[1] + inc[1]]] = true
+              end
             end
           end
         end
