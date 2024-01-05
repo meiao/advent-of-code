@@ -38,11 +38,12 @@ class Solver
   end
 
   def solve2(steps)
+    interesting = {}
+    i = 0
     positions = {@origin => {[0,0] => true}}
-    while steps > 0
-      p steps
+    while i < 327
+
       next_positions = Hash.new {|h, k| h[k] = {}}
-      steps -= 1
       positions.each do |pos, all|
         [[0, 1], [0, -1], [1, 0], [-1, 0]].each do |inc|
           next_pos = [(pos[0] + inc[0]) % @mod_x, (pos[1] + inc[1]) % @mod_y]
@@ -60,8 +61,16 @@ class Solver
         end
       end
       positions = next_positions
-      p positions.values.map{|map| map.keys.size}.sum
+      i += 1
+      if i == 65 || i == 196 || i == 327
+        interesting[i] = positions.values.map{|map| map.keys.size}.sum
+      end
+      p i
     end
-    positions.values.map{|map| map.keys.size}.sum
+    a = (interesting[327] - (2 * interesting[196]) + interesting[65]) / 2
+    b = interesting[196] - interesting[65] - a
+    c = interesting[65]
+    n = (26_501_365 - 65) / 131
+    (a * (n**2)) + (b * n) + c
   end
 end
