@@ -17,6 +17,7 @@ class Solver
         Conjunction.new(line, @bus)
       end
     end
+    @machine = Machine.new("?rx -> machine", @bus)
     @bus.calculate_inputs
   end
 
@@ -31,7 +32,15 @@ class Solver
   end
 
 
-  def solve2(input)
+  def solve2
+    presses = 0
+    until @machine.done?
+      presses += 1
+      StepCounter.i = presses
+      @bus.send(:low, 'button', ['roadcaster']) # broadcaster has its first char removed
+      @bus.process_all
+    end
+    presses
   end
 end
 
@@ -68,7 +77,6 @@ class EventBus
   def process_all
     until @queue.empty?
       level, src, dest = @queue.shift
-      # p [src, level, dest]
       next unless @subscribers.key? dest
       @subscribers[dest].on_signal(level, src)
     end
@@ -128,7 +136,28 @@ class Conjunction < Mod
   def on_signal(level, src)
     @inputs[src] = level
     all_high = @inputs.values.all? {|v| v == :high}
-    # p [name, @inputs, all_high]
+    p [self.name, StepCounter.i] if all_high && ['lg', 'st', 'bn', 'gr'].include?(self.name)
     send_pulse(all_high ? :low : :high)
+  end
+end
+
+class Machine < Mod
+  def on_signal(level, src)
+    @done = true if level == :low
+  end
+
+  def done?
+    @done != nil
+  end
+end
+
+module StepCounter
+  @@i = 0
+  def self.i=(i)
+    @@i = i
+  end
+
+  def self.i()
+    @@i
   end
 end

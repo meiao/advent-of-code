@@ -1,0 +1,121 @@
+digraph G {
+{
+hm [color="red"]
+ph [color="red"]
+xs [color="red"]
+xc [color="red"]
+fx [color="red"]
+dn [color="red"]
+nd [color="red"]
+pd [color="red"]
+pc [color="red"]
+lx [color="red"]
+tc [color="red"]
+tl [color="red"]
+kk [color="red"]
+gq [color="red"]
+xq [color="red"]
+nn [color="red"]
+st [color="blue"]
+hb [color="blue"]
+xj [color="red"]
+sz [color="red"]
+bz [color="red"]
+vq [color="red"]
+vv [color="red"]
+gp [color="red"]
+js [color="blue"]
+lf [color="red"]
+broadcaster [color="green"]
+cd [color="red"]
+vr [color="red"]
+kx [color="red"]
+jr [color="red"]
+gr [color="blue"]
+qg [color="red"]
+mc [color="red"]
+nl [color="red"]
+hz [color="red"]
+kt [color="red"]
+zc [color="red"]
+vj [color="red"]
+zb [color="blue"]
+kc [color="red"]
+qc [color="red"]
+bn [color="blue"]
+cz [color="red"]
+bs [color="blue"]
+jc [color="red"]
+nj [color="red"]
+kj [color="red"]
+hh [color="red"]
+hq [color="red"]
+dh [color="red"]
+ch [color="red"]
+jv [color="red"]
+rs [color="red"]
+zf [color="red"]
+qn [color="red"]
+lg [color="blue"]
+rr [color="blue"]
+
+}
+hm -> {lg}
+ph -> {gr cd}
+xs -> {st zf}
+xc -> {vv bn}
+fx -> {lx st}
+dn -> {zc}
+nd -> {lg tc}
+pd -> {dn lg}
+pc -> {gr}
+lx -> {gp}
+tc -> {kj}
+tl -> {nn}
+kk -> {xs}
+gq -> {pd}
+xq -> {st xj}
+nn -> {bn xc}
+st -> {kk fx hz lx zb}
+hb -> {rx}
+xj -> {st vq}
+sz -> {gr ph}
+bz -> {kx}
+vq -> {st}
+vv -> {hh bn}
+gp -> {st hz}
+js -> {hb}
+lf -> {bn qg}
+broadcaster -> {nd fx mc lf}
+cd -> {vr}
+vr -> {qc gr}
+kx -> {kc lg}
+jr -> {bn tl}
+gr -> {cz dh mc qc js nj cd}
+qg -> {hq}
+mc -> {gr cz}
+nl -> {st ch}
+hz -> {nl}
+kt -> {gr jc}
+zc -> {lg qn}
+vj -> {rs}
+zb -> {hb}
+kc -> {gq}
+qc -> {kt}
+bn -> {qg hq rs lf bs vj tl}
+cz -> {dh}
+bs -> {hb}
+jc -> {gr pc}
+nj -> {sz}
+kj -> {lg bz}
+hh -> {jv bn}
+hq -> {vj}
+dh -> {nj}
+ch -> {st kk}
+jv -> {bn}
+rs -> {jr}
+zf -> {xq st}
+qn -> {hm lg}
+lg -> {gq bz tc nd rr kc dn}
+rr -> {hb}
+}

@@ -24,17 +24,22 @@ class Test2023_20 < Minitest::Test
    assert_equal(684125385, solver.solve)
   end
 
-  #def test_part2_small
-  #  file_name = File.join(File.dirname(__FILE__), './input.small')
-  #  input = File.open(file_name).readlines
-  #  solver = Solver.new
-  #  assert_equal(1, solver.solve2(input))
-  #end
+  # Part 2 is not solvable using simulation.
+  # The solution is to analyse the input and
+  # see that it is a bunch of binary counters
+  # that merge in a conjunction.
+  # Then find out when the binary counters will
+  # merge so the conjunction is satisfied.
+  # The code for part 2 runs to find the number
+  # of button presses for the ['lg', 'st', 'bn', 'gr']
+  # conjunctions, which when all flipped, will
+  # turn on the machine.
+  def test_part2
+    file_name = File.join(File.dirname(__FILE__), './input')
+    input = File.open(file_name).readlines
+    solver = Solver.new(input)
+    assert_equal(1, solver.solve2)
+  end
 
-  #def test_part2_large
-  #  file_name = File.join(File.dirname(__FILE__), './input')
-  #  input = File.open(file_name).readlines
-  #  solver = Solver.new
-  #  assert_equal(1, solver.solve2(input))
-  #end
+
 end
