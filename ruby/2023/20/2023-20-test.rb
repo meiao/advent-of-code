@@ -34,11 +34,18 @@ class Test2023_20 < Minitest::Test
   # of button presses for the ['lg', 'st', 'bn', 'gr']
   # conjunctions, which when all flipped, will
   # turn on the machine.
+
+  # The first time the conjunctions flip. The response
+  # is the LCM of these numbers.
+  # ["lg", 3733]
+  # ["gr", 3761]
+  # ["bn", 4001]
+  # ["st", 4021]
   def test_part2
     file_name = File.join(File.dirname(__FILE__), './input')
     input = File.open(file_name).readlines
     solver = Solver.new(input)
-    assert_equal(1, solver.solve2)
+    assert_equal(225872806380073, solver.solve2)
   end
 
 
