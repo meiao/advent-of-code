@@ -55,11 +55,9 @@ class Solver
     end
     coords, times = encounter
     h0,h1 = @hails[0..1]
-    p coords
     z0 = h0[0][2] + (times[0] * h0[1][2])
     z1 = h1[0][2] + (times[1] * h1[1][2])
     coords << (((times[1] * z0) - (times[0] * z1)) / (times[1] - times[0])).floor
-    p coords
     coords.sum
   end
 
