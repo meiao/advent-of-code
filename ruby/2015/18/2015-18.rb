@@ -9,7 +9,7 @@
 class Solver
   def solve(input)
     map = Map.new(input)
-    100.times {|_| map.cycle}
+    100.times { |_| map.cycle }
     map.lit_up
   end
 end
@@ -18,7 +18,7 @@ class Solver2
   def solve(input)
     map = Map.new(input)
     map.light_corners
-    100.times {|_| map.cycle2}
+    100.times { |_| map.cycle2 }
     map.lit_up
   end
 end
@@ -29,11 +29,11 @@ class Map
     @lights = Hash.new(false)
     input.each_with_index do |line, y|
       line.rstrip.chars.each_with_index do |char, x|
-        @lights[[x,y]] = true if char == '#'
+        @lights[[x, y]] = true if char == '#'
       end
     end
     @corners = [
-      [0,0],
+      [0, 0],
       [@size - 1, 0],
       [0, @size - 1],
       [@size - 1, @size - 1]
@@ -43,7 +43,7 @@ class Map
   def print_map
     @size.times do |y|
       @size.times do |x|
-        char = @lights[[x,y]] ? '#' : '.'
+        char = @lights[[x, y]] ? '#' : '.'
         print char
       end
       puts
@@ -59,30 +59,28 @@ class Map
           cx = coord[0] + x
           cy = coord[1] + y
           next if (x == 0 && y == 0) || cx < 0 || cy < 0 || cx >= @size || cy >= @size
+
           illumination[[cx, cy]] += 1
         end
       end
     end
     next_lights = Hash.new(false)
     illumination.each_pair do |coord, count|
-      if count == 3 || (count == 2 && @lights[coord])
-        next_lights[coord] = true
-      end
+      next_lights[coord] = true if count == 3 || (count == 2 && @lights[coord])
     end
     @lights = next_lights
   end
 
   def light_corners
-    @corners.each {|coord| @lights[coord] = true}
+    @corners.each { |coord| @lights[coord] = true }
   end
 
   def cycle2
-    self.cycle
-    self.light_corners
+    cycle
+    light_corners
   end
 
   def lit_up
     @lights.size
   end
-
 end

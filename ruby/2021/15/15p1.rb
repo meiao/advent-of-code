@@ -1,10 +1,7 @@
 #!/usr/local/bin/ruby
 
-require 'set'
 require '../priority_queue'
 
-# This program answers Project Euler's problem 083
-#
 # This version ran in 9.029220s.
 #
 # After a couple of attempts using DFS (the 2nd also using dynamic programming),
@@ -73,10 +70,9 @@ class Solver
   end
 end
 
-
 def read_file(filename)
   matrix = []
-  lines = IO.readlines(filename).collect{|l| l.strip}
+  lines = IO.readlines(filename).collect { |l| l.strip }
   lines.each do |line|
     matrix << line.split('').map(&:to_i)
   end

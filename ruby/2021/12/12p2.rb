@@ -1,8 +1,7 @@
 class Solver
-
   def initialize(file)
-    data = File.open(file).readlines.collect {|l| l.strip.split('-') }
-    @map = Hash.new {|hash, key| hash[key] = []}
+    data = File.open(file).readlines.collect { |l| l.strip.split('-') }
+    @map = Hash.new { |hash, key| hash[key] = [] }
     data.each do |d|
       @map[d[0]] << d[1]
       @map[d[1]] << d[0]
@@ -11,10 +10,10 @@ class Solver
     @stack = []
   end
 
-  def calculate()
+  def calculate
     @stack << 'start'
     @stack << 'start'
-    visit()
+    visit
   end
 
   def is_lower?(str)
@@ -22,30 +21,30 @@ class Solver
   end
 
   def can_visit(node)
-    return true if !is_lower?(node)
-    return true if !@stack.include?(node)
+    return true unless is_lower?(node)
+    return true unless @stack.include?(node)
     return false if @stack.count(node) >= 2
-    lower = @stack.filter{|n| is_lower?(n) && n != 'start'}
+
+    lower = @stack.filter { |n| is_lower?(n) && n != 'start' }
     return true if lower.size == lower.uniq.size
-    return false
+
+    false
   end
 
-  def visit()
+  def visit
     cur = @stack[-1]
-    if cur == 'end'
-      return 1
-    end
+    return 1 if cur == 'end'
 
     sum = 0
     @map[cur].each do |next_node|
-      next if !can_visit(next_node)
+      next unless can_visit(next_node)
+
       @stack << next_node
-      sum += visit()
+      sum += visit
       @stack.pop
     end
     sum
   end
-
 end
 
-p Solver.new('12-input').calculate()
+p Solver.new('12-input').calculate

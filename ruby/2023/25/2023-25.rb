@@ -41,9 +41,9 @@ class Solver
         count[comps[0]] += 1
       end
     end
-    singles = count.select {|k, v| v == 1}.keys
+    singles = count.select { |_k, v| v == 1 }.keys
 
-    pairs_to_join = map.keys.select{|k| k.any? {|comps| comps.intersect? singles}}
+    pairs_to_join = map.keys.select { |k| k.any? { |comps| comps.intersect? singles } }
     pairs_to_join.each do |comps|
       join!(map, comps)
     end
@@ -51,7 +51,7 @@ class Solver
 
   def find_cut!(map)
     while map.size > 1
-      arr = map.to_a.sort{|a,b| a[1] <=> b[1]}
+      arr = map.to_a.sort { |a, b| a[1] <=> b[1] }
       k, v = arr[-1]
       if v == 3
         k, v = arr[rand(map.size - 1)]
@@ -67,17 +67,15 @@ class Solver
     new_comp = comps.flatten.sort
     map.delete(comps)
     map.keys.each do |key|
-      if key.intersect? comps
-        count = map.delete(key)
-        new_key = key.select {|comp| !comps.include? comp}
-        new_key << new_comp
-        new_key.sort!
-        map[new_key] += count
-      end
+      next unless key.intersect? comps
+
+      count = map.delete(key)
+      new_key = key.select { |comp| !comps.include? comp }
+      new_key << new_comp
+      new_key.sort!
+      map[new_key] += count
     end
   end
 
-
-  def solve2(input)
-  end
+  def solve2(input); end
 end

@@ -1,7 +1,7 @@
 def look_and_say(str)
   value = ''
   arr = str.split('')
-  while !arr.empty?
+  until arr.empty?
     cur_element = arr.shift
     repetition = 1
     while !arr.empty? && arr.first == cur_element
@@ -14,7 +14,7 @@ def look_and_say(str)
 end
 
 str = '1113222113'
-50.times do |each|
+50.times do |_each|
   str = look_and_say(str)
   puts str.size
 end

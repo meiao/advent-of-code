@@ -10,14 +10,12 @@ class Dice
     @cur += 3
     if @cur > 100
       @cur -= 100
-      v -= (@cur -1) * 100
+      v -= (@cur - 1) * 100
     end
     v
   end
 
-  def roll_count
-    @roll_count
-  end
+  attr_reader :roll_count
 end
 
 class Player
@@ -28,14 +26,12 @@ class Player
 
   def walk(steps)
     @pos += steps
-    @pos = @pos % 10 if @pos > 10
+    @pos %= 10 if @pos > 10
     @pos = 10 if @pos == 0
     @score += @pos
   end
 
-  def score
-    @score
-  end
+  attr_reader :score
 end
 
 class Game
@@ -49,7 +45,7 @@ class Game
     dice = Dice.new
     turn = true
     while @players[true].score < 1000 && @players[false].score < 1000
-      @players[turn].walk(dice.roll())
+      @players[turn].walk(dice.roll)
       turn = !turn
     end
     p @players

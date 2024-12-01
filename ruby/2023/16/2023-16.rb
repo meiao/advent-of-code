@@ -7,7 +7,7 @@
 class Solver
   def solve(input)
     sim = Simulator.new(input)
-    sim.calculate([0,0], :r)
+    sim.calculate([0, 0], :r)
     sim.result
   end
 
@@ -39,10 +39,10 @@ end
 
 class Simulator
   @@dir = {
-    :r => [1, 0],
-    :l => [-1, 0],
-    :u => [0, -1],
-    :d => [0, 1]
+    r: [1, 0],
+    l: [-1, 0],
+    u: [0, -1],
+    d: [0, 1]
   }
 
   def initialize(input)
@@ -53,12 +53,13 @@ class Simulator
   def calculate(pos, direction)
     return if @map[pos] == '*'
     return if @active[pos].include? direction
+
     @active[pos] << direction
 
     tile = @map[pos]
     if tile == '.' ||
-        (tile == '-' && (direction == :r || direction == :l)) ||
-        (tile == '|' && (direction == :u || direction == :d))
+       (tile == '-' && %i[r l].include?(direction)) ||
+       (tile == '|' && %i[u d].include?(direction))
       calculate(next_pos(pos, direction), direction)
     elsif tile == '|'
       calculate(next_pos(pos, :u), :u)
@@ -75,7 +76,6 @@ class Simulator
     elsif (tile == '\\' && direction == :d) || (tile == '/' && direction == :u)
       calculate(next_pos(pos, :r), :r)
     end
-
   end
 
   def result
@@ -83,14 +83,15 @@ class Simulator
   end
 
   def reset
-    @active = Hash.new {|h, k| h[k] = []}
+    @active = Hash.new { |h, k| h[k] = [] }
   end
 
   private
+
   def create_map(input)
     input.each_with_index do |line, y|
       line.strip.split('').each_with_index do |c, x|
-        @map[[x,y]] = c
+        @map[[x, y]] = c
       end
     end
   end

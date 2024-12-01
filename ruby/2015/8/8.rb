@@ -5,4 +5,4 @@ lines.each do |line|
 end
 
 # finding out part 1
-#cat  8.input | sed -E "s/\\\\(\"|\\\\|(x[0-9a-f]{2}))/}/g" | sed s/\"//g > 8.input.filtered
+# cat  8.input | sed -E "s/\\\\(\"|\\\\|(x[0-9a-f]{2}))/}/g" | sed s/\"//g > 8.input.filtered

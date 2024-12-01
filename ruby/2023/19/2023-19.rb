@@ -10,9 +10,7 @@ class Solver
     sum = 0
     parts_data.each do |data|
       part = parse_part(data)
-      if evaluate(workflows, part) == 'A'
-        sum += part.values.sum
-      end
+      sum += part.values.sum if evaluate(workflows, part) == 'A'
     end
     sum
   end
@@ -37,7 +35,7 @@ class Solver
 
   def evaluate(workflows, part)
     result = 'in'
-    until result == 'A' || result == 'R'
+    until %w[A R].include?(result)
       workflow = workflows[result]
       result = workflow.evaluate(part)
     end
@@ -53,13 +51,13 @@ class Workflow
         cond, result = rule.split(':')
         /(?<var>[xmas])(?<operator>[<>])(?<v>\d+)/ =~ cond
         value = v.to_i
-        if operator == '>'
-          @rules << Proc.new {|part| part[var] > value ? result : nil}
-        else
-          @rules << Proc.new {|part| part[var] < value ? result : nil}
-        end
+        @rules << if operator == '>'
+                    proc { |part| part[var] > value ? result : nil }
+                  else
+                    proc { |part| part[var] < value ? result : nil }
+                  end
       else
-        @rules << Proc.new {|part| rule}
+        @rules << proc { |_part| rule }
       end
     end
   end
@@ -67,7 +65,7 @@ class Workflow
   def evaluate(part)
     @rules.each do |rule|
       result = rule.call(part)
-      return result if result != nil
+      return result unless result.nil?
     end
   end
 end

@@ -11,7 +11,7 @@ class Solver
     chars = input[0].strip.chars
     initial_size = chars.size
     window = chars.shift(distinct)
-    while (window.uniq.size < distinct)
+    while window.uniq.size < distinct
       window.shift
       window << chars.shift
       break if chars.empty?

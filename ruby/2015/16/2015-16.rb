@@ -40,34 +40,32 @@ class Solver
           is_aunt = false
           break
         end
-        break if !is_aunt
+        break unless is_aunt
       end
       return num if is_aunt
     end
     nil
   end
 
-  def solve2()
+  def solve2
     @aunts.each do |num, comps|
       is_aunt = true
       comps.each do |comp, count|
-        if ['cats', 'trees'].include?(comp)
+        if %w[cats trees].include?(comp)
           if @compounds[comp] >= count
             is_aunt = false
             break
           end
-        elsif ['pomeranians', 'goldfish'].include?(comp)
+        elsif %w[pomeranians goldfish].include?(comp)
           if @compounds[comp] <= count
             is_aunt = false
             break
           end
-        else
-          if @compounds[comp] != count
-            is_aunt = false
-            break
-          end
+        elsif @compounds[comp] != count
+          is_aunt = false
+          break
         end
-        break if !is_aunt
+        break unless is_aunt
       end
       return num if is_aunt
     end

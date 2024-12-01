@@ -11,17 +11,17 @@ class Test2023_08 < Minitest::Test
   end
 
   def test_part1_large
-   file_name = File.join(File.dirname(__FILE__), './input')
-   input = File.open(file_name).readlines
-   solver = Solver.new
-   assert_equal(1, solver.solve(input))
+    file_name = File.join(File.dirname(__FILE__), './input')
+    input = File.open(file_name).readlines
+    solver = Solver.new
+    assert_equal(1, solver.solve(input))
   end
 
   def test_part2_small
-   file_name = File.join(File.dirname(__FILE__), './input.small2')
-   input = File.open(file_name).readlines
-   solver = Solver.new
-   assert_equal(6, solver.solve2(input))
+    file_name = File.join(File.dirname(__FILE__), './input.small2')
+    input = File.open(file_name).readlines
+    solver = Solver.new
+    assert_equal(6, solver.solve2(input))
   end
 
   # part 2 would take too long to brute force

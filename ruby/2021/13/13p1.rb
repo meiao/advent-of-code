@@ -1,11 +1,10 @@
 class Solver
-
   def initialize(file)
-    data = File.open(file).readlines.collect{|l| l.strip}
+    data = File.open(file).readlines.collect { |l| l.strip }
 
-    @points = data.filter{|l| l =~ /\d+,\d+/}.collect{|l| l.split(',').collect{|n| n.to_i}}
+    @points = data.filter { |l| l =~ /\d+,\d+/ }.collect { |l| l.split(',').collect { |n| n.to_i } }
 
-    @instructions = data[@points.size+1..].collect{|l| l[11..].split('=')}
+    @instructions = data[@points.size + 1..].collect { |l| l[11..].split('=') }
 
     @direction = {}
     @direction['x'] = [-1, 1]
@@ -28,21 +27,19 @@ class Solver
     end
   end
 
-  def fold()
+  def fold
     instruction = @instructions.shift
     direction = instruction[0]
     value = instruction[1].to_i
     displacement = value * 2
-    @points.filter{|p| p[@position[direction]] > value}.each {|p| do_fold(p, direction, displacement)}
+    @points.filter { |p| p[@position[direction]] > value }.each { |p| do_fold(p, direction, displacement) }
     @points.uniq!
 
     @points.size
   end
 
-  def fold_all()
-    while !@instructions.empty?
-      fold()
-    end
+  def fold_all
+    fold until @instructions.empty?
   end
 
   def print
@@ -52,7 +49,7 @@ class Solver
       max = p[1] if p[1] > max
     end
 
-    arr = Array.new(max) {Array.new(max, ' ')}
+    arr = Array.new(max) { Array.new(max, ' ') }
 
     @points.each do |p|
       arr[p[1]][p[0]] = '*'
@@ -62,10 +59,9 @@ class Solver
       p l.join
     end
   end
-
 end
 
 solver = Solver.new('13-input')
-p solver.fold()
-solver.fold_all()
-solver.print()
+p solver.fold
+solver.fold_all
+solver.print

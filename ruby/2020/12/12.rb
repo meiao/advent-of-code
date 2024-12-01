@@ -45,19 +45,17 @@ lines.each do |line|
 
   puts '[' + pos[0].to_s + ',' + pos[1].to_s + ']'
   puts '      [' + direction[0].to_s + ',' + direction[1].to_s + ']'
-
 end
 
 puts pos[0].abs + pos[1].abs
 
-
 def rotate(waypoint, degrees)
   if degrees == 90
-    return [waypoint[1], -waypoint[0]]
+    [waypoint[1], -waypoint[0]]
   elsif degrees == 180
-    return [-waypoint[0], -waypoint[1]]
+    [-waypoint[0], -waypoint[1]]
   elsif degrees == 270
-    return [-waypoint[1], waypoint[0]]
+    [-waypoint[1], waypoint[0]]
   end
 end
 
@@ -70,11 +68,11 @@ lines.each do |line|
   if action == 'R'
     waypoint = rotate(waypoint, value)
   elsif action == 'N'
-    waypoint[1] +=  value
+    waypoint[1] += value
   elsif action == 'E'
     waypoint[0] += value
   elsif action == 'S'
-    waypoint[1] -=  value
+    waypoint[1] -= value
   elsif action == 'W'
     waypoint[0] -= value
   elsif action == 'F'
@@ -86,7 +84,6 @@ lines.each do |line|
 
   puts '[' + pos[0].to_s + ',' + pos[1].to_s + ']'
   puts '      [' + waypoint[0].to_s + ',' + waypoint[1].to_s + ']'
-
 end
 
 puts pos[0].abs + pos[1].abs

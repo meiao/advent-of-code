@@ -9,7 +9,7 @@ class Solver
     input.map do |line|
       data = line.split
       springs = data[0]
-      numbers = data[1].split(',').map{|n| n.to_i}
+      numbers = data[1].split(',').map { |n| n.to_i }
       val = Picross.new(springs, numbers).calculate
       val
     end.sum
@@ -18,8 +18,8 @@ class Solver
   def solve2(input)
     input.map do |line|
       data = line.split
-      springs = ((data[0]+'?')*5)[0..-2]
-      numbers = ((data[1]+',')*5)[0..-2].split(',').map{|n| n.to_i}
+      springs = ((data[0] + '?') * 5)[0..-2]
+      numbers = ((data[1] + ',') * 5)[0..-2].split(',').map { |n| n.to_i }
       p [line]
       val = Picross.new(springs, numbers).calculate
       val
@@ -44,24 +44,24 @@ class Solver
       i = numbers[0]
       while springs[i] == '?'
         return changed if i > numbers[0] * 2 - 2
+
         i += 1
       end
       return changed if springs[i] == '#'
+
       i -= 1
       found_broken = false
       numbers[0].times do |j|
         if found_broken
-          if springs[i-j] == '?'
-            springs[i-j] = '#'
+          if springs[i - j] == '?'
+            springs[i - j] = '#'
             changed = true
           end
-        elsif springs[i-j] == '#'
+        elsif springs[i - j] == '#'
           found_broken = true
         end
       end
     end
     changed
   end
-
-
 end

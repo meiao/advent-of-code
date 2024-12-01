@@ -1,10 +1,10 @@
-#2929 low
+# 2929 low
 data = IO.readlines('17-input')[0]
 pieces = data.split(' ')
-x_range = pieces[2].split('=')[1][0..-2].split('..').collect{|n| n.to_i}
-y_range = pieces[3].split('=')[1].split('..').collect{|n| n.to_i}
+x_range = pieces[2].split('=')[1][0..-2].split('..').collect { |n| n.to_i }
+y_range = pieces[3].split('=')[1].split('..').collect { |n| n.to_i }
 
-x_hit_by_step = Hash.new{|hash, key| hash[key] = Array.new}
+x_hit_by_step = Hash.new { |hash, key| hash[key] = [] }
 
 1.upto(x_range[1]) do |n|
   traveled = 0
@@ -16,13 +16,13 @@ x_hit_by_step = Hash.new{|hash, key| hash[key] = Array.new}
     break if step > 19
   end
 end
-x_hit_by_step.default = [16,17]
+x_hit_by_step.default = [16, 17]
 x_hit_by_step.keys.sort.each do |k|
   print k.to_s + '=>'
   p x_hit_by_step[k]
 end
 
-y_hit_by_step = Hash.new{|hash, key| hash[key] = Array.new}
+y_hit_by_step = Hash.new { |hash, key| hash[key] = [] }
 hits = {}
 y_range[0].upto(150) do |y|
   position = 0
@@ -30,11 +30,11 @@ y_range[0].upto(150) do |y|
   while position > y_range[0]
     position += y - step
     step += 1
-    if y_range[0] <= position && position <= y_range[1]
-      y_hit_by_step[step] << y
-      x_hit_by_step[step].each do |x|
-        hits[[x, y]] = true
-      end
+    next unless y_range[0] <= position && position <= y_range[1]
+
+    y_hit_by_step[step] << y
+    x_hit_by_step[step].each do |x|
+      hits[[x, y]] = true
     end
   end
 end

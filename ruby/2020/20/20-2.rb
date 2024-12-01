@@ -5,18 +5,19 @@ lines = File.open('20.input').readlines
 
 def is_square(array)
   return false if array.size == 1
-  return array.size == 12 && array[11].size == 12
+
+  array.size == 12 && array[11].size == 12
 end
 
 tiles = {}
 
-while !lines.empty?
+until lines.empty?
   group = []
   line = lines.shift.strip
-  while line != nil && !line.empty?
+  while !line.nil? && !line.empty?
     group << line
     line = lines.shift
-    line = line.strip if line != nil
+    line = line.strip unless line.nil?
   end
   tile = Tile.new(group)
   tiles[tile.tile_no] = tile
@@ -24,14 +25,13 @@ end
 
 hashes = {}
 tiles.values.each do |tile|
-  tile_hashes = tile.hashes()
+  tile_hashes = tile.hashes
   tile_no = tile.tile_no
   tile_hashes.each do |hash|
-    hashes[hash] = [] if hashes[hash] == nil
+    hashes[hash] = [] if hashes[hash].nil?
     hashes[hash] << tile_no
   end
 end
-
 
 hashes.keys.each do |hash|
   tile_nos = hashes[hash]
@@ -54,7 +54,8 @@ tile_map << []
 tile_map[0] << first_corner
 first_corner.hashes.each do |hash|
   next if hash == -1
-  hashes[hash].delete(first_corner.tile_no())
+
+  hashes[hash].delete(first_corner.tile_no)
 end
 
 first_corner.rotate_to(-1, -1)
@@ -68,11 +69,11 @@ while true
   x = tile_map[y].size
 
   if y != 0
-    top_hash = tile_map[y-1][x].hash(:south)
+    top_hash = tile_map[y - 1][x].hash(:south)
     search_hash = top_hash
   end
   if x != 0
-    left_hash = tile_map[y][x-1].hash(:east)
+    left_hash = tile_map[y][x - 1].hash(:east)
     search_hash = left_hash
   end
 
@@ -83,16 +84,13 @@ while true
 
   tile.hashes.each do |hash|
     next if hash == -1
-    hashes[hash].delete(tile.tile_no())
+
+    hashes[hash].delete(tile.tile_no)
   end
 
-  if is_square(tile_map)
-    break
-  end
+  break if is_square(tile_map)
 
-  if tile.hash(:east) == -1
-    tile_map << []
-  end
+  tile_map << [] if tile.hash(:east) == -1
 
 end
 
@@ -119,7 +117,7 @@ map.unshift('Tile 42:')
 
 tile42 = Tile.new(map)
 
-puts tile42.map.to_s
+puts tile42.map
 
 monster = [
   [0, 0],
@@ -136,19 +134,19 @@ monster = [
   [17, 0],
   [18, -1],
   [18, 0],
-  [19, 0],
+  [19, 0]
 ]
 
 def check_monster(x, y, map, monster)
   monster.each do |pos|
-    return false if map[y+pos[1]][x+pos[0]] == '0'
+    return false if map[y + pos[1]][x + pos[0]] == '0'
   end
-  return true
+  true
 end
 
 def mark_monster(x, y, map, monster)
   monster.each do |pos|
-    map[y+pos[1]][x+pos[0]] = map[y+pos[1]][x+pos[0]].next
+    map[y + pos[1]][x + pos[0]] = map[y + pos[1]][x + pos[0]].next
   end
 end
 
@@ -156,11 +154,11 @@ end
   tile42.flip if rot == 4
   map = tile42.map
   (0..77).each do |x|
-    (1..(map.size-2)).each do |y|
+    (1..(map.size - 2)).each do |y|
       mark_monster(x, y, map, monster) if check_monster(x, y, map, monster)
     end
   end
   tile42.rotate
 end
 
-puts tile42.map.join().count('1')
+puts tile42.map.join.count('1')

@@ -26,10 +26,10 @@ class Solver
     @map = Hash.new('#')
     input.each_with_index do |line, y|
       line.split('').each_with_index do |c, x|
-        @map[[x,y]] = '.' if c == '.'
+        @map[[x, y]] = '.' if c == '.'
         if c == 'S'
-          @origin = [x,y]
-          @map[[x,y]] = '.'
+          @origin = [x, y]
+          @map[[x, y]] = '.'
         end
       end
     end
@@ -37,13 +37,13 @@ class Solver
     @mod_x = input[0].strip.size
   end
 
-  def solve2(steps)
+  def solve2(_steps)
     interesting = {}
     i = 0
-    positions = {@origin => {[0,0] => true}}
+    positions = { @origin => { [0, 0] => true } }
     while i < 327
 
-      next_positions = Hash.new {|h, k| h[k] = {}}
+      next_positions = Hash.new { |h, k| h[k] = {} }
       positions.each do |pos, all|
         [[0, 1], [0, -1], [1, 0], [-1, 0]].each do |inc|
           next_pos = [(pos[0] + inc[0]) % @mod_x, (pos[1] + inc[1]) % @mod_y]
@@ -62,10 +62,7 @@ class Solver
       end
       positions = next_positions
       i += 1
-      if i == 65 || i == 196 || i == 327
-        interesting[i] = positions.values.map{|map| map.keys.size}.sum
-      end
-      p i
+      interesting[i] = positions.values.map { |map| map.keys.size }.sum if [65, 196, 327].include?(i)
     end
     a = (interesting[327] - (2 * interesting[196]) + interesting[65]) / 2
     b = interesting[196] - interesting[65] - a

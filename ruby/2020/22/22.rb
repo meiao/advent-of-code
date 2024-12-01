@@ -1,7 +1,6 @@
-
 def hand(filename)
   lines = File.open(filename).readlines
-  return lines.map{|line| line.to_i}
+  lines.map { |line| line.to_i }
 end
 
 hands = []
@@ -28,7 +27,7 @@ hands.each do |hand|
   hand.reverse!
   hand.each_index do |index|
     puts hand[index].to_s + ' ' + (index + 1).to_s
-    sum += (index+1) * hand[index]
+    sum += (index + 1) * hand[index]
   end
 end
 

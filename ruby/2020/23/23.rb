@@ -1,7 +1,7 @@
-#input = '389125467'
+# input = '389125467'
 input = '538914762'
 moves = 100
-cups = input.split('').map{|num| num.to_i}
+cups = input.split('').map { |num| num.to_i }
 
 def move(cups)
   size = cups.size
@@ -20,21 +20,19 @@ def move(cups)
   cups.insert(index + 1, moving)
   cups.flatten!
 
-  return cups
+  cups
 end
 
 moves.times do
   move(cups)
 end
 
-while cups[0] != 1
-  cups.push(cups.shift)
-end
+cups.push(cups.shift) while cups[0] != 1
 
 puts cups.join('')
 
 require './node'
-cups = input.split('').map{|num| num.to_i}
+cups = input.split('').map { |num| num.to_i }
 map = []
 
 head = Node.new(cups.shift)
@@ -44,42 +42,39 @@ map[head.value] = head
 cups.each do |cup|
   node = Node.new(cup)
   map[cup] = node
-  tail.next= node
+  tail.next = node
   tail = node
 end
 
-moves.times do |i|
-
+moves.times do |_i|
   cur = head
   head = head.next
-  cur.next= nil
+  cur.next = nil
 
   moving = head
   cut_off = moving.next.next
   head = cut_off.next
-  cut_off.next= nil
+  cut_off.next = nil
 
   moving_vals = [moving.value, moving.next.value, moving.next.next.value]
   search = cur.value - 1
-  search = map.size() - 1 if search == 0
+  search = map.size - 1 if search == 0
 
   while moving_vals.include?(search)
     search -= 1
-    search = map.size() - 1 if search == 0
+    search = map.size - 1 if search == 0
   end
 
   map[search].insert(moving)
 
-  while tail.next != nil
-    tail = tail.next
-  end
+  tail = tail.next until tail.next.nil?
 
-  tail.next= cur
+  tail.next = cur
   tail = cur
 end
 
 n = head
-while n != nil
+until n.nil?
   print n.value
   n = n.next
 end

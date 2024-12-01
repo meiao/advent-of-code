@@ -1,8 +1,7 @@
 class Cube
-
   def self.from_string(str)
     action, data = str.split(' ')
-    arr = data.split(',').collect{|d| d[2..].split('..').collect{|n| n.to_i}}
+    arr = data.split(',').collect { |d| d[2..].split('..').collect { |n| n.to_i } }
     l = []
     r = []
     arr.each do |pair|
@@ -42,23 +41,14 @@ class Cube
     next_r = []
     3.times do |i|
       return nil if @l[i] > other.r[i] || @r[i] < other.l[i]
+
       next_l << [@l[i], other.l[i]].max
       next_r << [@r[i], other.r[i]].min
     end
-    return Cube.new(next_l, next_r, 'none')
+    Cube.new(next_l, next_r, 'none')
   end
 
-  def l
-    @l
-  end
-
-  def r
-    @r
-  end
-
-  def action
-    @action
-  end
+  attr_reader :l, :r, :action
 
   def size
     mult = 1
@@ -73,36 +63,28 @@ class Cube
   end
 
   def valid?
-    partially_out = false
     3.times do |i|
-      if @l[i] > 50 || @r[i] < -50
-        return false
-      end
+      return false if @l[i] > 50 || @r[i] < -50
     end
     true
   end
-
 end
 
-
-data = IO.readlines('22-input').collect{|l| l.strip}
+data = IO.readlines('22-input').collect { |l| l.strip }
 cubes = []
 
 data.each do |line|
   c = Cube.from_string(line)
-  if c.valid?
-    cubes << c
-  end
+  cubes << c if c.valid?
 end
 
-
 processed = []
-#assuming last one is on
+# assuming last one is on
 first = cubes.pop
 lit = first.size
 processed << first
 
-while !cubes.empty?
+until cubes.empty?
   cube = cubes.pop
   if cube.action == 'on'
     intersect = []
@@ -116,11 +98,11 @@ while !cubes.empty?
     end
 
     cube.points.each do |p|
-      lit += 1 if intersect.none?{|c| c.contains?(p)}
+      lit += 1 if intersect.none? { |c| c.contains?(p) }
     end
   end
   processed << cube
-  puts "Cubes left: " + cubes.size.to_s
+  puts 'Cubes left: ' + cubes.size.to_s
 end
 
 p lit

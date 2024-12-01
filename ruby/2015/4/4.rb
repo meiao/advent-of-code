@@ -8,7 +8,7 @@ prefix = 'yzbqklnj'
 num = 0
 
 while true
-  calculated = Digest::MD5.hexdigest(prefix + num.to_s)[0,5]
+  calculated = Digest::MD5.hexdigest(prefix + num.to_s)[0, 5]
   if calculated == target1
     puts num
     break
@@ -17,7 +17,7 @@ while true
 end
 
 while true
-  calculated = Digest::MD5.hexdigest(prefix + num.to_s)[0,6]
+  calculated = Digest::MD5.hexdigest(prefix + num.to_s)[0, 6]
   if calculated == target2
     puts num
     break

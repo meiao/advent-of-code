@@ -4,25 +4,14 @@ class Node
     @value = value
   end
 
-  def value
-    @value
-  end
-
-  def next
-    @next
-  end
-
-  def next=(node)
-    @next = node
-  end
+  attr_accessor :next
+  attr_reader :value
 
   def insert(node)
     old_next = @next
     @next = node
     n = node
-    while (n.next != nil)
-      n = n.next
-    end
-    n.next=(old_next)
+    n = n.next until n.next.nil?
+    n.next = (old_next)
   end
 end

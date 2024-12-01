@@ -1,5 +1,4 @@
 class Solver
-
   def initialize
     @opening = ['(', '[', '{', '<']
     @closing = {}
@@ -32,12 +31,12 @@ class Solver
       sum += @score[c]
     end
 
-    return sum
+    sum
   end
 end
 
-lines = File.open('10-input').readlines.collect {|l| l.strip }
+lines = File.open('10-input').readlines.collect { |l| l.strip }
 
 solver = Solver.new
-results = lines.map{|l| solver.calculate(l)}.filter{|r| r > 0}.sort
-p results[results.size/2]
+results = lines.map { |l| solver.calculate(l) }.filter { |r| r > 0 }.sort
+p results[results.size / 2]

@@ -27,6 +27,7 @@ class BruteForcer
           i4 = 100 - i1 - i2 - i3
           arr = [i1, i2, i3, i4]
           next if !part1 && calories(arr) != 500
+
           value = multiply(arr)
           max = value if value > max
         end
@@ -43,6 +44,7 @@ class BruteForcer
         col_sum += arr[row] * @matrix[row][col]
       end
       return 0 if col_sum <= 0
+
       value *= col_sum
     end
     value
@@ -55,5 +57,4 @@ class BruteForcer
     end
     cals
   end
-
 end

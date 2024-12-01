@@ -1,15 +1,13 @@
 class Amphipod
   def self.from_array(arr)
-    arr.collect{|c| Amphipod.new(c, 0)}
+    arr.collect { |c| Amphipod.new(c, 0) }
   end
 
   def initialize(type)
     @type = type
   end
 
-  def type
-    @type
-  end
+  attr_reader :type
 
   def to_s
     @type
@@ -41,21 +39,15 @@ class Map
     @rooms = rooms
   end
 
-  def hallway
-    @hallway
-  end
+  attr_reader :hallway, :rooms
 
-  def rooms
-    @rooms
-  end
-
-  def clone()
+  def clone
     Map.new(Array.new(@hallway), @rooms.merge)
   end
 
   def print
     puts '#############'
-    print_hallway()
+    print_hallway
     print_rooms(0)
     print_rooms(1)
     puts '  #########  '
@@ -65,11 +57,11 @@ class Map
     hallway = '#'
     11.times do |i|
       h = @hallway[i]
-      if h.nil?
-        hallway << '.'
-      else
-        hallway << h.to_s
-      end
+      hallway << if h.nil?
+                   '.'
+                 else
+                   h.to_s
+                 end
     end
     hallway << '#'
     puts hallway
@@ -77,19 +69,17 @@ class Map
 
   def print_rooms(n)
     line = '  #'
-    ['a', 'b', 'c', 'd'].each do |room|
-      if @rooms[room][n].nil?
-        line << '.'
-      else
-        line << @rooms[room][n].to_s
-      end
+    %w[a b c d].each do |room|
+      line << if @rooms[room][n].nil?
+                '.'
+              else
+                @rooms[room][n].to_s
+              end
       line << '#'
     end
     puts line
   end
-
 end
-
 
 class Solver
   @@cache = {}
@@ -115,16 +105,12 @@ class Solver
     key = Solver.key(base_map)
     return @@cache[key] if @@cache.has_key?(key)
 
-    if Solver.done?(base_map)
-      return @@cache[key] = 0
-    end
+    return @@cache[key] = 0 if Solver.done?(base_map)
 
-    min = 100000000000
+    min = 100_000_000_000
     map = base_map.clone
-    cost = Solver.move_all_from_hallway(map)
-    cost += Solver.move_all_from_rooms(map)
-
-
+    Solver.move_all_from_hallway(map)
+    Solver.move_all_from_rooms(map)
 
     @@cache[key] = min
   end
@@ -133,22 +119,23 @@ class Solver
     cost = 0
     while true
       break if map.hallway.compact.empty?
+
       moved = false
 
       @@stopping_places.each do |i|
         amphipod = map.hallway[i]
         next if amphipod.nil?
 
-        if Solver.can_go_home?(map, i, type)
-          moved = true
-          map.hallway[i] = nil
-          map.rooms[type] << amphipod
-          steps = (i - @@room_positions[type]).abs + 1
-          cost += @@cost_by_type[type] * steps
-        end
+        next unless Solver.can_go_home?(map, i, type)
+
+        moved = true
+        map.hallway[i] = nil
+        map.rooms[type] << amphipod
+        steps = (i - @@room_positions[type]).abs + 1
+        cost += @@cost_by_type[type] * steps
       end
 
-      break if !moved
+      break unless moved
     end
     cost
   end
@@ -163,8 +150,10 @@ class Solver
 
         while true
           break if room.empty?
+
           amphipod = room[0]
-          break if !Solver.can_go_home?(map, @@room_positions[type], amphipod.type)
+          break unless Solver.can_go_home?(map, @@room_positions[type], amphipod.type)
+
           moved = true
           amphipod = room.shift
           map.rooms[type] << amphipod
@@ -173,7 +162,7 @@ class Solver
 
         end
       end
-      break if !moved
+      break unless moved
     end
     cost
   end
@@ -185,10 +174,9 @@ class Solver
     range = [i, @@room_positions[type]].sort
     map.hallway[range[0]..range[1]].compact.empty?
   end
-
 end
 
-data = IO.readlines('23-input-small').collect{|l| l.strip.split('')}
+data = IO.readlines('23-input-small').collect { |l| l.strip.split('') }
 
 base_map = Map.from_array(data)
 

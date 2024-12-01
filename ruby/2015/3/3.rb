@@ -8,7 +8,7 @@ directions['<'] = [-1, 0]
 directions['>'] = [1, 0]
 directions['v'] = [0, -1]
 
-santa_pos = [0,0]
+santa_pos = [0, 0]
 
 line = str_lines[0]
 
@@ -33,14 +33,14 @@ line.scan(/.{1,2}/).each do |pair|
   ]
   visited[santa_pos] = true
 
-  if pair.size > 1
-    char = pair[1]
-    bot_pos = [
-      bot_pos[0] + directions[char][0],
-      bot_pos[1] + directions[char][1]
-    ]
-    visited[bot_pos] = true
-  end
+  next unless pair.size > 1
+
+  char = pair[1]
+  bot_pos = [
+    bot_pos[0] + directions[char][0],
+    bot_pos[1] + directions[char][1]
+  ]
+  visited[bot_pos] = true
 end
 
 puts visited.keys

@@ -7,7 +7,6 @@
 # Author::    Andre Onuki
 # License::   GPL3
 class Solver
-
   def initialize(input)
     @sensors = []
     input.each do |line|
@@ -20,23 +19,21 @@ class Solver
   end
 
   def solve(row)
-    ranges = @sensors.map{|s| s.x_at_row(row)}.compact
+    ranges = @sensors.map { |s| s.x_at_row(row) }.compact
     ranges = minimize_ranges(ranges)
-    covered_points = ranges.map{|r| r.size}.sum
-    @beacons.keys.filter{|b| b[1] == row}.each do |b|
-      covered_points -= 1 if ranges.any?{|r| r.include?(b[0])}
+    covered_points = ranges.map { |r| r.size }.sum
+    @beacons.keys.filter { |b| b[1] == row }.each do |b|
+      covered_points -= 1 if ranges.any? { |r| r.include?(b[0]) }
     end
     covered_points
   end
 
   def solve2(limit)
     (0..limit).each do |row|
-      ranges = @sensors.map{|s| s.x_at_row(row)}.compact
-      ranges = ranges.map{|r| ([0, r.first].max)..([limit, r.last].min)}
+      ranges = @sensors.map { |s| s.x_at_row(row) }.compact
+      ranges = ranges.map { |r| ([0, r.first].max)..([limit, r.last].min) }
       ranges = minimize_ranges(ranges)
-      if ranges.size > 1
-       return 4000000 * (ranges.sort[0].last + 1) + row
-      end
+      return 4_000_000 * (ranges.sort[0].last + 1) + row if ranges.size > 1
     end
   end
 
@@ -49,13 +46,14 @@ class Solver
       new_ranges = []
       until old_ranges.empty?
         range = old_ranges.shift
-        next if old_ranges.any?{|old_range| old_range.cover?(range)}
+        next if old_ranges.any? { |old_range| old_range.cover?(range) }
+
         old_ranges.each do |old_range|
-          if (old_range.first <= range.last && old_range.last >= range.first) ||
-             ((old_range.first - range.last).abs == 1 || (range.first - old_range.last).abs == 1)
-            range = ([old_range.first, range.first].min..[old_range.last, range.last].max)
-            has_changes = true
-          end
+          next unless (old_range.first <= range.last && old_range.last >= range.first) ||
+                      ((old_range.first - range.last).abs == 1 || (range.first - old_range.last).abs == 1)
+
+          range = ([old_range.first, range.first].min..[old_range.last, range.last].max)
+          has_changes = true
         end
         new_ranges << range
       end
@@ -66,6 +64,7 @@ end
 
 class Sensor
   attr_reader :position, :beacon, :range
+
   def initialize(line)
     match = line.match(/x=(-?\d+), y=(-?\d+).*x=(-?\d+), y=(-?\d+)/)
     @position = [match[1].to_i, match[2].to_i]
@@ -85,17 +84,14 @@ class Sensor
     point = [@position[0], row]
     distance_to_point = distance_to(point)
     return nil if distance_to_point > @range
-    points = []
+
     dist_diff = @range - distance_to_point
     min_x = @position[0] - dist_diff
     max_x = @position[0] + dist_diff
     (min_x..max_x)
   end
-
 end
 
-
 class Solver2
-  def solve
-  end
+  def solve; end
 end

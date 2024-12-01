@@ -27,7 +27,6 @@ class Processor
     position = op.split('[')[1].to_i
     @mem[position] = (value.to_i & @and_mask) | @or_mask
   end
-
 end
 
 Processor.new.part1

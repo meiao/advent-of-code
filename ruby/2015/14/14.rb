@@ -11,23 +11,21 @@ class Reindeer
   end
 
   def dist
-    return @distance
+    @distance
   end
 
   def race(seconds)
     cycles = seconds / @cycle_duration
     remaining = [seconds - cycles * @cycle_duration, @fly_time].min
     @distance = (cycles * @fly_time + remaining) * @speed
-    return @distance
+    @distance
   end
 
-  def win_round()
+  def win_round
     @points += 1
   end
 
-  def points()
-    return @points
-  end
+  attr_reader :points
 end
 
 reindeers = {}
@@ -51,7 +49,6 @@ end
 
 puts max
 
-
 # part 2
 
 (1..race_length).each do |t|
@@ -65,7 +62,7 @@ puts max
       max[1] = dist
     end
   end
-  reindeers.values.filter{|r| r.dist() == max[1]}.each{|r| r.win_round()}
+  reindeers.values.filter { |r| r.dist == max[1] }.each { |r| r.win_round }
 end
 
-puts reindeers.values.map{|r| r.points}.max
+puts reindeers.values.map { |r| r.points }.max

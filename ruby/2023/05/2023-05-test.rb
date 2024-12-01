@@ -11,23 +11,23 @@ class Test2023_05 < Minitest::Test
   end
 
   def test_part1_large
-   file_name = File.join(File.dirname(__FILE__), './input')
-   input = File.open(file_name).readlines
-   solver = Solver.new
-   assert_equal(88151870, solver.solve(input))
+    file_name = File.join(File.dirname(__FILE__), './input')
+    input = File.open(file_name).readlines
+    solver = Solver.new
+    assert_equal(88_151_870, solver.solve(input))
   end
 
   def test_part2_small
-   file_name = File.join(File.dirname(__FILE__), './input.small')
-   input = File.open(file_name).readlines
-   solver = Solver.new
-   assert_equal(46, solver.solve2(input))
+    file_name = File.join(File.dirname(__FILE__), './input.small')
+    input = File.open(file_name).readlines
+    solver = Solver.new
+    assert_equal(46, solver.solve2(input))
   end
 
   def test_part2_large
-   file_name = File.join(File.dirname(__FILE__), './input')
-   input = File.open(file_name).readlines
-   solver = Solver.new
-   assert_equal(2008785, solver.solve2(input))
+    file_name = File.join(File.dirname(__FILE__), './input')
+    input = File.open(file_name).readlines
+    solver = Solver.new
+    assert_equal(2_008_785, solver.solve2(input))
   end
 end

@@ -7,7 +7,6 @@ end
 
 puts sum
 
-
 lines = File.open('6.input.single_line.separated').readlines
 
 sum = 0

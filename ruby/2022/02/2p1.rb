@@ -1,6 +1,5 @@
 lines = File.open('2-input').readlines
 
-
 move_point = {
   'A'.ord => 1,
   'B'.ord => 2,
@@ -10,7 +9,7 @@ move_point = {
 points = 0
 lines.each do |line|
   this_round = 0
-  his, mine = line.split(' ').map{|c| c.ord}
+  his, mine = line.split(' ').map { |c| c.ord }
   mine = mine - 'X'.ord + 'A'.ord
   this_round += move_point[mine]
 

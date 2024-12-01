@@ -32,36 +32,30 @@ class Tile
     @sides[:west]  = Side.new(west)
   end
 
-  def tile_no
-    return @tile_no
-  end
-
-  def map
-    @map
-  end
+  attr_reader :tile_no, :map
 
   def to_s
-    return '<' + @tile_no + '>'
+    '<' + @tile_no + '>'
   end
 
-  def hashes()
+  def hashes
     hashes = []
     @sides.values.each do |side|
-      hashes << side.hash()
+      hashes << side.hash
     end
-    return hashes
+    hashes
   end
 
   def hash(direction)
-    @sides[direction].hash()
+    @sides[direction].hash
   end
 
   def rotate_to(left_hash, top_hash)
-    while !(left_hash == @sides[:west].hash() && top_hash == @sides[:north].hash())
-      if left_hash == @sides[:west].hash() || top_hash == @sides[:north].hash()
-        flip()
+    until left_hash == @sides[:west].hash && top_hash == @sides[:north].hash
+      if left_hash == @sides[:west].hash || top_hash == @sides[:north].hash
+        flip
       else
-        rotate()
+        rotate
       end
     end
   end
@@ -81,7 +75,7 @@ class Tile
     @sides[:east] = temp
 
     next_map = []
-    @map.size.times do |i|
+    @map.size.times do |_i|
       next_map << ''
     end
     @map.each do |line|
@@ -92,10 +86,6 @@ class Tile
     @map = next_map
   end
 
-  def map
-    return @map
-  end
-
   def clear_hash(hash)
     @sides.values.each do |side|
       side.clear_hash(hash)
@@ -103,29 +93,26 @@ class Tile
   end
 
   def is_corner?
-    return hashes().count(-1) == 2
+    hashes.count(-1) == 2
   end
-
 end
 
 class Side
   def initialize(value_str)
     hash = value_str.to_i(2)
     inverted_hash = value_str.reverse.to_i(2)
-    if hash < inverted_hash
-      @hash = hash
-    else
-      @hash = inverted_hash
-    end
+    @hash = if hash < inverted_hash
+              hash
+            else
+              inverted_hash
+            end
   end
 
-  def hash
-    return @hash
-  end
+  attr_reader :hash
 
   def clear_hash(hash)
-    if @hash == hash
-      @hash = -1
-    end
+    return unless @hash == hash
+
+    @hash = -1
   end
 end

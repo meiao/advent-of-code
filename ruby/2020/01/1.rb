@@ -1,8 +1,6 @@
 str_lines = File.open('1-input.sorted').readlines
 
-values = str_lines.map {|l| l.to_i}
-
-
+values = str_lines.map { |l| l.to_i }
 
 def get2(values)
   values.each do |v1|
@@ -11,7 +9,7 @@ def get2(values)
 
       sum = v1 + v2
       if sum == 2020
-        puts v1*v2
+        puts v1 * v2
         return
       end
 
@@ -24,8 +22,10 @@ def get3(values)
   values.each do |v1|
     values.each do |v2|
       next if v1 >= v2
+
       values.each do |v3|
         next if v2 >= v3
+
         sum = v1 + v2 + v3
         if sum == 2020
           puts v1 * v2 * v3
@@ -37,8 +37,8 @@ def get3(values)
   end
 end
 
-puts "2"
+puts '2'
 get2(values)
 
-puts "3"
+puts '3'
 get3(values)

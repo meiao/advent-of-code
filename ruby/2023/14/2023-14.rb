@@ -13,14 +13,14 @@ class Solver
     map = make_map(input)
     move_rocks(map, [0, -1])
     max_load = input.size
-    map.filter{|k,v| v == 'O'}.map{|k, v| max_load - k[1]}.sum
+    map.filter { |_k, v| v == 'O' }.map { |k, _v| max_load - k[1] }.sum
   end
 
   def make_map(input)
     map = Hash.new('.')
     input.each_with_index do |line, y|
       line.size.times do |x|
-        map[[x,y]] = line[x] if line[x] != '.'
+        map[[x, y]] = line[x] if line[x] != '.'
       end
     end
     map
@@ -29,14 +29,14 @@ class Solver
   def print_map(map)
     10.times do |y|
       10.times do |x|
-        print map[[x,y]]
+        print map[[x, y]]
       end
       puts
     end
   end
 
   def move_rocks(map, direction)
-    map.filter{|k, v| v == 'O'}.each do |k, v|
+    map.filter { |_k, v| v == 'O' }.each do |k, _v|
       move_rock(map, direction, k)
     end
   end
@@ -45,8 +45,9 @@ class Solver
     good_pos = k
     previous_pos = k
     loop do
-      next_pos = [previous_pos[0]+dir[0], previous_pos[1]+dir[1]]
+      next_pos = [previous_pos[0] + dir[0], previous_pos[1] + dir[1]]
       break if next_pos.min < 0 || next_pos[1] >= @@max_y || next_pos[0] >= @@max_x || map[next_pos] == '#'
+
       previous_pos = next_pos
       good_pos = next_pos if map[next_pos] == '.'
     end
@@ -68,9 +69,8 @@ class Solver
     max_load = input.size
     1_000_000_000.times do |i|
       cycle_rocks(map)
-      p [i + 1, map.filter{|k,v| v == 'O'}.map{|k, v| max_load - k[1]}.sum]
+      p [i + 1, map.filter { |_k, v| v == 'O' }.map { |k, _v| max_load - k[1] }.sum]
     end
-    map.filter{|k,v| v == 'O'}.map{|k, v| max_load - k[1]}.sum
+    map.filter { |_k, v| v == 'O' }.map { |k, _v| max_load - k[1] }.sum
   end
-
 end

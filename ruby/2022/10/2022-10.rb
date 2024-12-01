@@ -21,14 +21,13 @@ class Solver
         cycle += 1
       else
         if interesting[0] == cycle + 1
-          sum += x * (cycle+1)
+          sum += x * (cycle + 1)
           interesting.shift
         end
 
         cycle += 2
         x += cmd.strip.split(' ')[1].to_i
       end
-
     end
     sum
   end
@@ -44,11 +43,10 @@ class Solver2
       if cmd.strip == 'noop'
         cycle += 1
       else
-        screen << pixel(cycle+1, x)
+        screen << pixel(cycle + 1, x)
         cycle += 2
         x += cmd.strip.split(' ')[1].to_i
       end
-
     end
     screen
   end
@@ -56,6 +54,7 @@ class Solver2
   def pixel(cycle, x)
     # something wonky here, edges do not work properly due to modulo wrapping around
     return '#' if x >= (cycle % 40) - 2 && x <= cycle % 40
+
     '.'
   end
 end

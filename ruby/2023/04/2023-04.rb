@@ -10,7 +10,7 @@ class Solver
     sum = 0
     input.each do |line|
       numbers = line.split(':')[1]
-      winning, own = numbers.split(' | ').map {|list| list.split(' ')}
+      winning, own = numbers.split(' | ').map { |list| list.split(' ') }
       matches = 0
       winning.each do |n|
         matches += 1 if own.include? n
@@ -24,7 +24,7 @@ class Solver
     copies = Array.new(input.size, 1)
     input.size.times do |i|
       numbers = input[i].split(':')[1]
-      winning, own = numbers.split(' | ').map {|list| list.split(' ')}
+      winning, own = numbers.split(' | ').map { |list| list.split(' ') }
       matches = 0
       winning.each do |n|
         matches += 1 if own.include? n

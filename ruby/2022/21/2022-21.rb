@@ -7,7 +7,6 @@
 # Author::    Andre Onuki
 # License::   GPL3
 class Solver
-
   def initialize(input)
     @monkeys = {}
     input.each do |line|
@@ -23,6 +22,7 @@ class Solver
 
   def calculate(name)
     return @monkeys[name] if @monkeys[name].is_a?(Numeric)
+
     name1, op, name2 = @monkeys[name].split(' ')
     value1 = calculate(name1)
     value2 = calculate(name2)
@@ -32,13 +32,13 @@ class Solver
   def apply(v1, op, v2)
     case op
     when '+'
-      return v1 + v2
+      v1 + v2
     when '-'
-      return v1 - v2
+      v1 - v2
     when '*'
-      return v1 * v2
+      v1 * v2
     when '/'
-      return v1 / v2
+      v1 / v2
     end
   end
 
@@ -50,61 +50,58 @@ class Solver
     value2 = calculate2(name2)
     p value1
     p value2
-    if value1.is_a?(Numeric)
-      return decalculate(value1, value2)
-    else
-      return decalculate(value2, value1)
-    end
+    return decalculate(value1, value2) if value1.is_a?(Numeric)
+
+    decalculate(value2, value1)
   end
 
   def calculate2(name)
     return @monkeys[name] if @monkeys[name].is_a?(Numeric)
     return '(humn)' if name == 'humn'
+
     name1, op, name2 = @monkeys[name].split(' ')
     value1 = calculate2(name1)
     value2 = calculate2(name2)
-    if value1.is_a?(Numeric) && value2.is_a?(Numeric)
-      return @monkeys[name] = apply(value1, op, value2)
-    end
-    return @monkeys[name] = "(#{value1} #{op} #{value2})"
+    return @monkeys[name] = apply(value1, op, value2) if value1.is_a?(Numeric) && value2.is_a?(Numeric)
+
+    @monkeys[name] = "(#{value1} #{op} #{value2})"
   end
 
   def decalculate(number, humn)
     return number if humn == '(humn)'
-    match = humn.match(/^\((\(.*\)) ([+\-*\/]) (\d+)\)$/)
-    if match != nil
-      return decalculate(deapply(number, match[2], match[3].to_i), match[1])
-    end
-    match = humn.match(/^\((\d+) ([+\-*\/]) (\(.*\))\)$/)
-    if match != nil
-      return decalculate(reverse_apply(number, match[2], match[1].to_i), match[3])
-    end
-    throw Error("One regex shoulda matched")
+
+    match = humn.match(%r{^\((\(.*\)) ([+\-*/]) (\d+)\)$})
+    return decalculate(deapply(number, match[2], match[3].to_i), match[1]) unless match.nil?
+
+    match = humn.match(%r{^\((\d+) ([+\-*/]) (\(.*\))\)$})
+    return decalculate(reverse_apply(number, match[2], match[1].to_i), match[3]) unless match.nil?
+
+    throw Error('One regex shoulda matched')
   end
 
   def deapply(v1, op, v2)
     case op
     when '+'
-      return v1 - v2
+      v1 - v2
     when '-'
-      return v1 + v2
+      v1 + v2
     when '*'
-      return v1 / v2
+      v1 / v2
     when '/'
-      return v1 * v2
+      v1 * v2
     end
   end
 
   def reverse_apply(v1, op, v2)
     case op
     when '+'
-      return v1 - v2
+      v1 - v2
     when '-'
-      return (v1 - v2) * -1
+      (v1 - v2) * -1
     when '*'
-      return v1 / v2
+      v1 / v2
     when '/'
-      return v2 / v1
+      v2 / v1
     end
   end
 end

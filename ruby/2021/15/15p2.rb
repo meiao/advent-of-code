@@ -1,10 +1,7 @@
 #!/usr/local/bin/ruby
 
-require 'set'
 require '../priority_queue'
 
-# This program answers Project Euler's problem 083
-#
 # This version ran in 9.029220s.
 #
 # After a couple of attempts using DFS (the 2nd also using dynamic programming),
@@ -73,10 +70,9 @@ class Solver
   end
 end
 
-
 def read_file(filename)
   matrix = []
-  lines = IO.readlines(filename).collect{|l| l.strip}
+  lines = IO.readlines(filename).collect { |l| l.strip }
   lines.each do |line|
     matrix << line.split('').map(&:to_i)
   end
@@ -85,7 +81,7 @@ end
 
 def calc_big_matrix(matrix, n)
   size = matrix.size * n
-  big_matrix = Array.new(size) {Array.new}
+  big_matrix = Array.new(size) { [] }
   n.times do |i|
     n.times do |j|
       add_matrix(big_matrix, matrix, i, j)
@@ -102,7 +98,7 @@ def add_matrix(big_matrix, matrix, x, y)
   size.times do |i|
     size.times do |j|
       value = matrix[i][j] + sum
-      value = value - 9 if value >= 10
+      value -= 9 if value >= 10
       big_matrix[displ_y + i][displ_x + j] = value
     end
   end
@@ -114,4 +110,4 @@ big_matrix = calc_big_matrix(matrix, 5)
 start = Time.now.to_i
 @solver = Solver.new(big_matrix)
 p @solver.solve
-p "Took: " + (Time.now.to_i - start).to_s + 's'
+p 'Took: ' + (Time.now.to_i - start).to_s + 's'

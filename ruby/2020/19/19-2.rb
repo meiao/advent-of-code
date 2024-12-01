@@ -5,7 +5,7 @@ class Processor
   end
 
   def calc_rule(number)
-    return @memoize[number] if @memoize[number] != nil
+    return @memoize[number] unless @memoize[number].nil?
 
     rules = @lines[number].split(': ')[1].split(' | ')
     calculated = []
@@ -14,12 +14,12 @@ class Processor
       if rule[0] == '"'
         calculated << rule[1]
       else
-        sub_rules = rule.split(' ').map {|sr| sr.to_i}
+        sub_rules = rule.split(' ').map { |sr| sr.to_i }
         sub_calculated = ['']
         sub_rules.each do |rule_number|
           new_strs = calc_rule(rule_number)
           print rule_number if number == 0
-          puts new_strs.to_s if number == 0
+          puts new_strs if number == 0
           next_calculated = []
           sub_calculated.each do |old_str|
             new_strs.each do |new_str|
@@ -33,16 +33,16 @@ class Processor
     end
 
     @memoize[number] = Array.new(calculated)
-    puts calculated.to_s if number == 0
-    return Array.new(calculated)
+    puts calculated if number == 0
+    Array.new(calculated)
   end
 
   def part2
     rules42 = calc_rule(42)
     rules31 = calc_rule(31)
 
-    str42 = rules42.map {|r| '(' + r + ')'}.join('|')
-    str31 = rules31.map {|r| '(' + r + ')'}.join('|')
+    str42 = rules42.map { |r| '(' + r + ')' }.join('|')
+    str31 = rules31.map { |r| '(' + r + ')' }.join('|')
     regexps = []
     8.times do |i|
       num42 = (i + 2).to_s
@@ -55,7 +55,7 @@ class Processor
     words.each do |word|
       valid = false
       regexps.each do |re|
-        if re.match(word.strip) != nil
+        unless re.match(word.strip).nil?
           valid = true
           break
         end
@@ -64,10 +64,7 @@ class Processor
     end
 
     puts valid_word_count
-
   end
-
-
 end
 
 p = Processor.new

@@ -20,12 +20,12 @@ class Solver
 
   def solve2(input)
     items = input
-      .filter{|line| !line.strip.empty?}
-      .map{|line| eval(line)}
+            .filter { |line| !line.strip.empty? }
+            .map { |line| eval(line) }
     items << [[2]]
     items << [[6]]
-    items.sort!{|a,b| compare(a,b)}
-    (items.index([[2]])+1) * (items.index([[6]])+1)
+    items.sort! { |a, b| compare(a, b) }
+    (items.index([[2]]) + 1) * (items.index([[6]]) + 1)
   end
 
   def compare(left, right)
@@ -40,6 +40,6 @@ class Solver
       diff = compare(left[i], right[i])
       return diff if diff != 0
     end
-    return left.size <=> right.size
+    left.size <=> right.size
   end
 end

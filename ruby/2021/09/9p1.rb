@@ -11,7 +11,7 @@ class Solver
     @height = matrix.size
 
     # adding extra items to simplify boundaries
-    @matrix.each {|l| l << 10}
+    @matrix.each { |l| l << 10 }
     bottom_arr = []
     @length.times do
       bottom_arr << 10
@@ -37,7 +37,7 @@ class Solver
       p p
       return @matrix[p[0]][p[1]] + 1
     end
-    return 0
+    0
   end
 
   def solve
@@ -51,7 +51,7 @@ class Solver
   end
 end
 
-lines = File.open('9-input').readlines.collect {|l| l.strip }
-lines = lines.collect {|l| l.split('').collect{|n| n.to_i}}
+lines = File.open('9-input').readlines.collect { |l| l.strip }
+lines = lines.collect { |l| l.split('').collect { |n| n.to_i } }
 
 p Solver.new(lines).solve

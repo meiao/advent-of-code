@@ -12,7 +12,7 @@ class Solver
     input.each do |line|
       line = line.strip
       match = line.match(regex_2_digits)
-      if match == nil
+      if match.nil?
         match = line.match(regex_1_digit)
         sum += (match[1] * 2).to_i
       else
@@ -51,19 +51,18 @@ class Solver
     sum = 0
     input.each do |line|
       match = line.match(first_number_regex)
-      digits = []
-      if match[1] =~ number_regex
-        sum += match[1].to_i * 10
-      else
-        sum += map[match[1]] * 10
-      end
+      sum += if match[1] =~ number_regex
+               match[1].to_i * 10
+             else
+               map[match[1]] * 10
+             end
 
       match = line.reverse.match(last_number_regex)
-      if match[1] =~ number_regex
-        sum += match[1].to_i
-      else
-        sum += map[match[1]]
-      end
+      sum += if match[1] =~ number_regex
+               match[1].to_i
+             else
+               map[match[1]]
+             end
     end
 
     sum

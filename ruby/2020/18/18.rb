@@ -3,13 +3,11 @@ lines = File.open('18.input').readlines
 def get_value(expr)
   value = expr.shift
   if value == '('
-    value = eval(expr)
+    eval(expr)
   else
-    value = value.to_i
+    value.to_i
   end
-  return value
 end
-
 
 def eval(expr)
   value = get_value(expr)
@@ -30,12 +28,9 @@ def eval(expr)
     end
   end
 
-  if !expr.empty? && expr [0] == ')'
-    expr.shift
-  end
-  return value
+  expr.shift if !expr.empty? && expr[0] == ')'
+  value
 end
-
 
 sum = 0
 lines.each do |line|

@@ -1,5 +1,4 @@
 class NumberlessPicross
-
   def initialize(springs)
     @springs = springs
   end
@@ -54,7 +53,7 @@ class NumberlessPicross
 
   def do_calculate
     return 0 if @springs.count('#') > 0
+
     1
   end
-
 end

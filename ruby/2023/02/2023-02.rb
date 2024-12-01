@@ -7,9 +7,9 @@
 class Solver
   def solve(input)
     ball_count = {
-      'red'   => 12,
+      'red' => 12,
       'green' => 13,
-      'blue'  => 14
+      'blue' => 14
     }
     sum = 0
     input.each do |line|
@@ -25,7 +25,7 @@ class Solver
             break
           end
         end
-        break if !possible
+        break unless possible
       end
       sum += game.split(' ')[1].to_i if possible
     end
@@ -36,7 +36,7 @@ class Solver
     sum = 0
     input.each do |line|
       min_balls = Hash.new(0)
-      game, data = line.split(':')
+      _, data = line.split(':')
       sets = data.split('; ')
       sets.each do |set|
         balls = set.split(', ')

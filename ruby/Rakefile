@@ -17,8 +17,8 @@ task test: test_files
 test_files.each do |test_file|
   task test_file[0..6] do
     if test_file.match(/\d{4}-\d{2}/)
-      year = "#{test_file[0..3]}"
-      day = "#{test_file[5..6]}"
+      year = test_file[0..3]
+      day = test_file[5..6]
       folder = "#{year}/#{day}"
       ruby("#{folder}/#{test_file}.rb")
     else
@@ -26,7 +26,6 @@ test_files.each do |test_file|
     end
   end
 end
-
 
 RuboCop::RakeTask.new
 
@@ -56,10 +55,13 @@ def apply_template(template_file, destination, file_data)
   IO.write(destination, renderer.result)
 end
 
+# Calculates file attributes given the input provided
 class FileData
   attr_accessor :year, :day, :folder, :file_name, :base_filepath
+
   def initialize(data)
-    raise Exception.new("File name does not match expected format: yyyy-dd") unless data[0..6].match(/\d{4}-\d{2}/)
+    raise StandardError, 'File name does not match expected format: yyyy-dd' unless data[0..6].match(/\d{4}-\d{2}/)
+
     @year = data[0..3]
     @day = data[5..6]
     @folder = "#{@year}/#{@day}"

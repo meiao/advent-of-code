@@ -6,10 +6,10 @@
 # License::   GPL3
 class Solver
   @@directions = {
-    :u => [0, -1],
-    :d => [0, 1],
-    :r => [1, 0],
-    :l => [-1, 0]
+    u: [0, -1],
+    d: [0, 1],
+    r: [1, 0],
+    l: [-1, 0]
   }
 
   # when in a cell [character, direction], the next direction is going to be
@@ -61,20 +61,20 @@ class Solver
     ['-', :u] => [:u],
     ['-', :d] => [:d],
     ['L', :u] => [],
-    ['L', :d] => [:d, :l],
-    ['L', :l] => [:d, :l],
+    ['L', :d] => %i[d l],
+    ['L', :l] => %i[d l],
     ['L', :r] => [],
     ['J', :u] => [],
-    ['J', :d] => [:r, :d],
+    ['J', :d] => %i[r d],
     ['J', :l] => [],
-    ['J', :r] => [:r, :d],
-    ['7', :u] => [:u, :r],
+    ['J', :r] => %i[r d],
+    ['7', :u] => %i[u r],
     ['7', :d] => [],
     ['7', :l] => [],
-    ['7', :r] => [:u, :r],
-    ['F', :u] => [:u, :l],
+    ['7', :r] => %i[u r],
+    ['F', :u] => %i[u l],
     ['F', :d] => [],
-    ['F', :l] => [:u, :l],
+    ['F', :l] => %i[u l],
     ['F', :r] => []
 
   }
@@ -92,19 +92,17 @@ class Solver
     input.each_with_index do |line, y|
       line.strip.split('').each_with_index do |char, x|
         start = [x, y] if char == 'S'
-        map[[x,y]] = char
+        map[[x, y]] = char
       end
     end
     [map, start]
   end
 
   def first_step(map, start)
-    @@directions.each do |dir, inc|
+    @@directions.each do |dir, _inc|
       next_position = calc_next_position(start, dir)
       next_char = map[next_position]
-      if @@converter[[next_char, dir]] != nil
-        return [next_position, @@converter[[next_char, dir]]]
-      end
+      return [next_position, @@converter[[next_char, dir]]] if @@converter[[next_char, dir]] != nil
     end
   end
 
@@ -128,23 +126,23 @@ class Solver
     above = map[calc_next_position(position, :u)]
     below = map[calc_next_position(position, :d)]
     left = map[calc_next_position(position, :l)]
-    if ['|', '7', 'F'].include?(above)
-      if ['|', 'L', 'J'].include?(below)
-        map[position] = '|'
-      elsif ['-', 'L', 'F'].include?(left)
-        map[position] = 'J'
-      else
-        map[position] = 'L'
-      end
-    elsif ['|', 'L', 'J'].include?(below)
-      if ['-', 'L', 'F'].include?(left)
-        map[position] = '7'
-      else
-        map[position] = 'F'
-      end
-    else
-      map[position] = '-'
-    end
+    map[position] = if ['|', '7', 'F'].include?(above)
+                      if ['|', 'L', 'J'].include?(below)
+                        '|'
+                      elsif ['-', 'L', 'F'].include?(left)
+                        'J'
+                      else
+                        'L'
+                      end
+                    elsif ['|', 'L', 'J'].include?(below)
+                      if ['-', 'L', 'F'].include?(left)
+                        '7'
+                      else
+                        'F'
+                      end
+                    else
+                      '-'
+                    end
     cycle
   end
 
@@ -184,13 +182,13 @@ class Solver
 
     # to get the area that is not adjacent to the cycle, go thru all the marked
     # cells (not in the cycle), and mark any adjacent that has not been marked
-    to_check = marked.keys.filter {|pos| !cycle[pos]}
+    to_check = marked.keys.filter { |pos| !cycle[pos] }
 
-    while !to_check.empty?
+    until to_check.empty?
       position = to_check.pop
       @@directions.keys.each do |dir|
         p = calc_next_position(position, dir)
-        if !marked[p]
+        unless marked[p]
           marked[p] = true
           to_check << p
         end

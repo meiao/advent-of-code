@@ -27,10 +27,11 @@ class Solver2
       'm' => (1..4000),
       'a' => (1..4000),
       's' => (1..4000)
-      }, 'in']]
+    }, 'in']]
     until queue.empty?
       part, wkf = queue.pop
       next if wkf == 'R'
+
       if wkf == 'A'
         sum += calculate(part)
         next
@@ -45,9 +46,8 @@ class Solver2
   end
 
   def calculate(part)
-    part.values.map{|range| range.size}.inject(:*)
+    part.values.map { |range| range.size }.inject(:*)
   end
-
 end
 
 class Workflow
@@ -69,7 +69,7 @@ class Workflow
     sum = 0
     next_parts = []
     @rules.each do |rule|
-      if rule[0] == nil
+      if rule[0].nil?
         next_parts << [part, rule[3]]
         break
       else
@@ -83,6 +83,7 @@ class Workflow
 
   def split(part, var, operator, value)
     return [part] unless part[var].include? value
+
     ranges = []
     range = part[var]
     if operator == '>'

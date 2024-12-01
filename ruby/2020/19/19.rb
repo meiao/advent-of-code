@@ -5,7 +5,7 @@ class Processor
   end
 
   def calc_rule(number)
-    return @memoize[number] if @memoize[number] != nil
+    return @memoize[number] unless @memoize[number].nil?
 
     rules = @lines[number].split(': ')[1].split(' | ')
     calculated = []
@@ -14,7 +14,7 @@ class Processor
       if rule[0] == '"'
         calculated << rule[1]
       else
-        sub_rules = rule.split(' ').map {|sr| sr.to_i}
+        sub_rules = rule.split(' ').map { |sr| sr.to_i }
 
         sub_calculated = ['']
         sub_rules.each do |rule_number|
@@ -32,7 +32,7 @@ class Processor
     end
 
     @memoize[number] = calculated
-    return calculated
+    calculated
   end
 
   def part1
@@ -44,8 +44,6 @@ class Processor
     end
     puts sum
   end
-
-
 end
 
 p = Processor.new

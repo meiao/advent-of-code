@@ -15,26 +15,26 @@ class Processor
 
     @possible_columns = {}
     @range_map.keys.each do |range_name|
-      @possible_columns[range_name] = (0..(@range_map.size-1)).to_a
+      @possible_columns[range_name] = (0..(@range_map.size - 1)).to_a
     end
   end
 
   def in_range?(number, range)
-    return range[0] <= number && number <= range[1]
+    range[0] <= number && number <= range[1]
   end
 
   def check_valid(number, column)
     @range_map.keys.each do |key|
       ranges = @range_map[key]
       in_range = in_range?(number, ranges[0]) || in_range?(number, ranges[1])
-      @possible_columns[key].delete(column) if !in_range
+      @possible_columns[key].delete(column) unless in_range
     end
   end
 
   def clear_invalid_columns
     lines = File.open('16.input.tickets.valid').readlines
     lines.each do |line|
-      ticket = line.split(',').map{|n| n.to_i}
+      ticket = line.split(',').map { |n| n.to_i }
       ticket.each_index do |column|
         number = ticket[column]
         check_valid(number, column)
@@ -44,9 +44,10 @@ class Processor
 
   def filter_columns
     @verified_columns = {}
-    while !@possible_columns.empty?
+    until @possible_columns.empty?
       @possible_columns.keys.each do |range_name|
         next if @possible_columns[range_name].size > 1
+
         column = @possible_columns[range_name][0]
         @verified_columns[range_name] = column
         @possible_columns.values.each do |columns|
@@ -71,9 +72,8 @@ class Processor
     keys.each do |key|
       value *= ticket[@verified_columns[key]].to_i
     end
-    return value
+    value
   end
-
 end
 
 p = Processor.new

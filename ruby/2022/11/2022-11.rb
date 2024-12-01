@@ -11,29 +11,31 @@ class Solver
     monkeys = []
     loop do
       break if input.empty?
+
       monkeys << Monkey.new(input.shift(6), worry_divisor)
       input.shift # removes blank line
     end
-    modulo = monkeys.map{|m| m.divisor}.reduce(1){|a,b| a*b}
+    modulo = monkeys.map { |m| m.divisor }.reduce(1) { |a, b| a * b }
     monkeys.each do |monkey|
       monkey.modulo = modulo
     end
-    rounds.times do |i|
+    rounds.times do |_i|
       monkeys.each do |monkey|
         monkey.throw_items(monkeys)
       end
     end
-    monkeys.map{|m| m.inspected}.max(2).reduce(1) {|a, b| a  * b}
+    monkeys.map { |m| m.inspected }.max(2).reduce(1) { |a, b| a * b }
   end
 end
 
 class Monkey
   attr_reader :inspected, :divisor
   attr_writer :modulo
+
   def initialize(data, worry_divisor)
     data.shift # remove monkey number
-    @items = data.shift.strip.split(': ')[1].split(', ').map{|n| n.to_i}
-    @operation = eval("lambda {|old|" + data.shift.strip.split('= ')[1] + "}")
+    @items = data.shift.strip.split(': ')[1].split(', ').map { |n| n.to_i }
+    @operation = eval('lambda {|old|' + data.shift.strip.split('= ')[1] + '}')
     @divisor = data.shift.strip.split('by ')[1].to_i
     @true_monkey = data.shift.strip.split('monkey ')[1].to_i
     @false_monkey = data.shift.strip.split('monkey ')[1].to_i
@@ -43,9 +45,7 @@ class Monkey
 
   def throw_items(monkeys)
     @inspected += @items.size
-    until @items.empty?
-      throw_item(monkeys)
-    end
+    throw_item(monkeys) until @items.empty?
   end
 
   def throw_item(monkeys)

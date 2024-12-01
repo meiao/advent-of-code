@@ -21,21 +21,21 @@ class Solver
     turns.times do
       map = {}
       next_positions = Hash.new(0)
-      @elves.each {|elf| map[elf.position] = true}
-      @elves.each do |elf|
+      @elves.each { |elf| map[elf.position] = true }
+      @elves.each do |elf| # rubocop:disable Style/CombinableLoops
         elf.calc_next(map)
-        next_positions[elf.next_position] += 1 if elf.next_position != nil
+        next_positions[elf.next_position] += 1 unless elf.next_position.nil?
       end
-      @elves.each do |elf|
+      @elves.each do |elf| # rubocop:disable Style/CombinableLoops
         elf.move_unless(next_positions)
       end
       @move_rules.roll
     end
-    east = @elves.map{|elf| elf.position[0]}.min
-    west = @elves.map{|elf| elf.position[0]}.max
-    north = @elves.map{|elf| elf.position[1]}.min
-    south = @elves.map{|elf| elf.position[1]}.max
-    return (west - east + 1) * (south - north + 1) - @elves.size
+    east = @elves.map { |elf| elf.position[0] }.min
+    west = @elves.map { |elf| elf.position[0] }.max
+    north = @elves.map { |elf| elf.position[1] }.min
+    south = @elves.map { |elf| elf.position[1] }.max
+    (west - east + 1) * (south - north + 1) - @elves.size
   end
 
   def solve2
@@ -44,12 +44,13 @@ class Solver
       turn += 1
       map = {}
       next_positions = Hash.new(0)
-      @elves.each {|elf| map[elf.position] = true}
-      @elves.each do |elf|
+      @elves.each { |elf| map[elf.position] = true }
+      @elves.each do |elf| # rubocop:disable Style/CombinableLoops
         elf.calc_next(map)
-        next_positions[elf.next_position] += 1 if elf.next_position != nil
+        next_positions[elf.next_position] += 1 unless elf.next_position.nil?
       end
       break if next_positions.empty?
+
       @elves.each do |elf|
         elf.move_unless(next_positions)
       end
@@ -57,17 +58,17 @@ class Solver
     end
     turn
   end
-
 end
 
 class Elf
-  @@NEIGHBORS = {
-    [-1, -1] => [:N, :W], [0, -1] => [:N], [1, -1] => [:N, :E],
-    [-1,  0] => [:W]    ,                  [1,  0] => [:E]    ,
-    [-1,  1] => [:S, :W], [0,  1] => [:S], [1,  1] => [:S, :E]
+  @@neighbors = {
+    [-1, -1] => %i[N W], [0, -1] => [:N], [1, -1] => %i[N E],
+    [-1,  0] => [:W], [1, 0] => [:E],
+    [-1,  1] => %i[S W], [0, 1] => [:S], [1, 1] => %i[S E]
   }
 
   attr_reader :position, :next_position
+
   def initialize(position, move_rules)
     @position = position
     @move_rules = move_rules
@@ -81,7 +82,7 @@ class Elf
     end
 
     @move_rules.each do |rule|
-      if !rule[0].(neighbors)
+      unless rule[0].call(neighbors)
         dir = rule[1]
         return @next_position = [@position[0] + dir[0], @position[1] + dir[1]]
       end
@@ -91,10 +92,8 @@ class Elf
 
   def calculate_neighbors(map)
     cards = Hash.new(false)
-    @@NEIGHBORS.each do |dir, card_points|
-      if map[[@position[0] + dir[0], @position[1] + dir[1]]] != nil
-        card_points.each {|cp| cards[cp] = true}
-      end
+    @@neighbors.each do |dir, card_points|
+      card_points.each { |cp| cards[cp] = true } if map[[@position[0] + dir[0], @position[1] + dir[1]]] != nil
     end
     cards
   end
@@ -106,12 +105,13 @@ end
 
 class MoveRule
   attr_reader :rules
+
   def initialize
     @rules = [
-      [->(neighbors) {neighbors[:N]}, [ 0, -1]], #N
-      [->(neighbors) {neighbors[:S]}, [ 0,  1]], #S
-      [->(neighbors) {neighbors[:W]}, [-1,  0]], #W
-      [->(neighbors) {neighbors[:E]}, [ 1,  0]]  #E
+      [->(neighbors) { neighbors[:N] }, [0, -1]], # N
+      [->(neighbors) { neighbors[:S] }, [0,  1]], # S
+      [->(neighbors) { neighbors[:W] }, [-1, 0]], # W
+      [->(neighbors) { neighbors[:E] }, [1, 0]] # E
     ]
   end
 
@@ -121,6 +121,5 @@ class MoveRule
 end
 
 class Solver2
-  def solve
-  end
+  def solve; end
 end

@@ -1,5 +1,4 @@
 class Solver
-
   def initialize
     @opening = ['(', '[', '{', '<']
     @closing = {}
@@ -11,7 +10,7 @@ class Solver
     @score[')'] = 3
     @score[']'] = 57
     @score['}'] = 1197
-    @score['>'] = 25137
+    @score['>'] = 25_137
   end
 
   def calculate(line)
@@ -25,11 +24,11 @@ class Solver
         return @score[c] if @closing[open] != c
       end
     end
-    return 0
+    0
   end
 end
 
-lines = File.open('10-input').readlines.collect {|l| l.strip }
+lines = File.open('10-input').readlines.collect { |l| l.strip }
 
 solver = Solver.new
-p lines.map{|l| solver.calculate(l)}.sum
+p lines.map { |l| solver.calculate(l) }.sum

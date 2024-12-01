@@ -8,8 +8,7 @@ pos = 0
 while index < line.size
   if line[index] == '('
     pos += 1
-  elsif
-    pos -= 1
+  elsif pos -= 1
   end
 
   if pos == -1

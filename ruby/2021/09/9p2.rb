@@ -19,7 +19,6 @@ class Solver
     @matrix.insert(0, limit_arr)
     @matrix << limit_arr
 
-
     p matrix
   end
 
@@ -42,14 +41,15 @@ class Solver
     points_to_check = [min]
     basin = {}
     basin.default = false
-    while !points_to_check.empty?
+    until points_to_check.empty?
       p = points_to_check.shift
       next if @matrix[p[0]][p[1]] == 9
 
       basin[p] = true
-      [[0,1], [0,-1], [1,0], [-1,0]].each do |dir|
+      [[0, 1], [0, -1], [1, 0], [-1, 0]].each do |dir|
         next_p = [p[0] + dir[0], p[1] + dir[1]]
         next if basin[next_p]
+
         points_to_check << next_p
       end
     end
@@ -63,14 +63,13 @@ class Solver
       end
     end
 
-    basin_sizes = @min_points.map {|p| basin_size(p)}.sort
+    basin_sizes = @min_points.map { |p| basin_size(p) }.sort
 
     basin_sizes[-1] * basin_sizes[-2] * basin_sizes[-3]
-
   end
 end
 
-lines = File.open('9-input').readlines.collect {|l| l.strip }
-lines = lines.collect {|l| l.split('').collect{|n| n.to_i}}
+lines = File.open('9-input').readlines.collect { |l| l.strip }
+lines = lines.collect { |l| l.split('').collect { |n| n.to_i } }
 
 p Solver.new(lines).solve

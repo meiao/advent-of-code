@@ -8,17 +8,16 @@
 # License::   GPL3
 class Solver
   def initialize(input)
-    @board = input.map {|line| line.strip.chars.map{|c| c.to_i}}
+    @board = input.map { |line| line.strip.chars.map { |c| c.to_i } }
     @width = @board[0].size
     @height = @board.size
     @start_point_direction = [
       [0, 0, :down, :right],
       [0, 0, :right, :down],
-      [@height - 1, @width - 1,:left, :up],
+      [@height - 1, @width - 1, :left, :up],
       [@height - 1, @width - 1, :up, :left]
     ]
     @visible = {}
-
   end
 
   def solve
@@ -33,7 +32,7 @@ class Solver
       cur = Array.new(start)
       traverse_single(cur, directions[1])
       move(start, directions[0])
-      break if height(start) == nil
+      break if height(start).nil?
     end
   end
 
@@ -41,7 +40,8 @@ class Solver
     tallest = -1
     loop do
       cur_height = height(cur)
-      break if cur_height == nil
+      break if cur_height.nil?
+
       if cur_height > tallest
         mark_visible(cur)
         tallest = cur_height
@@ -51,9 +51,9 @@ class Solver
     end
   end
 
-
   def height(point)
-    return nil if point[0] < 0 || point[1] < 0 || @board[point[0]] == nil
+    return nil if point[0] < 0 || point[1] < 0 || @board[point[0]].nil?
+
     @board[point[0]][point[1]]
   end
 
@@ -75,11 +75,10 @@ class Solver
     @visible[Array.new(point)] = true
   end
 
-
   def solve2
     max = 0
-    (1..(@board.size() -2)).each do |i|
-      (1..(@board[0].size() -2)).each do |j|
+    (1..(@board.size - 2)).each do |i|
+      (1..(@board[0].size - 2)).each do |j|
         score = scenic_score([i, j])
         max = score if score > max
       end
@@ -89,7 +88,7 @@ class Solver
 
   def scenic_score(point)
     score = 1
-    [:up, :down, :left, :right].each do |direction|
+    %i[up down left right].each do |direction|
       score *= direction_score(Array.new(point), direction)
     end
     score
@@ -102,7 +101,8 @@ class Solver
     loop do
       move(point, direction)
       cur_height = height(point)
-      break if cur_height == nil
+      break if cur_height.nil?
+
       visible += 1
       if cur_height >= tallest
         tallest = cur_height
@@ -111,5 +111,4 @@ class Solver
     end
     visible
   end
-
 end

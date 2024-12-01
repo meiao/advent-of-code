@@ -1,6 +1,5 @@
 lines = File.open('2-input').readlines
 
-
 round_point = {
   'X'.ord => 0,
   'Y'.ord => 3,
@@ -21,12 +20,10 @@ move_point = {
   'D'.ord => 1
 }
 
-
 points = 0
 lines.each do |line|
   this_round = 0
-  his, resolution = line.split(' ').map{|c| c.ord}
-
+  his, resolution = line.split(' ').map { |c| c.ord }
 
   this_round += round_point[resolution]
 

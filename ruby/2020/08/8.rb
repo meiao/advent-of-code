@@ -7,7 +7,6 @@ class Processor
     @visited = Array.new(visited)
   end
 
-
   def part1
     while true
       @visited << @stack
@@ -79,14 +78,10 @@ class Processor
         exit
       end
 
-      if @visited.include? @stack
-        return
-      end
+      return if @visited.include? @stack
 
     end
   end
-
 end
 
-
-Processor.new(0,0,[]).part2
+Processor.new(0, 0, []).part2

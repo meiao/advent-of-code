@@ -28,7 +28,7 @@ class Solver
     modulo = size - 1
     mixes.times do
       cur = head
-      until cur == nil
+      until cur.nil?
         cur.move(modulo)
         cur = cur.next_orig
         # print(head, size)
@@ -54,16 +54,16 @@ class Solver
     end
     puts
   end
-
 end
 
 class Node
   attr_accessor :value, :next_orig, :prev_order, :next_order
+
   def initialize(value)
     @value = value
   end
 
-  def nexts= node
+  def nexts=(node)
     @next_orig = node
     @next_order = node
   end

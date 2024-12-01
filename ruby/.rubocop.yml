@@ -1,0 +1,8 @@
+inherit_from: .rubocop_todo.yml
+
+Lint/ScriptPermission:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+AllCops:
+  NewCops: enable

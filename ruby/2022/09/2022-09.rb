@@ -9,7 +9,7 @@
 class Solver
   def solve(input, knot_count)
     @knots = []
-    knot_count.times {@knots << [0,0]}
+    knot_count.times { @knots << [0, 0] }
     @visited = {}
 
     input.each do |line|
@@ -41,33 +41,29 @@ class Solver
 
   def move_knot(i)
     knot = @knots[i]
-    previous = @knots[i-1]
+    previous = @knots[i - 1]
     dist = knot_distance(knot, previous)
     return if dist < 2
-    if dist == 2 || dist == 4
+
+    if [2, 4].include?(dist)
       return if (previous[0] - knot[0]).abs == 1
 
       knot[0] = (previous[0] + knot[0]) / 2
       knot[1] = (previous[1] + knot[1]) / 2
+    elsif (previous[0] - knot[0]).abs == 1
+      knot[0] = previous[0]
+      knot[1] = (previous[1] + knot[1]) / 2
     else
-      if (previous[0] - knot[0]).abs == 1
-        knot[0] = previous[0]
-        knot[1] = (previous[1] + knot[1]) / 2
-      else
-        knot[0] = (previous[0] + knot[0]) / 2
-        knot[1] = previous[1]
-      end
+      knot[0] = (previous[0] + knot[0]) / 2
+      knot[1] = previous[1]
     end
   end
 
   def knot_distance(knot, previous)
-    return (previous[0] - knot[0]).abs + (previous[1] - knot[1]).abs
+    (previous[0] - knot[0]).abs + (previous[1] - knot[1]).abs
   end
 
   def mark_visited
     @visited[Array.new(@knots[-1])] = true
   end
-
-
-
 end

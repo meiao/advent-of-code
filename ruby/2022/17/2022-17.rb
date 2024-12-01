@@ -7,8 +7,6 @@
 # Author::    Andre Onuki
 # License::   GPL3
 class Solver
-
-
   def initialize(input)
     @rock_factory = RockFactory.new
     @jet_stream = JetStream.new(input)
@@ -22,35 +20,33 @@ class Solver
   def solve(rock_count)
     rock_count.times do |i|
       drop_rock
-      if @reset[0]
-        @reset[0] = false
-        @reset_rock << i
-        break if @reset_rock.size == 10
-      end
+      next unless @reset[0]
+
+      @reset[0] = false
+      @reset_rock << i
+      break if @reset_rock.size == 10
     end
 
-    if @reset_rock.size < 2
-      return @heights[-1]
-    end
+    return @heights[-1] if @reset_rock.size < 2
 
     cycle_length = @reset_rock[1] - @reset_rock[0]
     cycles = (rock_count - @reset_rock[0]) / cycle_length
     remaining = rock_count - @reset_rock[0] - (cycle_length * cycles)
-    a= @heights[@reset_rock[0]]
-    b= cycles * (@heights[@reset_rock[1]] - @heights[@reset_rock[0]])
-    c= @heights[@reset_rock[0] + remaining] - @heights[@reset_rock[0]]
-    a+b+c
+    a = @heights[@reset_rock[0]]
+    b = cycles * (@heights[@reset_rock[1]] - @heights[@reset_rock[0]])
+    c = @heights[@reset_rock[0] + remaining] - @heights[@reset_rock[0]]
+    a + b + c
   end
 
   def drop_rock
     rock = @rock_factory.get_next(@heights[-1] + 4)
     loop do
       rock.move(@jet_stream.get_next(@reset), @map)
-      if !rock.move('V', @map)
-        @heights << [rock.highest, @heights[-1]].max
-        rock.stop(@map)
-        return
-      end
+      next if rock.move('V', @map)
+
+      @heights << [rock.highest, @heights[-1]].max
+      rock.stop(@map)
+      return
     end
   end
 end
@@ -109,12 +105,10 @@ class Rock
   end
 
   def move(direction, map)
-    if direction == '<' || direction == '>'
-      return false if @points.any?{|p| p[0] & BOUNDARY_CHECK[direction] != 0}
-    end
+    return false if ['<', '>'].include?(direction) && @points.any? { |p| p[0] & BOUNDARY_CHECK[direction] != 0 }
 
     next_points = do_move(direction)
-    return false if next_points.any?{|p| p[0] & map[p[1]] != 0}
+    return false if next_points.any? { |p| p[0] & map[p[1]] != 0 }
 
     @points = next_points
     true
@@ -122,11 +116,11 @@ class Rock
 
   def do_move(direction)
     if direction == 'V'
-      return @points.map{|p| [p[0], p[1] - 1]}
+      @points.map { |p| [p[0], p[1] - 1] }
     elsif direction == '>'
-      return @points.map{|p| [p[0] >> 1, p[1]]}
+      @points.map { |p| [p[0] >> 1, p[1]] }
     else
-      return @points.map{|p| [p[0] << 1, p[1]]}
+      @points.map { |p| [p[0] << 1, p[1]] }
     end
   end
 
@@ -137,11 +131,10 @@ class Rock
   end
 
   def highest
-    @points.map{|p| p[1]}.max
+    @points.map { |p| p[1] }.max
   end
 end
 
 class Solver2
-  def solve
-  end
+  def solve; end
 end

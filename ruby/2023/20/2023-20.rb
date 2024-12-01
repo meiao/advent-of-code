@@ -5,7 +5,6 @@
 # Author::    Andre Onuki
 # License::   GPL3
 class Solver
-
   def initialize(input)
     @bus = EventBus.new
     input.map(&:strip).each do |line|
@@ -17,20 +16,17 @@ class Solver
         Conjunction.new(line, @bus)
       end
     end
-    @machine = Machine.new("?rx -> machine", @bus)
+    @machine = Machine.new('?rx -> machine', @bus)
     @bus.calculate_inputs
   end
 
-
   def solve
-    1000.times do |i|
-      p i
+    1000.times do |_i|
       @bus.send(:low, 'button', ['roadcaster']) # broadcaster has its first char removed
       @bus.process_all
     end
     @bus.value
   end
-
 
   def solve2
     presses = 0
@@ -48,7 +44,7 @@ class EventBus
   def initialize
     @queue = []
     @subscribers = {}
-    @sent = {:high => 0, :low => 0}
+    @sent = { high: 0, low: 0 }
   end
 
   def subscribe(name, mod)
@@ -59,9 +55,7 @@ class EventBus
     @subscribers.each do |name, mod|
       mod.dests.each do |dest|
         d = @subscribers[dest]
-        if d != nil
-          d.register_input(name)
-        end
+        d.register_input(name) unless d.nil?
       end
     end
   end
@@ -78,18 +72,19 @@ class EventBus
     until @queue.empty?
       level, src, dest = @queue.shift
       next unless @subscribers.key? dest
+
       @subscribers[dest].on_signal(level, src)
     end
   end
 
   def value
-    p @sent
     @sent[:low] * @sent[:high]
   end
 end
 
 class Mod
   attr_accessor :name, :dests
+
   def initialize(data, event_bus)
     name, dests = data.split(' -> ')
     @name = name[1..]
@@ -103,23 +98,24 @@ class Mod
   end
 
   protected
+
   def send_pulse(level)
     @event_bus.send(level, @name, @dests)
   end
 end
 
 class Broadcaster < Mod
-  def on_signal(level, src)
+  def on_signal(level, _src)
     send_pulse(level)
   end
 end
 
 class FlipFlop < Mod
-  def on_signal(level, src)
-    if level == :low
-      @previous = @previous == :high ? :low : :high
-      send_pulse(@previous)
-    end
+  def on_signal(level, _src)
+    return unless level == :low
+
+    @previous = @previous == :high ? :low : :high
+    send_pulse(@previous)
   end
 end
 
@@ -135,14 +131,13 @@ class Conjunction < Mod
 
   def on_signal(level, src)
     @inputs[src] = level
-    all_high = @inputs.values.all? {|v| v == :high}
-    p [self.name, StepCounter.i] if all_high && ['lg', 'st', 'bn', 'gr'].include?(self.name)
+    all_high = @inputs.values.all? { |v| v == :high }
     send_pulse(all_high ? :low : :high)
   end
 end
 
 class Machine < Mod
-  def on_signal(level, src)
+  def on_signal(level, _src)
     @done = true if level == :low
   end
 
@@ -157,7 +152,7 @@ module StepCounter
     @@i = i
   end
 
-  def self.i()
+  def self.i
     @@i
   end
 end

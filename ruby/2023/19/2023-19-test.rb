@@ -8,31 +8,31 @@ class Test2023_19 < Minitest::Test
     file_name = File.join(File.dirname(__FILE__), './input.small')
     input = File.open(file_name).readlines
     solver = Solver.new
-    workflow, parts = input.join('').split("\n\n").map{|lines| lines.split("\n")}
-    assert_equal(19114, solver.solve(workflow, parts))
+    workflow, parts = input.join('').split("\n\n").map { |lines| lines.split("\n") }
+    assert_equal(19_114, solver.solve(workflow, parts))
   end
 
   def test_part1_large
-   file_name = File.join(File.dirname(__FILE__), './input')
-   input = File.open(file_name).readlines
-   solver = Solver.new
-   workflow, parts = input.join('').split("\n\n").map{|lines| lines.split("\n")}
-   assert_equal(319062, solver.solve(workflow, parts))
+    file_name = File.join(File.dirname(__FILE__), './input')
+    input = File.open(file_name).readlines
+    solver = Solver.new
+    workflow, parts = input.join('').split("\n\n").map { |lines| lines.split("\n") }
+    assert_equal(319_062, solver.solve(workflow, parts))
   end
 
   def test_part2_small
-   file_name = File.join(File.dirname(__FILE__), './input.small')
-   input = File.open(file_name).readlines
-   solver = Solver2.new
-   workflow = input.join('').split("\n\n").map{|lines| lines.split("\n")}[0]
-   assert_equal(1, solver.solve(workflow))
+    file_name = File.join(File.dirname(__FILE__), './input.small')
+    input = File.open(file_name).readlines
+    solver = Solver2.new
+    workflow = input.join('').split("\n\n").map { |lines| lines.split("\n") }[0]
+    assert_equal(1, solver.solve(workflow))
   end
 
   def test_part2_large
-   file_name = File.join(File.dirname(__FILE__), './input')
-   input = File.open(file_name).readlines
-   solver = Solver2.new
-   workflow = input.join('').split("\n\n").map{|lines| lines.split("\n")}[0]
-   assert_equal(1, solver.solve(workflow))
+    file_name = File.join(File.dirname(__FILE__), './input')
+    input = File.open(file_name).readlines
+    solver = Solver2.new
+    workflow = input.join('').split("\n\n").map { |lines| lines.split("\n") }[0]
+    assert_equal(1, solver.solve(workflow))
   end
 end

@@ -6,7 +6,7 @@
 # License::   GPL3
 class Solver
   def solve(input)
-    input[0].split(',').map{|instr| hash(instr.strip)}.sum
+    input[0].split(',').map { |instr| hash(instr.strip) }.sum
   end
 
   def hash(string)
@@ -20,7 +20,7 @@ class Solver
   end
 
   def solve2(input)
-    boxes = Hash.new {|hash, k| hash[k] = []}
+    boxes = Hash.new { |hash, k| hash[k] = [] }
     input[0].split(',').each do |instr|
       if instr.include? '-'
         remove(instr.strip, boxes)
@@ -34,13 +34,13 @@ class Solver
   def remove(instr, boxes)
     label = instr[0..-2]
     box_no = hash(label)
-    boxes[box_no].delete_if {|lens| lens[0] == label}
+    boxes[box_no].delete_if { |lens| lens[0] == label }
   end
 
   def set(instr, boxes)
     label, length = instr.split('=')
     box_no = hash(label)
-    existing_lens = boxes[box_no].select {|lens| lens[0] == label}
+    existing_lens = boxes[box_no].select { |lens| lens[0] == label }
     if existing_lens.size > 0
       existing_lens[0][1] = length.to_i
     else
@@ -49,10 +49,10 @@ class Solver
   end
 
   def calculate(boxes)
-    boxes.map{|box_no, lenses| (box_no + 1) * calculate_lenses(lenses)}.sum
+    boxes.map { |box_no, lenses| (box_no + 1) * calculate_lenses(lenses) }.sum
   end
 
   def calculate_lenses(lenses)
-    lenses.each_with_index.map {|lens, i| (i+1) * lens[1]}.sum
+    lenses.each_with_index.map { |lens, i| (i + 1) * lens[1] }.sum
   end
 end

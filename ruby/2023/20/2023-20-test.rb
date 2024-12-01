@@ -7,21 +7,21 @@ class Test2023_20 < Minitest::Test
     file_name = File.join(File.dirname(__FILE__), './input.small')
     input = File.open(file_name).readlines
     solver = Solver.new(input)
-    assert_equal(32000000, solver.solve)
+    assert_equal(32_000_000, solver.solve)
   end
 
   def test_part1_small2
     file_name = File.join(File.dirname(__FILE__), './input.small2')
     input = File.open(file_name).readlines
     solver = Solver.new(input)
-    assert_equal(11687500, solver.solve)
+    assert_equal(11_687_500, solver.solve)
   end
 
   def test_part1_large
-   file_name = File.join(File.dirname(__FILE__), './input')
-   input = File.open(file_name).readlines
-   solver = Solver.new(input)
-   assert_equal(684125385, solver.solve)
+    file_name = File.join(File.dirname(__FILE__), './input')
+    input = File.open(file_name).readlines
+    solver = Solver.new(input)
+    assert_equal(684_125_385, solver.solve)
   end
 
   # Part 2 is not solvable using simulation.
@@ -45,8 +45,6 @@ class Test2023_20 < Minitest::Test
     file_name = File.join(File.dirname(__FILE__), './input')
     input = File.open(file_name).readlines
     solver = Solver.new(input)
-    assert_equal(225872806380073, solver.solve2)
+    assert_equal(225_872_806_380_073, solver.solve2)
   end
-
-
 end

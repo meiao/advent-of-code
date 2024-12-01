@@ -1,7 +1,6 @@
 class Solver
-
   def initialize(file, max_depth)
-    data = File.open(file).readlines.collect{|l| l.strip}
+    data = File.open(file).readlines.collect { |l| l.strip }
 
     @base = data.shift
     data.shift # removes empty line
@@ -21,22 +20,23 @@ class Solver
 
   def calc(str, depth)
     return if depth >= @max_depth
+
     c = @transformations[str]
     @count[c] += 1
     calc(str[0] + c, depth + 1)
     calc(c + str[1], depth + 1)
-    if depth < @min_depth
-      p depth
-      p Time.now.to_i - @start
-      @min_depth = depth
-    end
+    return unless depth < @min_depth
+
+    p depth
+    p Time.now.to_i - @start
+    @min_depth = depth
   end
 
   def solve
     @start = Time.now.to_i
     (@base.length - 1).times do |i|
       @min_depth = @max_depth
-      calc(@base[i..i+1], 0)
+      calc(@base[i..i + 1], 0)
       p i
     end
     @base.each_char do |c|

@@ -6,13 +6,14 @@
 # License::   GPL3
 class Solver
   def solve(input, target)
-    buckets = input.map{|line| line.to_i}
+    buckets = input.map { |line| line.to_i }
     solutions = 0
     possibles = []
     buckets.each do |bucket|
       next_possible = [bucket]
       possibles.each do |sum|
         next if sum + bucket > target
+
         if sum + bucket == target
           solutions += 1
         else
@@ -26,7 +27,7 @@ class Solver
   end
 
   def solve2(input, target)
-    buckets = input.map{|line| line.to_i}
+    buckets = input.map { |line| line.to_i }
     solutions = []
     possibles = []
     buckets.each do |bucket|
@@ -34,6 +35,7 @@ class Solver
       possibles.each do |combination|
         sum = combination.sum
         next if sum + bucket > target
+
         if sum + bucket == target
           solutions << (combination.clone << bucket)
         else

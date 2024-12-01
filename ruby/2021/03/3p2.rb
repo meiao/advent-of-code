@@ -1,4 +1,4 @@
-lines = File.open('3-input').readlines.collect {|l| l.strip }
+lines = File.open('3-input').readlines.collect { |l| l.strip }
 
 def count_ones(row, lines)
   sum = 0
@@ -9,19 +9,21 @@ def count_ones(row, lines)
 end
 
 def most_common(row, lines)
-  puts lines.to_s
+  puts lines
   puts count_ones(row, lines).to_s + ' ' + (lines.length / 2).to_s
-  return '1' if count_ones(row, lines) >= ((lines.length + 1)/ 2).floor
-  return '0'
+  return '1' if count_ones(row, lines) >= ((lines.length + 1) / 2).floor
+
+  '0'
 end
 
 def least_common(row, lines)
-  return '1' if count_ones(row, lines) < ((lines.length + 1)/ 2).floor
-  return '0'
+  return '1' if count_ones(row, lines) < ((lines.length + 1) / 2).floor
+
+  '0'
 end
 
 def keep_only(lines, row, char)
-  lines.select {|l| l[row] == char}
+  lines.select { |l| l[row] == char }
 end
 
 lines_kept = lines

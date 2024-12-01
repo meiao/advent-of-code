@@ -6,8 +6,8 @@
 # License::   GPL3
 class Solver
   def solve(input)
-    times = input[0].split(':')[1].split(' ').map{|n| n.to_i}
-    distances = input[1].split(':')[1].split(' ').map{|n| n.to_i}
+    times = input[0].split(':')[1].split(' ').map { |n| n.to_i }
+    distances = input[1].split(':')[1].split(' ').map { |n| n.to_i }
     result = 1
     times.size.times do |i|
       result *= calc(times[i], distances[i])
@@ -17,20 +17,20 @@ class Solver
   end
 
   def calc(t, d)
-    root = Math.sqrt(t**2 - 4*d)
-    min = ((t-root)/2)
+    root = Math.sqrt(t**2 - 4 * d)
+    min = ((t - root) / 2)
     if min.ceil == min
       min += 1
     else
       min = min.ceil
     end
-    max = ((t+root)/2)
+    max = ((t + root) / 2)
     if max.floor == max
       max -= 1
     else
       max = max.floor
     end
-    p [t, d, min, max, max-min + 1]
+    p [t, d, min, max, max - min + 1]
     (max - min + 1).to_i
   end
 

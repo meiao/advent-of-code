@@ -7,14 +7,12 @@ class Player
 
   def walk(steps)
     @pos += steps
-    @pos = @pos % 10 if @pos > 10
+    @pos %= 10 if @pos > 10
     @pos = 10 if @pos == 0
     @score += @pos
   end
 
-  def score
-    @score
-  end
+  attr_reader :score
 
   def clone
     Player.new(@pos, @score)
@@ -34,11 +32,11 @@ class Game
   }
   def self.play(players, turn, mult)
     players.each_pair do |key, player|
-      if player.score >= 21
-        @@wins[key] += mult
-        p @@wins
-        return
-      end
+      next unless player.score >= 21
+
+      @@wins[key] += mult
+      p @@wins
+      return
     end
 
     @@dice_count.each_pair do |sum, dice_mult|
@@ -57,7 +55,6 @@ class Game
   def self.wins
     @@wins
   end
-
 end
 
 p1 = Player.new(8, 0)

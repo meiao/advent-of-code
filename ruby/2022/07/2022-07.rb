@@ -10,7 +10,7 @@ class Solver
   def read(input)
     root = Directory.new('/', nil)
     current_dir = root
-    while !input.empty?
+    until input.empty?
       line = input.shift
       if line.strip == '$ cd /'
         current_dir = root
@@ -21,8 +21,8 @@ class Solver
       elsif line.strip == '$ ls'
         loop do
           file = input.shift
-          if file == nil || file.start_with?('$')
-            input.unshift(file) if file != nil
+          if file.nil? || file.start_with?('$')
+            input.unshift(file) unless file.nil?
             break
           end
           size, name = file.split(' ')
@@ -44,17 +44,15 @@ class Solver
 
   def solve2(input)
     root = read(input)
-    free_space = 70000000 - root.size
-    space_needed = 30000000 - free_space
+    free_space = 70_000_000 - root.size
+    space_needed = 30_000_000 - free_space
     root.best_dir_size(space_needed)
   end
-
 end
-
-
 
 class Directory
   attr_accessor :parent
+
   def initialize(name, parent)
     @name = name
     @parent = parent
@@ -71,20 +69,20 @@ class Directory
   end
 
   def size
-    @sub_dirs.values.map {|sub_dir| sub_dir.size}.sum + @files.values.sum
+    @sub_dirs.values.map { |sub_dir| sub_dir.size }.sum + @files.values.sum
   end
 
   def small_size
-    sub_dir_size = @sub_dirs.values.map {|sub_dir| sub_dir.small_size}.sum
-    self_size = self.size()
-    sub_dir_size + (self_size <=100000 ? self_size : 0)
+    sub_dir_size = @sub_dirs.values.map { |sub_dir| sub_dir.small_size }.sum
+    self_size = size
+    sub_dir_size + (self_size <= 100_000 ? self_size : 0)
   end
 
   def best_dir_size(space_needed)
-    self_size = self.size
-    return 70000000 if self_size < space_needed
+    self_size = size
+    return 70_000_000 if self_size < space_needed
 
-    min = 70000000
+    min = 70_000_000
     @sub_dirs.values.each do |sub_dir|
       best_subdir_size = sub_dir.best_dir_size(space_needed)
       min = best_subdir_size if best_subdir_size < min
@@ -92,5 +90,4 @@ class Directory
     min = self_size if self_size < min
     min
   end
-
 end

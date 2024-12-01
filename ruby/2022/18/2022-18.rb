@@ -10,7 +10,7 @@ class Solver
   def solve(input)
     map = Hash.new(false)
     input.each do |line|
-      coords = line.split(',').map{|n| n.to_i}
+      coords = line.split(',').map { |n| n.to_i }
       map[coords] = true
     end
 
@@ -22,6 +22,7 @@ class Solver
         (-1..1).each do |y|
           (-1..1).each do |z|
             next if x.abs + y.abs + z.abs != 1
+
             checking_coord = [coord[0] + x, coord[1] + y, coord[2] + z]
             air_coord << checking_coord unless map[checking_coord]
           end
@@ -37,7 +38,7 @@ class Solver2
   def solve(input)
     map = Hash.new(false)
     input.each do |line|
-      coords = line.split(',').map{|n| n.to_i}
+      coords = line.split(',').map { |n| n.to_i }
       map[coords] = true
     end
 
@@ -55,9 +56,9 @@ class Solver2
       end
     end
 
-    single_bubbles = possible_bubble.filter {|k, v| v == 6 }
+    single_bubbles = possible_bubble.filter { |_k, v| v == 6 }
     area -= 6 * single_bubbles.size
-    single_bubbles.each_key {|k| possible_bubble.delete(k)}
+    single_bubbles.each_key { |k| possible_bubble.delete(k) }
     area -= total_bubble_area(possible_bubble.keys, map)
     area
   end
@@ -99,6 +100,7 @@ class Solver2
       (-1..1).each do |y|
         (-1..1).each do |z|
           next if x.abs + y.abs + z.abs != 1
+
           block.call(x, y, z)
         end
       end
@@ -108,6 +110,7 @@ end
 
 class Bubble
   attr_reader :is_bubble, :area, :coords
+
   def initialize(is_bubble, area, coords)
     @is_bubble = is_bubble
     @area = area

@@ -12,24 +12,24 @@ class Test2022_22 < Minitest::Test
   end
 
   def test_part1_large
-   file_name = File.join(File.dirname(__FILE__), './input')
-   input = File.open(file_name).readlines
-   solver = Solver.new
-   assert_equal(103224, solver.solve(input))
+    file_name = File.join(File.dirname(__FILE__), './input')
+    input = File.open(file_name).readlines
+    solver = Solver.new
+    assert_equal(103_224, solver.solve(input))
   end
 
   # part 2 small is currently unsolvable given the hardcoded stuff in the code
-  #def test_part2_small
+  # def test_part2_small
   #  file_name = File.join(File.dirname(__FILE__), './input.small')
   #  input = File.open(file_name).readlines
   #  solver = Solver.new
   #  assert_equal(1, solver.solve2(input))
-  #end
+  # end
 
   def test_part2_large
-   file_name = File.join(File.dirname(__FILE__), './input')
-   input = File.open(file_name).readlines
-   solver = Solver2.new
-   assert_equal(189097, solver.solve(input))
+    file_name = File.join(File.dirname(__FILE__), './input')
+    input = File.open(file_name).readlines
+    solver = Solver2.new
+    assert_equal(189_097, solver.solve(input))
   end
 end

@@ -15,7 +15,7 @@ lines.each do |line|
   all_ingredients.concat(ingredients)
 
   allergens.each do |allergen|
-    allergen_map[allergen] = [] if allergen_map[allergen] == nil
+    allergen_map[allergen] = [] if allergen_map[allergen].nil?
     allergen_map[allergen] << ingredients
   end
 end
@@ -25,9 +25,9 @@ known_allergen = {}
 allergen_map.keys.each do |allergen|
   recipes = allergen_map[allergen]
   ingredients = recipes.shift
-  while !recipes.empty?
+  until recipes.empty?
     next_ingredients = recipes.shift
-    ingredients = ingredients.filter{|ingredient| next_ingredients.include?(ingredient)}
+    ingredients = ingredients.filter { |ingredient| next_ingredients.include?(ingredient) }
   end
   if ingredients.size == 1
     known_allergen[allergen] = ingredients[0]
@@ -37,7 +37,7 @@ allergen_map.keys.each do |allergen|
   end
 end
 
-while !allergen_map.empty?
+until allergen_map.empty?
   allergen_map.keys.each do |allergen|
     ingredients = allergen_map[allergen]
     known_allergen.values.each do |ingredient|

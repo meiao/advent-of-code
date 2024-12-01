@@ -24,7 +24,6 @@ class Processor
       decoded_position = decode_position(address, i).to_i(2)
       @mem[decoded_position] = value
     end
-
   end
 
   def calc_address(position)
@@ -46,12 +45,8 @@ class Processor
       index = decoded_position.index('X')
       decoded_position[index] = values.shift
     end
-    return decoded_position
+    decoded_position
   end
-
-
 end
-
-
 
 Processor.new.part2

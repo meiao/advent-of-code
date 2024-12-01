@@ -1,20 +1,18 @@
 class Processor
-
   def initialize
     @wires = {}
     @gates = {}
-    @gates['AND'] = -> (arr) { arr[0] & arr[1] }
-    @gates['OR'] = -> (arr) { arr[0] | arr[1] }
-    @gates['LSHIFT'] = -> (arr) { (arr[0] << arr[1]) & 65535 }
-    @gates['RSHIFT'] = -> (arr) { arr[0] >> arr[1] }
-
+    @gates['AND'] = ->(arr) { arr[0] & arr[1] }
+    @gates['OR'] = ->(arr) { arr[0] | arr[1] }
+    @gates['LSHIFT'] = ->(arr) { (arr[0] << arr[1]) & 65_535 }
+    @gates['RSHIFT'] = ->(arr) { arr[0] >> arr[1] }
   end
 
   def can_process?(line)
     wires_has_all_vars = line.split('->')[0].scan(/[a-z]+/)
-      .map{|var| @wires[var] != nil}
-      .reduce{|v1, v2| v1 && v2}
-    return wires_has_all_vars == nil || wires_has_all_vars
+                             .map { |var| !@wires[var].nil? }
+                             .reduce { |v1, v2| v1 && v2 }
+    wires_has_all_vars.nil? || wires_has_all_vars
   end
 
   def process(line)
@@ -41,45 +39,39 @@ class Processor
 
   def calc_gate(expr, op)
     params = expr.split(op)
-      .map{|param| calc_value(param)}
-    return @gates[op].call(params)
+                 .map { |param| calc_value(param) }
+    @gates[op].call(params)
   end
 
   def calc_value(expr)
     expr.strip!
-    if expr =~ /[0-9]+/
-      return expr.to_i
-    else
-      return @wires[expr]
-    end
+    return expr.to_i if expr =~ /[0-9]+/
+
+    @wires[expr]
   end
 
   def calc_not(expr)
     param = expr.split('NOT')[1]
     value = calc_value(param)
-    return ~value & 65535
+    ~value & 65_535
   end
-
 
   def wire(l)
     @wires[l]
   end
 
-  def wires
-    @wires
-  end
+  attr_reader :wires
 
   def reset_wires(value)
     @wires = {}
     @wires['b'] = value
   end
-
 end
 
 p = Processor.new
 
 lines = File.open('7.input').readlines
-while !lines.empty?
+until lines.empty?
   line = lines.pop
   if p.can_process?(line)
     p.process(line)
@@ -94,7 +86,7 @@ puts value
 p.reset_wires(value)
 
 lines = File.open('7.input2').readlines
-while !lines.empty?
+until lines.empty?
   line = lines.pop
 
   if p.can_process?(line)

@@ -5,13 +5,12 @@
 # Author::    Andre Onuki
 # License::   GPL3
 class Solver
-
   def solve(input)
     hor_lines = []
     pos = [0, 0]
     range = [0, 0]
     input.each do |line|
-      dir, count, color = line.split(' ')
+      dir, count, = line.split(' ')
       count = count.to_i
       if dir == 'U'
         pos[1] -= count
@@ -28,11 +27,11 @@ class Solver
       range[1] = pos[0] if pos[0] > range[1]
     end
 
-    hor_lines.sort_by!{|line| line[2]}
+    hor_lines.sort_by! { |line| line[2] }
 
     sum = 0
     (range[0]..range[1]).each do |x|
-      lines = hor_lines.select {|line| line[0] <= x && x <= line[1]}
+      lines = hor_lines.select { |line| line[0] <= x && x <= line[1] }
       until lines.empty?
         top_line = lines.shift
         if top_line[0] != x && top_line[1] != x
@@ -59,14 +58,16 @@ class Solver
   def discard_top_middle(lines, x)
     while true
       return if lines[0][0] != x && lines[0][1] != x
+
       top = lines.shift
       return if (top[0] == x && lines[0][1] == x) || (top[1] == x && lines[0][0] == x) # S
+
       lines.shift # this was a C
     end
   end
 
   def solve2(input)
-    modified_input = input.map{|line| convert(line)}
+    modified_input = input.map { |line| convert(line) }
     solve(modified_input)
   end
 
@@ -74,7 +75,7 @@ class Solver
     '0' => 'R',
     '1' => 'D',
     '2' => 'L',
-    '3' => 'U',
+    '3' => 'U'
   }
 
   def convert(line)

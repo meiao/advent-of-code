@@ -1,8 +1,8 @@
 str_lines = File.open('1-input').readlines
 
-values = str_lines.map {|l| l.to_i}
+values = str_lines.map { |l| l.to_i }
 
-prev = 1000000000
+prev = 1_000_000_000
 window = [0]
 increasing = 0
 window << values.shift

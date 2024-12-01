@@ -9,10 +9,10 @@
 class Solver
   def initialize(input)
     @valves = {}
-    input.map{|line| Valve.new(line)}
-      .each {|valve| @valves[valve.name] = valve}
-    @valves.values.each{|valve| valve.set_valves(@valves)}
-    @max_flow = @valves.values.map{|v| v.flow}.max
+    input.map { |line| Valve.new(line) }
+         .each { |valve| @valves[valve.name] = valve }
+    @valves.values.each { |valve| valve.valves = @valves }
+    @max_flow = @valves.values.map { |v| v.flow }.max
   end
 
   def solve
@@ -23,26 +23,21 @@ class Solver
 
   def recurse(status)
     if status.time_left == 0
-      if status.score > @best_status.score
-        p status.score
-        @best_status = status
-      end
+      @best_status = status if status.score > @best_status.score
       return
     end
     return if status.time_left**2 * @max_flow / 2 + status.score < @best_status.score
 
-    if !status.open_valves.include?(status.valve) && status.valve.flow > 0
-      recurse(status.open)
-    end
+    recurse(status.open) if !status.open_valves.include?(status.valve) && status.valve.flow > 0
     status.valve.valves.each do |next_valve|
       recurse(status.move(next_valve)) unless next_valve == status.prev_valve
     end
   end
-
 end
 
 class Valve
   attr_reader :name, :flow, :valves
+
   def initialize(line)
     data = line.match(/Valve (.*) has flow rate=(\d+); tunnels? leads? to valves? (.*)/)
     @name = data[1]
@@ -50,13 +45,14 @@ class Valve
     @tunnels = data[3].strip.split(', ')
   end
 
-  def set_valves(valves)
-    @valves = @tunnels.map{|t| valves[t]}
+  def valves=(valves)
+    @valves = @tunnels.map { |t| valves[t] }
   end
 end
 
 class Status
   attr_reader :valve, :prev_valve, :open_valves, :score, :time_left
+
   def initialize(valve, prev_valve, open_valves, score, time_left)
     @valve = valve
     @prev_valve = prev_valve
@@ -66,7 +62,7 @@ class Status
   end
 
   def open
-    next_time_left = @time_left -1
+    next_time_left = @time_left - 1
     next_score = @valve.flow * next_time_left + @score
     next_open_valves = Array.new(open_valves) << @valve
     Status.new(@valve, nil, next_open_valves, next_score, next_time_left)
@@ -80,10 +76,10 @@ end
 class Solver2
   def initialize(input)
     @valves = {}
-    input.map{|line| Valve.new(line)}
-      .each {|valve| @valves[valve.name] = valve}
-    @valves.values.each{|valve| valve.set_valves(@valves)}
-    flows = @valves.values.map{|v| v.flow}
+    input.map { |line| Valve.new(line) }
+         .each { |valve| @valves[valve.name] = valve }
+    @valves.values.each { |valve| valve.valves = @valves }
+    @valves.values.map { |v| v.flow }
   end
 
   def solve
@@ -96,10 +92,7 @@ class Solver2
 
   def recurse(group_status)
     if group_status.time_left == 0 || group_status.closed_valves.empty?
-      if group_status.score > @best_score
-        @best_score = group_status.score
-        p @best_score
-      end
+      @best_score = group_status.score if group_status.score > @best_score
       return
     end
     return if group_status.cant_match(@best_score)
@@ -108,12 +101,13 @@ class Solver2
     time_left = group_status.time_left - 1
     next_statuses[0].each do |next_status0|
       next_statuses[1].each do |next_status1|
-        next if next_status0.prev_valve == nil && next_status0 == next_status1
+        next if next_status0.prev_valve.nil? && next_status0 == next_status1
+
         closed_valves = group_status.closed_valves
         open_valves = group_status.open_valves
         score = group_status.score
         recurse(GroupStatus.new([next_status0, next_status1],
-          closed_valves, open_valves, score, time_left))
+                                closed_valves, open_valves, score, time_left))
       end
     end
   end
@@ -121,6 +115,7 @@ end
 
 class SingleStatus
   attr_reader :valve, :prev_valve
+
   def initialize(valve, prev_valve)
     @valve = valve
     @prev_valve = prev_valve
@@ -134,15 +129,16 @@ class SingleStatus
     SingleStatus.new(valve, @valve)
   end
 
-  def ==(status)
-    @valve == status.valve && @prev_valve == status.prev_valve
+  def ==(other)
+    @valve == other.valve && @prev_valve == other.prev_valve
   end
 end
 
 class GroupStatus
   attr_reader :statuses, :closed_valves, :open_valves, :score, :time_left
+
   def initialize(statuses, closed_valves, open_valves, score, time_left)
-    if statuses.any?{|st| st.prev_valve == nil}
+    if statuses.any? { |st| st.prev_valve.nil? }
       @open_valves = Array.new(open_valves)
       @closed_valves = Array.new(closed_valves)
     else
@@ -153,11 +149,11 @@ class GroupStatus
     @score = score
     @time_left = time_left
     statuses.each do |status|
-      if status.prev_valve == nil
-        @open_valves << status.valve
-        @closed_valves.delete(status.valve)
-        @score += time_left * status.valve.flow
-      end
+      next unless status.prev_valve.nil?
+
+      @open_valves << status.valve
+      @closed_valves.delete(status.valve)
+      @score += time_left * status.valve.flow
     end
   end
 
@@ -173,6 +169,6 @@ class GroupStatus
   end
 
   def cant_match(best_score)
-    @time_left * @closed_valves.map{|v| v.flow}.sum + @score < best_score
+    @time_left * @closed_valves.map { |v| v.flow }.sum + @score < best_score
   end
 end

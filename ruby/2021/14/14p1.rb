@@ -1,7 +1,6 @@
 class Solver
-
   def initialize(file)
-    data = File.open(file).readlines.collect{|l| l.strip}
+    data = File.open(file).readlines.collect { |l| l.strip }
 
     @base = data.shift.split('')
     data.shift # removes empty line
@@ -27,7 +26,7 @@ class Solver
 
   def do_step
     acc = []
-    while !@base.empty? do
+    until @base.empty?
       new_char = @transformations[@base[0..1]]
       acc << @base.shift
       acc << new_char if new_char != ''
@@ -37,14 +36,12 @@ class Solver
   end
 
   def step(n)
-    n.times {|i|
+    n.times do |i|
       p i
-      do_step()
+      do_step
       p @base.length
-    }
+    end
   end
-
-
 end
 
 solver = Solver.new('14-input')

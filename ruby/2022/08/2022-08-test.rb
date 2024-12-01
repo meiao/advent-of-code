@@ -28,6 +28,6 @@ class Test2022_08 < Minitest::Test
     file_name = File.join(File.dirname(__FILE__), './input')
     input = File.open(file_name).readlines
     solver = Solver.new(input)
-    assert_equal(392080, solver.solve2)
+    assert_equal(392_080, solver.solve2)
   end
 end

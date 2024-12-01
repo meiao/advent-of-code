@@ -1,13 +1,11 @@
 class Processor
-
   def initialize
-
     lines = File.open('13.input.parsed').readlines
 
     @matrix = {}
     lines.each do |line|
       p1, v, p2 = line.split(' ')
-      @matrix[p1] = {} if @matrix[p1] == nil
+      @matrix[p1] = {} if @matrix[p1].nil?
       @matrix[p1][p2] = v.to_i
     end
   end
@@ -15,18 +13,18 @@ class Processor
   def happy(people)
     size = people.size
     happyness = 0
-    (0..(size-1)).each do |index|
+    (0..(size - 1)).each do |index|
       p = people[index]
       l = people[(index - 1) % size]
       r = people[(index + 1) % size]
       happyness += @matrix[p][l]
       happyness += @matrix[p][r]
     end
-    return happyness
+    happyness
   end
 
   def calc_max(people)
-    max = -10000000000000000000000000
+    max = -10_000_000_000_000_000_000_000_000
     people.permutation do |perm|
       v = happy(perm)
       max = v if max < v
@@ -49,7 +47,6 @@ class Processor
     people = @matrix.keys
     calc_max(people)
   end
-
 end
 
 Processor.new.part2

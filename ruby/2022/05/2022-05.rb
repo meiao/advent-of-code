@@ -9,10 +9,11 @@
 class Solver
   def solve(input)
     stacks = []
-    stacks[0] = [''] #guard
+    stacks[0] = [''] # guard
     while true
       line = input.shift.strip.chars
       break if line.empty?
+
       column = line.pop.to_i
       stacks[column] = line
     end
@@ -34,10 +35,11 @@ end
 class Solver2
   def solve(input)
     stacks = []
-    stacks[0] = [''] #guard
+    stacks[0] = [''] # guard
     while true
       line = input.shift.strip.chars
       break if line.empty?
+
       column = line.pop.to_i
       stacks[column] = line
     end

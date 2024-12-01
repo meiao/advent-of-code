@@ -1,9 +1,9 @@
-#input = '389125467'
+# input = '389125467'
 input = '538914762'
-moves = 10000000
+moves = 10_000_000
 
 require './node'
-cups = input.split('').map{|num| num.to_i}
+cups = input.split('').map { |num| num.to_i }
 map = []
 
 head = Node.new(cups.shift)
@@ -13,44 +13,41 @@ map[head.value] = head
 cups.each do |cup|
   node = Node.new(cup)
   map[cup] = node
-  tail.next= node
+  tail.next = node
   tail = node
 end
 
-(10..1000000).each do |cup|
+(10..1_000_000).each do |cup|
   node = Node.new(cup)
   map[cup] = node
-  tail.next= node
-  tail = node  
+  tail.next = node
+  tail = node
 end
 
-moves.times do |i|
-
+moves.times do |_i|
   cur = head
   head = head.next
-  cur.next= nil
+  cur.next = nil
 
   moving = head
   cut_off = moving.next.next
   head = cut_off.next
-  cut_off.next= nil
+  cut_off.next = nil
 
   moving_vals = [moving.value, moving.next.value, moving.next.next.value]
   search = cur.value - 1
-  search = map.size() - 1 if search == 0
+  search = map.size - 1 if search == 0
 
   while moving_vals.include?(search)
     search -= 1
-    search = map.size() - 1 if search == 0
+    search = map.size - 1 if search == 0
   end
 
   map[search].insert(moving)
 
-  while tail.next != nil
-    tail = tail.next
-  end
+  tail = tail.next until tail.next.nil?
 
-  tail.next= cur
+  tail.next = cur
   tail = cur
 end
 

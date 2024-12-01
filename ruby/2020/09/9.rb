@@ -5,34 +5,32 @@ numbers = []
   numbers << lines.shift.to_i
 end
 
-
 lines.each do |line|
   v = line.to_i
   found = false
   numbers.each do |n|
-    if numbers.include?(v - n)
-      not_double = v != 2 * n
-      has_dupe_n = numbers.count(n) > 1
-      if not_double || has_dupe_n
-        numbers.shift
-        numbers << v
-        found = true
-        break
-      end
-    end
+    next unless numbers.include?(v - n)
 
+    not_double = v != 2 * n
+    has_dupe_n = numbers.count(n) > 1
+    next unless not_double || has_dupe_n
+
+    numbers.shift
+    numbers << v
+    found = true
+    break
   end
-  if !found
+  unless found
     puts v
     break
   end
 end
 
-nums = lines.map{|n| n.to_i}
+nums = lines.map { |n| n.to_i }
 
 l = 0
 r = 1
-expected = 21806024
+expected = 21_806_024
 while true
   sum = nums[l..r].sum
   if sum == expected

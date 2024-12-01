@@ -24,7 +24,7 @@ module Snafu
         dec += 1
       end
     end
-    return snafu.join
+    snafu.join
   end
 
   def self.to_dec(snafu)
@@ -48,12 +48,11 @@ end
 
 class Solver
   def solve(input)
-    sum = input.map{|line| Snafu.to_dec(line.strip)}.sum
-    Snafu::from_dec(sum)
+    sum = input.map { |line| Snafu.to_dec(line.strip) }.sum
+    Snafu.from_dec(sum)
   end
 end
 
 class Solver2
-  def solve
-  end
+  def solve; end
 end

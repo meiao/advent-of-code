@@ -1,4 +1,4 @@
-#35784 too low
+# 35784 too low
 class Card
   def initialize(lines)
     @row_count = [0, 0, 0, 0, 0]
@@ -19,11 +19,12 @@ class Card
     @row_count[row] += 1
     @column_count[column] += 1
     return true if @row_count[row] == 5 || @column_count[column] == 5
+
     false
   end
 
   def score(draw, last_number)
-    sum = @map.each_key.reduce {|x, y| x.to_i + y.to_i}
+    sum = @map.each_key.reduce { |x, y| x.to_i + y.to_i }
     draw.each do |number|
       sum -= number.to_i if @map.include? number
       break if number == last_number
@@ -37,15 +38,15 @@ class Card
   end
 end
 
-lines = File.open('4-input').readlines.collect {|l| l.strip }
+lines = File.open('4-input').readlines.collect { |l| l.strip }
 
 draw = lines.shift.split(',')
-lines.shift #remove empty line
+lines.shift # remove empty line
 
 cards = []
 while lines.size > 4
   cards << Card.new(lines.shift(5))
-  lines.shift #remove empty line
+  lines.shift # remove empty line
 end
 
 last_number = nil
@@ -53,26 +54,24 @@ winner_card = nil
 has_winner = false
 draw.each do |number|
   cards.each do |card|
-    if card.accept(number)
-      last_number = number
-      winner_card = card
-      has_winner = true
-      break
-    end
+    next unless card.accept(number)
+
+    last_number = number
+    winner_card = card
+    has_winner = true
+    break
   end
   break if has_winner
 end
 
 puts winner_card.score(draw, last_number)
 
-cards.each {|card| card.reset}
+cards.each { |card| card.reset }
 
 draw.each do |number|
   cards_to_remove = []
   cards.each do |card|
-    if card.accept(number)
-      cards_to_remove << card
-    end
+    cards_to_remove << card if card.accept(number)
   end
 
   if !cards_to_remove.empty? && cards.size == 1

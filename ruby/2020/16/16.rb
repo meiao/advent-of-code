@@ -17,7 +17,7 @@ class Processor
     @valid_ranges.each do |range|
       return true if range[0] <= number && number <= range[1]
     end
-    return false
+    false
   end
 
   def part1
@@ -27,17 +27,15 @@ class Processor
       has_invalid_field = false
       ticket.split(',').each do |n|
         number = n.to_i
-        if !valid?(number)
+        unless valid?(number)
           errors += number
           has_invalid_field = true
         end
       end
-      puts ticket.to_s if !has_invalid_field
-
+      puts ticket unless has_invalid_field
     end
     errors
   end
-
 end
 
 puts Processor.new.part1

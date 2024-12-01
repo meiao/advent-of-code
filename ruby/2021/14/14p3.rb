@@ -1,7 +1,6 @@
 class Solver
-
   def initialize(file)
-    data = File.open(file).readlines.collect{|l| l.strip}
+    data = File.open(file).readlines.collect { |l| l.strip }
 
     @base = data.shift
     data.shift # removes empty line
@@ -29,7 +28,6 @@ class Solver
     next_pairs
   end
 
-
   def solve(steps)
     sum = {}
     sum.default = 0
@@ -37,7 +35,7 @@ class Solver
     current_pairs = {}
     current_pairs.default = 0
     (@base.length - 1).times do |i|
-      current_pairs[@base[i..i+1]] += 1
+      current_pairs[@base[i..i + 1]] += 1
     end
 
     @base.each_char do |c|
