@@ -33,7 +33,6 @@ class Solver
     end
     sum = 0
     valid_keys.each do |key|
-      p "#{key} * #{count_map[key]} = #{key * count_map[key]}"
       sum += key * count_map[key]
     end
     sum
