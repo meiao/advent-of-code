@@ -1,35 +1,30 @@
-use std::collections::HashMap;
-
 fn part1(input: Vec<&str>) -> usize {
-    input.iter()
-        .map(convert_line)
-        .filter(safe)
-        .count()
+    input.iter().map(convert_line).filter(safe).count()
 }
 
 fn convert_line(line: &&str) -> Vec<i64> {
-    line.split_whitespace().map(&str::parse::<i64>)
+    line.split_whitespace()
+        .map(&str::parse::<i64>)
         .map(Result::unwrap)
         .collect()
 }
 
 fn safe(levels: &Vec<i64>) -> bool {
-    let increasing = &levels[0] < &levels[1];
-    for i in 0..(levels.len() -1) {
+    for i in 0..(levels.len() - 1) {
         let diff = levels[i] - levels[i + 1];
-        let still_increasing = levels[i] < levels[i+1];
-        if diff == 0 || diff.abs() > 3 || (increasing != still_increasing) {
-            return false
+        if diff == 0 || diff.abs() > 3 {
+            return false;
         }
+    }
+
+    if !levels.is_sorted() && !levels.is_sorted_by(|a,b| b <= a) {
+        return false;
     }
     true
 }
 
 fn part2(input: Vec<&str>) -> usize {
-    input.iter()
-        .map(convert_line)
-        .filter(safe2)
-        .count()
+    input.iter().map(convert_line).filter(safe2).count()
 }
 
 fn safe2(levels: &Vec<i64>) -> bool {
