@@ -15,13 +15,11 @@ class Solver
   end
 
   def safe?(nums)
-    sorted = nums.sort
-    return false unless nums == sorted || nums == sorted.reverse
-    for i in 0..(nums.length - 2)
-      diff = (nums[i] - nums[i+1]).abs
-      if diff == 0 || diff > 3
-        return false
-      end
+    return false unless nums.sorted? || nums.reverse.sorted?
+
+    (0..(nums.length - 2)).each do |i|
+      diff = (nums[i] - nums[i + 1]).abs
+      return false if diff == 0 || diff > 3
     end
     true
   end
@@ -37,11 +35,18 @@ class Solver
 
   def safe2?(nums)
     return true if safe?(nums)
-    for i in 0..(nums.length - 1)
+
+    (0..(nums.length - 1)).each do |i|
       without_i = nums.dup
       without_i.delete_at(i)
       return true if safe?(without_i)
     end
     false
+  end
+end
+
+module Enumerable
+  def sorted?
+    each_cons(2).all? { |a, b| (a <=> b) <= 0 }
   end
 end
