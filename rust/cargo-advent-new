@@ -1,0 +1,123 @@
+#!/bin/bash
+
+if [ ! -f "Cargo.toml" ]; then
+  echo "Not in a Rust project."
+  exit 1;
+fi
+
+if [ "$1" = "advent-new" ]; then
+  year=$2
+  day=$3
+else
+  year=$1
+  day=$2
+fi
+
+year_regex="20[12][0-9]"
+if [[ ! $year =~ $year_regex ]]; then
+  echo "Invalid year: $year"
+  exit 2
+fi
+
+day_regex="[012][0-9]"
+if [[ ! $day =~ $day_regex ]]; then
+  echo "Invalid day: $day"
+  exit 3
+fi
+
+year_mod_str="mod y$year;"
+has_year_mod=$(cat src/lib.rs | grep "$year_mod_str" | wc -l)
+
+if [ "$has_year_mod" = "0" ]; then
+  echo "Creating module for year: $year"
+  ends_line_break=$(tail -c 1 src/lib.rs | wc -l)
+  if [ ! "$ends_line_break" = "1" ]; then
+    echo "" >> src/lib.rs
+  fi
+  echo -e "$year_mod_str" >> src/lib.rs
+fi
+
+year_dir="src/y$year"
+if [ ! -d "$year_dir" ]; then
+  echo "Creating year dir."
+  mkdir $year_dir
+fi
+
+year_mod_file="$year_dir/mod.rs"
+if [ ! -f "$year_mod_file" ]; then
+  echo "Creating year mod file."
+  touch $year_mod_file
+fi
+
+day_mod_str="mod day$day;"
+has_day_mod=$(cat $year_mod_file | grep "$day_mod_str" | wc -l)
+
+if [ "$has_day_mod" = "0" ]; then
+  echo "Creating module for day: $day"
+  ends_line_break=$(tail -c 1 $year_mod_file | wc -l)
+  if [ ! "$ends_line_break" = "1" ]; then
+    echo "" >> $year_mod_file
+  fi
+  echo -e "$day_mod_str" >> $year_mod_file
+fi
+
+day_dir="$year_dir/day$day"
+if [ ! -d "$day_dir" ]; then
+  echo "Creating day dir."
+  mkdir $day_dir
+fi
+
+day_mod_file="$day_dir/mod.rs"
+if [ ! -f "$day_mod_file" ]; then
+  echo "Creating day mod file."
+  touch $day_mod_file
+  cat > $day_mod_file <<EOL
+fn part1(input: Vec<&str>) -> i64 {
+  0
+}
+
+fn part2(input: Vec<&str>) -> u64 {
+  0
+}
+
+#[cfg(test)]
+mod test;
+EOL
+fi
+
+day_test_file="$day_dir/test.rs"
+if [ ! -f "$day_test_file" ]; then
+  echo "Creating day test file."
+  touch $day_test_file
+  cat > $day_test_file <<EOL
+use super::*;
+
+#[test]
+fn test_${year}_${day}_part_1_small() {
+    let result = part1(INPUT_SMALL.split("\n").collect());
+    assert_eq!(result, 1);
+}
+
+#[test]
+fn test_${year}_${day}_part_1_big() {
+    let result = part1(INPUT.split("\n").collect());
+    assert_eq!(result, 1);
+}
+
+#[test]
+fn test_${year}_${day}_part_2_small() {
+    let result = part2(INPUT_SMALL.split("\n").collect());
+    assert_eq!(result, 1);
+}
+
+#[test]
+fn test_${year}_${day}_part_2_big() {
+    let result = part2(INPUT.split("\n").collect());
+    assert_eq!(result, 1);
+}
+
+const INPUT_SMALL: &str = r#""#;
+
+const INPUT: &str = r#""#;
+EOL
+fi
