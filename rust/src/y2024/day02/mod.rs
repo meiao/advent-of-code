@@ -17,7 +17,7 @@ fn safe(levels: &Vec<i64>) -> bool {
         }
     }
 
-    if !levels.is_sorted() && !levels.is_sorted_by(|a,b| b <= a) {
+    if !levels.is_sorted() && !levels.is_sorted_by(|a, b| b <= a) {
         return false;
     }
     true
