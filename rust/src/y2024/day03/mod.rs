@@ -32,17 +32,21 @@ fn execute(input: Vec<&str>) -> u64 {
             enabled = false;
         } else if enabled {
             // at this point, cmd is a mul(x,y), only process if enabled
-            let nums = cmd
-                .get(4..(cmd.len() - 1)) // keep only x,y
-                .unwrap()
-                .split(",")
-                .map(&str::parse::<u64>)
-                .map(Result::unwrap)
-                .collect::<Vec<u64>>();
-            sum += nums[0] * nums[1];
+            sum += execute_mul(cmd)
         }
     });
     sum
+}
+
+fn execute_mul(mul: &str) -> u64 {
+    mul
+        .get(4..(mul.len() - 1)) // keep only x,y
+        .unwrap()
+        .split(",")
+        .map(&str::parse::<u64>)
+        .map(Result::unwrap)
+        .reduce(|acc, num| acc * num)
+        .unwrap()
 }
 
 #[cfg(test)]
