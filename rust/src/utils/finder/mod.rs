@@ -5,10 +5,6 @@ pub struct Finder {
 }
 
 impl Finder {
-    pub fn from_grid(grid: Grid) -> Finder {
-        Finder { grid }
-    }
-
     pub fn create(data: &Vec<&str>) -> Finder {
         Finder {
             grid: Grid::create(data),
