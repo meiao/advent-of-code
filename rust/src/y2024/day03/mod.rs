@@ -39,8 +39,7 @@ fn execute(input: Vec<&str>) -> u64 {
 }
 
 fn execute_mul(mul: &str) -> u64 {
-    mul
-        .get(4..(mul.len() - 1)) // keep only x,y
+    mul.get(4..(mul.len() - 1)) // keep only x,y
         .unwrap()
         .split(",")
         .map(&str::parse::<u64>)
