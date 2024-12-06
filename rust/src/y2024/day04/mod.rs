@@ -17,20 +17,33 @@ fn part2(input: Vec<&str>) -> i64 {
 }
 
 fn check_diagonals(origin: &[usize; 2], grid: &Grid) -> bool {
-  check_diagonal([[origin[0] + 1, origin[1] + 1], [origin[0] - 1, origin[1] - 1]], grid) &&
-      check_diagonal([[origin[0] + 1, origin[1] -1], [origin[0] - 1, origin[1] + 1]], grid)
+    check_diagonal(
+        [
+            [origin[0] + 1, origin[1] + 1],
+            [origin[0] - 1, origin[1] - 1],
+        ],
+        grid,
+    ) && check_diagonal(
+        [
+            [origin[0] + 1, origin[1] - 1],
+            [origin[0] - 1, origin[1] + 1],
+        ],
+        grid,
+    )
 }
 
 fn check_diagonal(positions: [[usize; 2]; 2], grid: &Grid) -> bool {
-  let chars: Vec<char> = positions.iter().map(|pos| grid.char_at(pos)).filter(Option::is_some)
-      .map(Option::unwrap)
-      .collect();
-  if !chars.contains(&'M') || !chars.contains(&'S') {
-    return false;
-  }
-  true
+    let chars: Vec<char> = positions
+        .iter()
+        .map(|pos| grid.char_at(pos))
+        .filter(Option::is_some)
+        .map(Option::unwrap)
+        .collect();
+    if !chars.contains(&'M') || !chars.contains(&'S') {
+        return false;
+    }
+    true
 }
-
 
 #[cfg(test)]
 mod test;
