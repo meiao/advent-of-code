@@ -38,13 +38,22 @@ class Finder
     @grid = grid
   end
 
+  # value should be an array of char
   def find4way(value)
     find([[0, 1], [0, -1], [1, 0], [-1, 0]], value)
   end
 
+  # value should be an array of char
   def find8way(value)
     find([[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]], value)
   end
+
+  # value should be a single char
+  def find_single_char(value)
+    find([[0,0]], [value])
+  end
+
+  private
 
   def find(directions, value)
     results = []
@@ -56,8 +65,6 @@ class Finder
     end
     results
   end
-
-  private
 
   def search_cell(cell, directions, value)
     return [] if @grid[cell] != value[0]
