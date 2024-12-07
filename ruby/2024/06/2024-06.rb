@@ -12,11 +12,11 @@ class Solver
     @start_point = Finder.new(@grid).find_single_char('^')[0][0]
   end
 
-  def solve()
-    visited_positions().count
+  def solve
+    visited_positions.count
   end
 
-  def visited_positions()
+  def visited_positions
     dir = Direction.new
     position = @start_point
     positions = Hash.new(false)
@@ -28,13 +28,13 @@ class Solver
         next_pos = [position[0] + dir[0], position[1] + dir[1]]
       end
       next_char = @grid[next_pos]
-      break unless next_char == '.' || next_char == '^'
+      break unless ['.', '^'].include?(next_char)
+
       position = next_pos
       positions[position] = true
     end
     positions
   end
-
 
   def print_grid(positions)
     limits = @grid.limits
@@ -52,16 +52,14 @@ class Solver
       puts
     end
     puts
-
   end
 
-
-  def solve2()
+  def solve2
     visited_positions = visited_positions()
     visited_positions.delete(@start_point)
-    visited_positions.filter { |new_wall|
+    visited_positions.filter do |new_wall|
       loop?(new_wall)
-    }.count
+    end.count
   end
 
   # This is roughly the same navigation code as the first part
@@ -81,12 +79,13 @@ class Solver
         next_pos = [position[0] + dir[0], position[1] + dir[1]]
       end
       return false if @grid[next_pos].nil?
+
       position = next_pos
       vec = [position, dir.simple]
       return true if positions[vec]
+
       positions[vec] = true
     end
-    positions
     true
   end
 end
@@ -97,15 +96,16 @@ class Direction
   end
 
   def turn_right
-    if @cur == [0, -1]
-      @cur = [1, 0]
-    elsif @cur == [1, 0]
-      @cur = [0, 1]
-    elsif @cur == [0, 1]
-      @cur = [-1, 0]
-    else
-      @cur = [0, -1]
-    end
+    @cur = case @cur
+           when [0, -1]
+             [1, 0]
+           when [1, 0]
+             [0, 1]
+           when [0, 1]
+             [-1, 0]
+           else
+             [0, -1]
+           end
   end
 
   def [](index)
@@ -115,5 +115,4 @@ class Direction
   def simple
     [@cur[0], @cur[1]]
   end
-
 end

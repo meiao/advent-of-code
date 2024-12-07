@@ -50,7 +50,7 @@ class Finder
 
   # value should be a single char
   def find_single_char(value)
-    find([[0,0]], [value])
+    find([[0, 0]], [value])
   end
 
   private
