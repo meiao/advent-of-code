@@ -11,24 +11,27 @@ class Solver
     disk_map.pop if disk_map.size.even?
     memory = []
     i = 0
-    loop do
-      break if i >= disk_map.size
+    while i < disk_map.size
 
       # when i is even, the position holds a file
       if i.even?
-        disk_map[i].times { memory << i / 2 }
+        file_id = i / 2
+        disk_map[i].times { memory << file_id }
         i += 1
         # below, it is a empty space, so try to move the last file in
       elsif disk_map[i] == disk_map[-1]
-        disk_map[i].times { memory << disk_map.size / 2 }
+        file_id = disk_map.size / 2
+        disk_map[i].times { memory << file_id }
         disk_map.pop(2)
         i += 1
       elsif disk_map[i] < disk_map[-1]
-        disk_map[i].times { memory << disk_map.size / 2 }
+        file_id = disk_map.size / 2
+        disk_map[i].times { memory << file_id }
         disk_map[-1] -= disk_map[i]
         i += 1
       else # disk_map[i] > disk_map[-1]
-        disk_map[-1].times { memory << disk_map.size / 2 }
+        file_id = disk_map.size / 2
+        disk_map[-1].times { memory << file_id }
         disk_map[i] -= disk_map[-1]
         disk_map.pop(2)
       end
@@ -90,10 +93,10 @@ class Solver
 
   def checksum2(files)
     sum = 0
+    # [start_index, length] = values
     files.each_with_index do |values, file_id|
-      values[1].times do |i|
-        sum += (values[0] + i) * file_id
-      end
+      sum_indexes = values[0] * values[1] + (values[1] - 1) * values[1] / 2
+      sum += file_id * sum_indexes
     end
     sum
   end
