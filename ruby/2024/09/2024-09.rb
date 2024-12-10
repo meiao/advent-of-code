@@ -9,40 +9,43 @@ class Solver
     disk_map = input[0].strip.split('').map(&:to_i)
     # if there is an even number of entries, the last entry is for empty space
     disk_map.pop if disk_map.size.even?
-    memory = []
-    i = 0
+
+    # first file is 0, so it will not add to checksum
+    i = 1
+    memory_position = disk_map[0]
+    checksum = 0
     while i < disk_map.size
 
       # when i is even, the position holds a file
       if i.even?
         file_id = i / 2
-        disk_map[i].times { memory << file_id }
+        length = disk_map[i]
+        checksum += file_id * ((memory_position * length) + (length - 1) * length / 2)
+        memory_position += length
         i += 1
         # below, it is a empty space, so try to move the last file in
       elsif disk_map[i] == disk_map[-1]
         file_id = disk_map.size / 2
-        disk_map[i].times { memory << file_id }
+        length = disk_map[i]
+        checksum += file_id * ((memory_position * length) + (length - 1) * length / 2)
+        memory_position += length
         disk_map.pop(2)
         i += 1
       elsif disk_map[i] < disk_map[-1]
         file_id = disk_map.size / 2
-        disk_map[i].times { memory << file_id }
-        disk_map[-1] -= disk_map[i]
+        length = disk_map[i]
+        checksum += file_id * ((memory_position * length) + (length - 1) * length / 2)
+        memory_position += length
+        disk_map[-1] -= length
         i += 1
       else # disk_map[i] > disk_map[-1]
         file_id = disk_map.size / 2
-        disk_map[-1].times { memory << file_id }
-        disk_map[i] -= disk_map[-1]
+        length = disk_map[-1]
+        checksum += file_id * ((memory_position * length) + (length - 1) * length / 2)
+        memory_position += length
+        disk_map[i] -= length
         disk_map.pop(2)
       end
-    end
-    checksum(memory)
-  end
-
-  def checksum(memory)
-    checksum = 0
-    (1..(memory.size - 1)).each do |i|
-      checksum += i * memory[i]
     end
     checksum
   end
