@@ -70,7 +70,10 @@ fn part2(input: &str) -> u64 {
     for i in 0..disk_map.len() {
         let size = disk_map[i];
         if i % 2 == 0 {
-            files.push(FileInfo{start_pos: memory_position, size})
+            files.push(FileInfo {
+                start_pos: memory_position,
+                size,
+            })
         } else {
             free_space.insert(memory_position, size);
         }
@@ -106,7 +109,6 @@ fn new_position(free_space: &HashMap<u64, u64>, file_info: &FileInfo) -> Option<
     }
     None
 }
-
 
 struct FileInfo {
     start_pos: u64,
