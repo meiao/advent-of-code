@@ -72,11 +72,11 @@ if [ ! -f "$day_mod_file" ]; then
   echo "Creating day mod file."
   touch $day_mod_file
   cat > $day_mod_file <<EOL
-fn part1(input: Vec<&str>) -> i64 {
+fn part1(input: Vec<&str>) -> u64 {
   0
 }
 
-fn part2(input: Vec<&str>) -> i64 {
+fn part2(input: Vec<&str>) -> u64 {
   0
 }
 

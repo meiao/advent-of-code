@@ -11,6 +11,10 @@ impl Finder {
         }
     }
 
+    pub fn grid(self) -> Grid {
+        self.grid
+    }
+
     pub fn find(&self, value: &str) -> Vec<Vector> {
         if value.is_empty() {
             vec![]
