@@ -26,13 +26,20 @@ class HashGrid
     @map.delete(pos)
   end
 
+  def find(value)
+    @map.filter { |_k, v| v == value }.keys[0]
+  end
+
   attr_reader :map
 
-  def to_s
+  def to_s(overrides = {})
     str = ''
     (0..@limits[1]).each do |y|
       (0..@limits[0]).each do |x|
-        str += @map[[x, y]]
+        pos = [x, y]
+        char = overrides[pos]
+        char = @map[pos] if char.nil?
+        str += char
       end
       str += "\n"
     end
