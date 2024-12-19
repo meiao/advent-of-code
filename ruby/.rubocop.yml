@@ -4,5 +4,8 @@ Lint/ScriptPermission:
   Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: false
+
 AllCops:
   NewCops: enable
