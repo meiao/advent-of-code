@@ -74,6 +74,6 @@ class Solver
       @in_best_path[pos] = 'O'
       return true
     end
-    return false
+    false
   end
 end
