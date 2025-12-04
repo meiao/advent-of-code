@@ -3,7 +3,6 @@ require_relative '2025-01'
 
 # Tests for 2025 day 01
 class Test2025_01 < Minitest::Test
-
   def test_rot
     dial = Dial.new
     assert_equal(50, dial.num)
@@ -31,9 +30,9 @@ class Test2025_01 < Minitest::Test
   end
 
   def test_part2
-   file_name = File.join(File.dirname(__FILE__), './input')
-   input = File.open(file_name).readlines.map(&:strip)
-   solver = Solver.new
-   assert_equal(6, solver.solve2(input))
+    file_name = File.join(File.dirname(__FILE__), './input')
+    input = File.open(file_name).readlines.map(&:strip)
+    solver = Solver.new
+    assert_equal(6, solver.solve2(input))
   end
 end

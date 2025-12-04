@@ -50,7 +50,7 @@ class Dial
     else
       @num -= value
     end
-    @num = @num %100
+    @num %= 100
     @num
   end
 end
