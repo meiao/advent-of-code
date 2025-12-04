@@ -45,7 +45,6 @@ def create_files(file_data)
   apply_template('./skel/src.erb', "./#{file_data.base_filepath}.rb", file_data)
   apply_template('./skel/test.erb', "./#{file_data.base_filepath}-test.rb", file_data)
   FileUtils.touch("#{file_data.folder}/input")
-  FileUtils.touch("#{file_data.folder}/input.small")
 end
 
 def apply_template(template_file, destination, file_data)
