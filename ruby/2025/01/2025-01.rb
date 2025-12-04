@@ -7,50 +7,35 @@
 class Solver
   def solve(input)
     dial = Dial.new
-    zeroes = 0
     input.each do |cmd|
       dial.rotate(cmd)
-      zeroes += 1 if dial.num == 0
     end
-    zeroes
-  end
-
-  def solve2(input)
-    dial = Dial.new
-    prev = dial.num
-    zeroes = 0
-    input.each do |cmd|
-      zeroes += passed_0(prev, cmd)
-      prev = dial.rotate(cmd)
-    end
-    zeroes
-  end
-
-  def passed_0(prev, cmd)
-    value = cmd[1..].to_i
-    if cmd[0] == 'R' || prev == 0
-      (prev + value) / 100
-    else
-      (100 - prev + value) / 100
-    end
+    dial
   end
 end
 
 class Dial
-  attr_reader :num
+  attr_reader :num, :at_zero, :passed_zero
 
   def initialize
     @num = 50
+    @at_zero = 0
+    @passed_zero = 0
   end
 
   def rotate(cmd)
+    was_at_zero = @num == 0
     value = cmd[1..].to_i
     if cmd[0] == 'R'
       @num += value
     else
       @num -= value
     end
+    @passed_zero += @num.abs / 100
+    @passed_zero += 1 if @num == 0
+    @passed_zero += 1 if @num < 0 && !was_at_zero
+
     @num %= 100
-    @num
+    @at_zero += 1 if @num == 0
   end
 end
