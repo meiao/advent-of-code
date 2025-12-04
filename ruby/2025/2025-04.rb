@@ -18,7 +18,7 @@ class Solver
       removable_keys.each {|key|map.delete(key)}
       break unless repeat && !removable_keys.empty?
 
-      # for the next iteration, only rows neighboring a removed roll will be checked
+      # for the next iteration, only rolls neighboring a removed roll will be checked
       keys_to_check = affected_keys(map, removable_keys)
     end
     initial_rolls - map.size
