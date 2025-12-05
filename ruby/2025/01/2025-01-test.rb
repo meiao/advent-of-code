@@ -51,5 +51,4 @@ class Test2025_01 < Minitest::Test
     # part 2
     assert_equal(6, dial.passed_zero)
   end
-
 end

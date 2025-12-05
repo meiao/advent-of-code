@@ -47,8 +47,8 @@ class Solver
     affected_keys = Hash.new(false)
     removed_keys.each do |key|
       neighbors(key)
-        .select { |pos| map[pos] }                        # keep only positions that currently have a roll
-        .each { |pos| affected_keys[pos] = true }         # save to "set"
+        .select { |pos| map[pos] }                # keep only positions that currently have a roll
+        .each { |pos| affected_keys[pos] = true } # save to "set"
     end
     affected_keys.keys
   end
