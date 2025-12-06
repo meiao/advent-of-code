@@ -7,13 +7,13 @@ class Test2025_06 < Minitest::Test
     file_name = File.join(File.dirname(__FILE__), './input')
     input = File.open(file_name).readlines.map(&:strip)
     solver = Solver.new
-    assert_equal(4277556, solver.solve(input))
+    assert_equal(4_277_556, solver.solve(input))
   end
 
   def test_part2
-   file_name = File.join(File.dirname(__FILE__), './input')
-   input = File.open(file_name).readlines
-   solver = Solver.new
-   assert_equal(3263827, solver.solve2(input))
+    file_name = File.join(File.dirname(__FILE__), './input')
+    input = File.open(file_name).readlines
+    solver = Solver.new
+    assert_equal(3_263_827, solver.solve2(input))
   end
 end
