@@ -12,6 +12,12 @@ class Solver
     simulate(input, 1, 0, beam_map)
   end
 
+  # simulates the beams starting in row.
+  # splits is the numbers of splits that happened in the previous rows
+  # beam_map is keyed by column and the value is the number of ways that
+  # a beam got into that column at that row
+  # Return an array with the number of splits that happened since the beginning
+  # of the simulation and the count of beams at the end
   def simulate(input, row, splits, beam_map)
     return [splits, beam_map.values.sum] if row >= input.size
 
