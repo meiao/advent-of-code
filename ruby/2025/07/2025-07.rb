@@ -13,7 +13,7 @@ class Solver
   end
 
   def simulate(input, row, splits, beam_map)
-    return [splits, beam_map.values.sum] if input[row].nil?
+    return [splits, beam_map.values.sum] if row >= input.size
 
     next_beams = Hash.new(0)
     line = input[row]
