@@ -10,22 +10,24 @@ class SumArray
     populate_yield([], @sum, @size, &block)
   end
 
-  def populate_yield(array, sum, size, &block)
-    if size == 1
-      array << sum
-      block.call(array)
-    else
-      (0..sum).each do |i|
-        new_array = array.clone
-        new_array << i
-        populate_yield(new_array, sum - i, size - 1, &block)
-      end
-    end
-  end
-
   def to_a
     array = []
     populate_yield([], @sum, @size) { |i| array << i }
     array
   end
+
+  private
+  def populate_yield(array, sum, size, &block)
+    if size == 1
+      block.call(array.clone << sum)
+    else
+      array << 0
+      (0..sum).each do |i|
+        array[-1] = i
+        populate_yield(array, sum - i, size - 1, &block)
+      end
+      array.pop
+    end
+  end
+
 end
