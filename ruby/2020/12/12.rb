@@ -76,8 +76,8 @@ lines.each do |line|
   elsif action == 'W'
     waypoint[0] -= value
   elsif action == 'F'
-    mv0 = (waypoint[0]) * value
-    mv1 = (waypoint[1]) * value
+    mv0 = waypoint[0] * value
+    mv1 = waypoint[1] * value
     pos[0] += mv0
     pos[1] += mv1
   end

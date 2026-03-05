@@ -13,9 +13,9 @@ class Solver
     limits = grid.limits
     antennas = calc_antennas(grid)
     antennas.values.map { |positions| calc_antinodes(positions) }
-            .flatten(1) # this combines the arrays created by each signal type
-            .filter { |pos| valid?(pos, limits) }
-            .uniq
+                   .flatten(1) # this combines the arrays created by each signal type
+                   .filter { |pos| valid?(pos, limits) }
+                   .uniq
             .count
   end
 
@@ -36,10 +36,10 @@ class Solver
   def calc_antinodes(positions)
     positions.combination(2)
              .map do |p1, p2|
-      x = p1[0] - p2[0]
-      y = p1[1] - p2[1]
-      [[p1[0] + x, p1[1] + y],
-       [p2[0] - x, p2[1] - y]]
+               x = p1[0] - p2[0]
+               y = p1[1] - p2[1]
+               [[p1[0] + x, p1[1] + y],
+                [p2[0] - x, p2[1] - y]]
     end
       .flatten(1) # this combines the arrays created by each combination
   end
@@ -55,7 +55,7 @@ class Solver
     limits = grid.limits
     antennas = calc_antennas(grid)
     antennas.values.map { |positions| calc_antinodes2(positions, limits) }
-            .flatten(1) # this combines the arrays created by each signal type
+                   .flatten(1) # this combines the arrays created by each signal type
             .uniq
             .count
   end
@@ -63,9 +63,9 @@ class Solver
   def calc_antinodes2(positions, limits)
     positions.combination(2)
              .map do |p1, p2|
-      x = p1[0] - p2[0]
-      y = p1[1] - p2[1]
-      calc_line(p1, [x, y], limits)
+               x = p1[0] - p2[0]
+               y = p1[1] - p2[1]
+               calc_line(p1, [x, y], limits)
     end
       .flatten(1) # this combines the arrays created by each combination
   end

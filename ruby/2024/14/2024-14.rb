@@ -12,7 +12,7 @@ class Solver
          .map { |pos| quadrant(pos, middle) }
          .compact
          .each_with_object(Hash.new(0)) do |quad, hash|
-      hash[quad] += 1
+           hash[quad] += 1
     end
          .values
          .inject(:*)

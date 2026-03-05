@@ -26,10 +26,10 @@ class Solver
     until grid[pos] == 'E'
       dirs.map { |dir| posdir(pos, dir) }
           .each do |next_pos|
-        if (grid[next_pos] == '.' || grid[next_pos] == 'E') && path[next_pos] == -1
-          path[next_pos] = path[pos] + 1
-          pos = next_pos
-        end
+            if ['.', 'E'].include?(grid[next_pos]) && path[next_pos] == -1
+              path[next_pos] = path[pos] + 1
+              pos = next_pos
+            end
       end
     end
     path

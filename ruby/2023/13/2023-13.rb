@@ -17,7 +17,7 @@ class Solver
 
     map = rotate(map)
     line = find_reflection_line(map)
-    return (line + 1) unless line.nil?
+    return line + 1 unless line.nil?
 
     puts
   end

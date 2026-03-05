@@ -15,7 +15,7 @@ class Solver
   end
 
   def solve_single(lines, correction)
-    button_regex = /X(?<x>[+\-][0-9]+), Y(?<y>[+\-][0-9]+)/
+    button_regex = /X(?<x>[+-][0-9]+), Y(?<y>[+-][0-9]+)/
     a = button_regex.match(lines[0]).named_captures
     b = button_regex.match(lines[1]).named_captures
     c = /Prize: X=(?<x>\d+), Y=(?<y>\d+)/.match(lines[2]).named_captures

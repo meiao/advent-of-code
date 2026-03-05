@@ -15,7 +15,7 @@ lines.each do |line|
 
   if mine == his
     this_round += 3
-  elsif mine - his == 1 || mine - his == -2
+  elsif [1, -2].include?(mine - his)
     this_round += 6
   end
 
