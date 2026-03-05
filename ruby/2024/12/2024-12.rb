@@ -121,5 +121,4 @@ class Solver
     end
     walls
   end
-
 end

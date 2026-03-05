@@ -17,6 +17,7 @@ class SumArray
   end
 
   private
+
   def populate_yield(array, sum, size, &block)
     if size == 1
       block.call(array.clone << sum)
@@ -29,5 +30,4 @@ class SumArray
       array.pop
     end
   end
-
 end

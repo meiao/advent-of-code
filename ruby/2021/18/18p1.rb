@@ -9,7 +9,7 @@ class Calculator
     value = []
     until data.empty?
       data.shift while data[0] == ','
-      if data[0] == '[' || data[0] == ']'
+      if ['[', ']'].include?(data[0])
         value << data.shift
       else
         v = 0

@@ -11,9 +11,9 @@ class Test2025_08 < Minitest::Test
   end
 
   def test_part2
-   file_name = File.join(File.dirname(__FILE__), './input')
-   input = File.open(file_name).readlines.map(&:strip)
-   solver = Solver.new
-   assert_equal(25272, solver.solve2(input))
+    file_name = File.join(File.dirname(__FILE__), './input')
+    input = File.open(file_name).readlines.map(&:strip)
+    solver = Solver.new
+    assert_equal(25_272, solver.solve2(input))
   end
 end
