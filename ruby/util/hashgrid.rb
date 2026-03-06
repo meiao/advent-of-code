@@ -10,16 +10,30 @@ class HashGrid
     end
   end
 
+  # return nil if pos is out of bounds
   def [](pos)
+    return nil if pos[0] > @limits[0] || pos[1] > @limits[1]
+
     @map[pos]
   end
 
+  def in_bound?(pos)
+    pos[0] <= @limits[0] && pos[1] <= @limits[1]
+  end
+
+  # does nothing if trying to set a value out of bounds
   def []=(pos, value)
+    return if pos[0] > @limits[0] || pos[1] > @limits[1]
+
     @map[pos] = value
   end
 
   def keys
     @map.keys
+  end
+
+  def select(&block)
+    @map.select(&block)
   end
 
   def delete(pos)
