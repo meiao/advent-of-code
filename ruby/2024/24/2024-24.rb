@@ -82,7 +82,7 @@ class Solver
       # looking at the input, there are some rules that are broken:
       # 1. if an output is z, then the operation must be XOR
       # 2. if output is not z and inputs are not x and y, the operation must not be XOR
-      # The following break these rules, so (because the input are doctored) they must
+      # The following break these rules (in my input), so (because the input are doctored) they must
       # be swapped by themselves. Then just need to find the 2 remaining bad outputs
       fixed_swaps = %w[sps tst frt].permutation.map { |p| p.zip(%w[z05 z11 z23]) }
       fixed_swaps.each do |swaps|
