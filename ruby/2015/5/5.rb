@@ -5,7 +5,7 @@ def has_3_vowels(str)
 end
 
 def has_double_char(str)
-  str.each_char.reduce  do |c1, c2|
+  str.each_char.reduce do |c1, c2|
     return true if c1 == c2
 
     c2

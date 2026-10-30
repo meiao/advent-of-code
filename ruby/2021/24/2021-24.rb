@@ -81,7 +81,6 @@ class Solver
     end
     map.values
   end
-
 end
 
 class State
