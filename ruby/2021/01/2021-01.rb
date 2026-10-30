@@ -21,17 +21,9 @@ class Solver
   def solve2(input)
     values = input.map(&:to_i)
 
-    prev = 1_000_000_000
-    window = [0]
     increasing = 0
-    window << values.shift
-    window << values.shift
-    values.each do |x|
-      window.shift
-      window << x
-      current = window.sum
-      increasing += 1 if current > prev
-      prev = current
+    (3..(values.size - 1)).each do |i|
+      increasing += 1 if values[i - 3] < values[i]
     end
     increasing
   end
