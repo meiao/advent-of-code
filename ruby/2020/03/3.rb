@@ -1,4 +1,4 @@
-str_lines = File.open('3.input').readlines
+str_lines = File.readlines('3.input')
 
 trees1 = 0
 trees3 = 0

@@ -1,6 +1,6 @@
 class Solver
   def initialize(file)
-    data = File.open(file).readlines.collect { |l| l.strip }
+    data = File.readlines(file).collect { |l| l.strip }
 
     @points = data.filter { |l| l =~ /\d+,\d+/ }.collect { |l| l.split(',').collect { |n| n.to_i } }
 

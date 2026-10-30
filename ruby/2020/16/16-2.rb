@@ -1,6 +1,6 @@
 class Processor
   def initialize
-    lines = File.open('16.input.ranges').readlines
+    lines = File.readlines('16.input.ranges')
 
     @range_map = {}
 
@@ -32,7 +32,7 @@ class Processor
   end
 
   def clear_invalid_columns
-    lines = File.open('16.input.tickets.valid').readlines
+    lines = File.readlines('16.input.tickets.valid')
     lines.each do |line|
       ticket = line.split(',').map { |n| n.to_i }
       ticket.each_index do |column|
@@ -59,7 +59,7 @@ class Processor
   end
 
   def result
-    ticket = File.open('16.input.ticket').readlines[0].split(',')
+    ticket = File.readlines('16.input.ticket')[0].split(',')
     value = 1
     keys = [
       'departure time',

@@ -1,4 +1,4 @@
-lines = File.open('13.input').readlines
+lines = File.readlines('13.input')
 
 init = lines[0].to_i
 

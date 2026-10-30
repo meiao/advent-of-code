@@ -1,7 +1,7 @@
 class Processor
   def initialize
     @memoize = []
-    @lines = File.open('19.rules2').readlines
+    @lines = File.readlines('19.rules2')
   end
 
   def calc_rule(number)
@@ -50,7 +50,7 @@ class Processor
       regexps << Regexp.new('^(' + str42 + '){' + num42 + ',}(' + str31 + '){' + num31 + '}$')
     end
 
-    words = File.open('19.words').readlines
+    words = File.readlines('19.words')
     valid_word_count = 0
     words.each do |word|
       valid = false

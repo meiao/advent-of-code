@@ -1,4 +1,4 @@
-str_lines = File.open('5.input').readlines
+str_lines = File.readlines('5.input')
 
 def has_3_vowels(str)
   str.count('aeiou') >= 3

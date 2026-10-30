@@ -1,6 +1,6 @@
 class Solver
   def initialize(file)
-    data = File.open(file).readlines.collect { |l| l.strip.split('-') }
+    data = File.readlines(file).collect { |l| l.strip.split('-') }
     @map = Hash.new { |hash, key| hash[key] = [] }
     data.each do |d|
       @map[d[0]] << d[1]

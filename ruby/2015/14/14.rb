@@ -1,4 +1,4 @@
-lines = File.open('14.input.parsed').readlines
+lines = File.readlines('14.input.parsed')
 
 class Reindeer
   def initialize(name, speed, fly_time, rest_time)

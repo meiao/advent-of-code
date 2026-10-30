@@ -28,7 +28,7 @@ class Solver
   end
 end
 
-lines = File.open('10-input').readlines.collect { |l| l.strip }
+lines = File.readlines('10-input').collect { |l| l.strip }
 
 solver = Solver.new
 p lines.map { |l| solver.calculate(l) }.sum

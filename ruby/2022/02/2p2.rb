@@ -1,4 +1,4 @@
-lines = File.open('2-input').readlines
+lines = File.readlines('2-input')
 
 round_point = {
   'X'.ord => 0,

@@ -1,6 +1,6 @@
 class Processor
   def initialize
-    lines = File.open('13.input.parsed').readlines
+    lines = File.readlines('13.input.parsed')
 
     @matrix = {}
     lines.each do |line|

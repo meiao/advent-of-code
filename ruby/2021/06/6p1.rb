@@ -1,4 +1,4 @@
-lines = File.open('7-input-small').readlines.collect { |l| l.strip }
+lines = File.readlines('7-input-small').collect { |l| l.strip }
 
 fish_by_group = [0, 0, 0, 0, 0, 0, 0]
 fish_to_be_added = [0, 0, 0]

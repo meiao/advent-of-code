@@ -1,4 +1,4 @@
-str_lines = File.open('1.input').readlines
+str_lines = File.readlines('1.input')
 
 line = str_lines[0]
 

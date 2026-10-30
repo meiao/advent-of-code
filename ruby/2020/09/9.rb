@@ -1,4 +1,4 @@
-lines = File.open('9.input').readlines
+lines = File.readlines('9.input')
 
 numbers = []
 25.times do

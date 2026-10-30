@@ -1,4 +1,4 @@
-lines = File.open('5.input.binary.sorted').readlines
+lines = File.readlines('5.input.binary.sorted')
 
 last_num = 58
 lines.each do |line|

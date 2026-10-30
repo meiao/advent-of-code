@@ -1,4 +1,4 @@
-lines = File.open('18.input').readlines
+lines = File.readlines('18.input')
 
 def get_value(expr)
   value = expr.shift

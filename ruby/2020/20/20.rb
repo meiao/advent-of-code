@@ -1,6 +1,6 @@
 require './tile'
 
-lines = File.open('20.input').readlines
+lines = File.readlines('20.input')
 
 tiles = {}
 

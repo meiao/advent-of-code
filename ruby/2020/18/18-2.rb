@@ -1,4 +1,4 @@
-lines = File.open('18.input').readlines
+lines = File.readlines('18.input')
 
 def has_precedence?(from_stack, token)
   return false if from_stack.nil?

@@ -1,7 +1,7 @@
 class Processor
   def initialize
     @map = {}
-    lines = File.open('9.input').readlines
+    lines = File.readlines('9.input')
 
     lines.each do |line|
       places, distance = line.split(' = ')

@@ -1,5 +1,5 @@
 def read_hand(filename)
-  lines = File.open(filename).readlines
+  lines = File.readlines(filename)
   lines.map { |line| line.to_i }
 end
 
