@@ -6,8 +6,8 @@ class SumArray
     @size = size
   end
 
-  def each(&block)
-    populate_yield([], @sum, @size, &block)
+  def each(&)
+    populate_yield([], @sum, @size, &)
   end
 
   def to_a

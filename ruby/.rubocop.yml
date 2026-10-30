@@ -6,6 +6,8 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 Style/MethodCallWithoutArgsParentheses:
   Enabled: false
-
+Style/OneClassPerFile:
+  Enabled: false
 AllCops:
   NewCops: enable
+  TargetRubyVersion: 4.0

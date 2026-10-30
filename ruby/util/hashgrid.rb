@@ -32,8 +32,8 @@ class HashGrid
     @map.keys
   end
 
-  def select(&block)
-    @map.select(&block)
+  def select(&)
+    @map.select(&)
   end
 
   def delete(pos)
