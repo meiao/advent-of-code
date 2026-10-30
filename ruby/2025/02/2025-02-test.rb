@@ -5,14 +5,14 @@ require_relative '2025-02'
 class Test2025_02 < Minitest::Test
   def test_part1
     file_name = File.join(File.dirname(__FILE__), './input')
-    input = File.open(file_name).readlines.map(&:strip)
+    input = File.readlines(file_name).map(&:strip)
     solver = Solver.new
     assert_equal(1_227_775_554, solver.solve(input[0], 2))
   end
 
   def test_part2
     file_name = File.join(File.dirname(__FILE__), './input')
-    input = File.open(file_name).readlines.map(&:strip)
+    input = File.readlines(file_name).map(&:strip)
     solver = Solver.new
     assert_equal(4_174_379_265, solver.solve(input[0], 10))
   end

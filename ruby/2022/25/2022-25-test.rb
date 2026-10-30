@@ -51,14 +51,14 @@ class Test2022_25 < Minitest::Test
 
   def test_part1_small
     file_name = File.join(File.dirname(__FILE__), './input.small')
-    input = File.open(file_name).readlines
+    input = File.readlines(file_name)
     solver = Solver.new
     assert_equal('2=-1=0', solver.solve(input))
   end
 
   def test_part1_large
     file_name = File.join(File.dirname(__FILE__), './input')
-    input = File.open(file_name).readlines
+    input = File.readlines(file_name)
     solver = Solver.new
     assert_equal('2=--=0000-1-0-=1=0=2', solver.solve(input))
   end

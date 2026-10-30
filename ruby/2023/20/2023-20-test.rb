@@ -5,21 +5,21 @@ require_relative '2023-20'
 class Test2023_20 < Minitest::Test
   def test_part1_small
     file_name = File.join(File.dirname(__FILE__), './input.small')
-    input = File.open(file_name).readlines
+    input = File.readlines(file_name)
     solver = Solver.new(input)
     assert_equal(32_000_000, solver.solve)
   end
 
   def test_part1_small2
     file_name = File.join(File.dirname(__FILE__), './input.small2')
-    input = File.open(file_name).readlines
+    input = File.readlines(file_name)
     solver = Solver.new(input)
     assert_equal(11_687_500, solver.solve)
   end
 
   def test_part1_large
     file_name = File.join(File.dirname(__FILE__), './input')
-    input = File.open(file_name).readlines
+    input = File.readlines(file_name)
     solver = Solver.new(input)
     assert_equal(684_125_385, solver.solve)
   end
@@ -43,7 +43,7 @@ class Test2023_20 < Minitest::Test
   # ["st", 4021]
   def test_part2
     file_name = File.join(File.dirname(__FILE__), './input')
-    input = File.open(file_name).readlines
+    input = File.readlines(file_name)
     solver = Solver.new(input)
     assert_equal(225_872_806_380_073, solver.solve2)
   end

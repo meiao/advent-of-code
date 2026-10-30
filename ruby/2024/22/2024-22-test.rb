@@ -23,28 +23,28 @@ class Test2024_22 < Minitest::Test
 
   def test_part1_small
     file_name = File.join(File.dirname(__FILE__), './input.small')
-    input = File.open(file_name).readlines.map(&:strip)
+    input = File.readlines(file_name).map(&:strip)
     solver = Solver.new
     assert_equal(37_327_623, solver.solve(input))
   end
 
   def test_part1_large
     file_name = File.join(File.dirname(__FILE__), './input')
-    input = File.open(file_name).readlines.map(&:strip)
+    input = File.readlines(file_name).map(&:strip)
     solver = Solver.new
     assert_equal(18_525_593_556, solver.solve(input))
   end
 
   def test_part2_small
     file_name = File.join(File.dirname(__FILE__), './input2.small')
-    input = File.open(file_name).readlines.map(&:strip)
+    input = File.readlines(file_name).map(&:strip)
     solver = Solver.new
     assert_equal(23, solver.solve2(input))
   end
 
   def test_part2_large
     file_name = File.join(File.dirname(__FILE__), './input')
-    input = File.open(file_name).readlines.map(&:strip)
+    input = File.readlines(file_name).map(&:strip)
     solver = Solver.new
     assert_equal(2089, solver.solve2(input))
   end
