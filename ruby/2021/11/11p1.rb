@@ -63,6 +63,6 @@ class Solver
   end
 end
 
-lines = File.open('11-input').readlines.collect { |l| l.strip.split('').collect { |i| i.to_i } }
+lines = File.readlines('11-input').collect { |l| l.strip.split('').collect { |i| i.to_i } }
 
 Solver.new(lines).simulate_n(100)

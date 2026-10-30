@@ -31,7 +31,7 @@ class OceanFloor
   end
 end
 
-lines = File.open('5-input').readlines.collect { |l| l.strip }
+lines = File.readlines('5-input').collect { |l| l.strip }
 
 # split each line on the ->, then each pair on the comma, then convert the str to int
 # so 0,9 -> 5,9 becomes [[0, 9], [5, 9]]

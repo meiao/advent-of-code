@@ -1,4 +1,4 @@
-lines = File.open('21.input').readlines
+lines = File.readlines('21.input')
 
 ingredient_set = {}
 allergen_map = {}

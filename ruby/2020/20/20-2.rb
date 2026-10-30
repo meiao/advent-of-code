@@ -1,7 +1,7 @@
 require './tile'
 require 'pry'
 
-lines = File.open('20.input').readlines
+lines = File.readlines('20.input')
 
 def is_square(array)
   return false if array.size == 1

@@ -1,4 +1,4 @@
-str_lines = File.open('2.input').readlines
+str_lines = File.readlines('2.input')
 
 paper = 0
 ribbon = 0

@@ -1,6 +1,6 @@
 class Processor
   def initialize
-    ranges = File.open('16.input.ranges').readlines
+    ranges = File.readlines('16.input.ranges')
 
     @valid_ranges = []
 
@@ -22,7 +22,7 @@ class Processor
 
   def part1
     errors = 0
-    tickets = File.open('16.input.nearby').readlines
+    tickets = File.readlines('16.input.nearby')
     tickets.each do |ticket|
       has_invalid_field = false
       ticket.split(',').each do |n|

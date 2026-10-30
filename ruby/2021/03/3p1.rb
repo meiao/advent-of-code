@@ -1,4 +1,4 @@
-lines = File.open('3-input').readlines.collect { |l| l.strip }
+lines = File.readlines('3-input').collect { |l| l.strip }
 
 gamma_rate = ''
 

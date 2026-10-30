@@ -1,4 +1,4 @@
-lines = File.open('4.input.simple').readlines
+lines = File.readlines('4.input.simple')
 
 req_fields = %w[
   byr

@@ -1,6 +1,6 @@
 class Solver
   def initialize(file)
-    data = File.open(file).readlines.collect { |l| l.strip }
+    data = File.readlines(file).collect { |l| l.strip }
 
     @base = data.shift.split('')
     data.shift # removes empty line

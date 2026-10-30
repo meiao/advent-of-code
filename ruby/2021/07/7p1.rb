@@ -1,4 +1,4 @@
-lines = File.open('7-input').readlines.collect { |l| l.strip }
+lines = File.readlines('7-input').collect { |l| l.strip }
 
 data = lines[0].split(',').collect { |x| x.to_i }.sort
 position = data[data.size / 2]

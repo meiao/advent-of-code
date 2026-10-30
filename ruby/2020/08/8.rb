@@ -1,5 +1,5 @@
 class Processor
-  @@lines = File.open('8.input').readlines
+  @@lines = File.readlines('8.input')
 
   def initialize(stack, acc, visited)
     @stack = stack

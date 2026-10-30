@@ -31,7 +31,7 @@ class Action
   attr_reader :brightness
 end
 
-actions = File.open('6.input').readlines.map { |line| Action.new(line) }
+actions = File.readlines('6.input').map { |line| Action.new(line) }
 
 lit_up = 0
 total_brightness = 0

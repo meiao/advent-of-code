@@ -1,4 +1,4 @@
-lines = File.open('24.input').readlines
+lines = File.readlines('24.input')
 
 map = {}
 

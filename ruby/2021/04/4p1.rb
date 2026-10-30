@@ -38,7 +38,7 @@ class Card
   end
 end
 
-lines = File.open('4-input').readlines.collect { |l| l.strip }
+lines = File.readlines('4-input').collect { |l| l.strip }
 
 draw = lines.shift.split(',')
 lines.shift # remove empty line

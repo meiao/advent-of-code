@@ -24,7 +24,7 @@ class Processor
   def initialize
     @bag_map = {}
 
-    lines = File.open('7.input').readlines
+    lines = File.readlines('7.input')
 
     lines.each do |line|
       line.strip!

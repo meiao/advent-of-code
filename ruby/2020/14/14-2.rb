@@ -2,7 +2,7 @@ class Processor
   def initialize
     @mem = {}
     @mask = ''
-    @lines = File.open('14.input').readlines
+    @lines = File.readlines('14.input')
   end
 
   def part2

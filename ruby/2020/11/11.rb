@@ -1,4 +1,4 @@
-lines = File.open('11.input').readlines
+lines = File.readlines('11.input')
 
 matrix = []
 

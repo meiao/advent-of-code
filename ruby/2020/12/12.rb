@@ -19,7 +19,7 @@ direction_map[[-1, 0]][90] = [0, 1]
 direction_map[[-1, 0]][180] = [1, 0]
 direction_map[[-1, 0]][270] = [0, -1]
 
-lines = File.open('12.input').readlines
+lines = File.readlines('12.input')
 
 direction = [1, 0]
 pos = [0, 0]

@@ -1,4 +1,4 @@
-lines = File.open('10.input.sorted').readlines
+lines = File.readlines('10.input.sorted')
 
 numbers = lines.map { |n| n.to_i }
 

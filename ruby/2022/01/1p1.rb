@@ -1,4 +1,4 @@
-lines = File.open('1-input').readlines
+lines = File.readlines('1-input')
 
 max = 0
 current = 0

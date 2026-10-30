@@ -1,6 +1,6 @@
 class Processor
   def initialize
-    lines = File.open('17.input').readlines
+    lines = File.readlines('17.input')
     @matrix = {}
 
     @h = lines.size

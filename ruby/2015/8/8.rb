@@ -1,4 +1,4 @@
-lines = File.open('8.input').readlines
+lines = File.readlines('8.input')
 
 lines.each do |line|
   puts line.strip.dump

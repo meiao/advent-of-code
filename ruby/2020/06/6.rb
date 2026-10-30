@@ -1,4 +1,4 @@
-lines = File.open('6.input.single_line').readlines
+lines = File.readlines('6.input.single_line')
 
 sum = 0
 lines.each do |line|
@@ -7,7 +7,7 @@ end
 
 puts sum
 
-lines = File.open('6.input.single_line.separated').readlines
+lines = File.readlines('6.input.single_line.separated')
 
 sum = 0
 lines.each do |line|

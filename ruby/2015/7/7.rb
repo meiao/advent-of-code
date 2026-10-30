@@ -70,7 +70,7 @@ end
 
 p = Processor.new
 
-lines = File.open('7.input').readlines
+lines = File.readlines('7.input')
 until lines.empty?
   line = lines.pop
   if p.can_process?(line)
@@ -85,7 +85,7 @@ puts value
 
 p.reset_wires(value)
 
-lines = File.open('7.input2').readlines
+lines = File.readlines('7.input2')
 until lines.empty?
   line = lines.pop
 

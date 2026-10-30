@@ -1,7 +1,7 @@
 class Processor
   def initialize
     @memoize = []
-    @lines = File.open('19.rules1').readlines
+    @lines = File.readlines('19.rules1')
   end
 
   def calc_rule(number)
@@ -37,7 +37,7 @@ class Processor
 
   def part1
     valid_words = calc_rule(0)
-    words = File.open('19.words').readlines
+    words = File.readlines('19.words')
     sum = 0
     words.each do |word|
       sum += 1 if valid_words.include?(word.strip)

@@ -7,7 +7,7 @@ class Test2024_15 < Minitest::Test
     file_name = File.join(File.dirname(__FILE__), './input.smaller')
     input = File.readlines(file_name).map(&:strip).join
     map_name = File.join(File.dirname(__FILE__), './map.smaller')
-    map = File.open(map_name).readlines.map(&:strip)
+    map = File.readlines(map_name).map(&:strip)
     solver = Solver.new
     assert_equal(2028, solver.solve(map, input))
   end
@@ -16,7 +16,7 @@ class Test2024_15 < Minitest::Test
     file_name = File.join(File.dirname(__FILE__), './input.small')
     input = File.readlines(file_name).map(&:strip).join
     map_name = File.join(File.dirname(__FILE__), './map.small')
-    map = File.open(map_name).readlines.map(&:strip)
+    map = File.readlines(map_name).map(&:strip)
     solver = Solver.new
     assert_equal(10_092, solver.solve(map, input))
   end
@@ -25,7 +25,7 @@ class Test2024_15 < Minitest::Test
     file_name = File.join(File.dirname(__FILE__), './input')
     input = File.readlines(file_name).map(&:strip).join
     map_name = File.join(File.dirname(__FILE__), './map')
-    map = File.open(map_name).readlines.map(&:strip)
+    map = File.readlines(map_name).map(&:strip)
     solver = Solver.new
     assert_equal(1_475_249, solver.solve(map, input))
   end
@@ -34,7 +34,7 @@ class Test2024_15 < Minitest::Test
     file_name = File.join(File.dirname(__FILE__), './input.small')
     input = File.readlines(file_name).map(&:strip).join
     map_name = File.join(File.dirname(__FILE__), './map.small')
-    map = File.open(map_name).readlines.map(&:strip)
+    map = File.readlines(map_name).map(&:strip)
     solver = Solver.new
     assert_equal(9021, solver.solve2(map, input))
   end
@@ -43,7 +43,7 @@ class Test2024_15 < Minitest::Test
     file_name = File.join(File.dirname(__FILE__), './input')
     input = File.readlines(file_name).map(&:strip).join
     map_name = File.join(File.dirname(__FILE__), './map')
-    map = File.open(map_name).readlines.map(&:strip)
+    map = File.readlines(map_name).map(&:strip)
     solver = Solver.new
     assert_equal(1_509_724, solver.solve2(map, input))
   end
