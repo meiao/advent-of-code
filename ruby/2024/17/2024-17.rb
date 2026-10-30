@@ -88,7 +88,7 @@ class ConsoleOutput
   end
 
   def get
-    @output.map(&:to_s).join(',')
+    @output.join(',')
   end
 end
 

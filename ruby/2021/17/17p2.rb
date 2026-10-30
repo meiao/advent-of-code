@@ -12,7 +12,7 @@ x_hit_by_step = Hash.new { |hash, key| hash[key] = [] }
   while traveled <= x_range[1]
     traveled += n - step
     step += 1
-    x_hit_by_step[step] << n if x_range[0] <= traveled && traveled <= x_range[1]
+    x_hit_by_step[step] << n if traveled.between?(x_range[0], x_range[1])
     break if step > 19
   end
 end
@@ -30,7 +30,7 @@ y_range[0].upto(150) do |y|
   while position > y_range[0]
     position += y - step
     step += 1
-    next unless y_range[0] <= position && position <= y_range[1]
+    next unless position.between?(y_range[0], y_range[1])
 
     y_hit_by_step[step] << y
     x_hit_by_step[step].each do |x|

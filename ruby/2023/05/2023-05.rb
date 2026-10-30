@@ -94,7 +94,7 @@ class RangeConverter
   end
 
   def convert(n)
-    return @dst + n - @start if @start <= n && n <= @end
+    return @dst + n - @start if n.between?(@start, @end)
 
     nil
   end

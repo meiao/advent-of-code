@@ -53,7 +53,7 @@ class Solver2
 
   def pixel(cycle, x)
     # something wonky here, edges do not work properly due to modulo wrapping around
-    return '#' if x >= (cycle % 40) - 2 && x <= cycle % 40
+    return '#' if x.between?((cycle % 40) - 2, cycle % 40)
 
     '.'
   end

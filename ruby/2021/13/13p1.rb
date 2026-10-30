@@ -4,7 +4,7 @@ class Solver
 
     @points = data.filter { |l| l =~ /\d+,\d+/ }.collect { |l| l.split(',').collect { |n| n.to_i } }
 
-    @instructions = data[@points.size + 1..].collect { |l| l[11..].split('=') }
+    @instructions = data[(@points.size + 1)..].collect { |l| l[11..].split('=') }
 
     @direction = {}
     @direction['x'] = [-1, 1]

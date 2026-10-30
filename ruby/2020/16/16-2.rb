@@ -20,7 +20,7 @@ class Processor
   end
 
   def in_range?(number, range)
-    range[0] <= number && number <= range[1]
+    number.between?(range[0], range[1])
   end
 
   def check_valid(number, column)

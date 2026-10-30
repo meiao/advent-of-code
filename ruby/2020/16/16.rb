@@ -15,7 +15,7 @@ class Processor
 
   def valid?(number)
     @valid_ranges.each do |range|
-      return true if range[0] <= number && number <= range[1]
+      return true if number.between?(range[0], range[1])
     end
     false
   end

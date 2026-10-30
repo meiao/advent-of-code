@@ -5,7 +5,7 @@ def is_valid(line)
   num_rule, char = rule.split(' ')
   min, max = num_rule.split('-')
   occurrences = pass.count(char.strip)
-  min.to_i <= occurrences && occurrences <= max.to_i
+  occurrences.between?(min.to_i, max.to_i)
 end
 
 count = 0

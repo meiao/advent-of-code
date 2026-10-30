@@ -105,10 +105,10 @@ class Rock
   end
 
   def move(direction, map)
-    return false if ['<', '>'].include?(direction) && @points.any? { |p| p[0] & BOUNDARY_CHECK[direction] != 0 }
+    return false if ['<', '>'].include?(direction) && @points.any? { |p| p[0].anybits?(BOUNDARY_CHECK[direction]) }
 
     next_points = do_move(direction)
-    return false if next_points.any? { |p| p[0] & map[p[1]] != 0 }
+    return false if next_points.any? { |p| p[0].anybits?(map[p[1]]) }
 
     @points = next_points
     true

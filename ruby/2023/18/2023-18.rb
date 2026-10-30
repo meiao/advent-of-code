@@ -31,7 +31,7 @@ class Solver
 
     sum = 0
     (range[0]..range[1]).each do |x|
-      lines = hor_lines.select { |line| line[0] <= x && x <= line[1] }
+      lines = hor_lines.select { |line| x.between?(line[0], line[1]) }
       until lines.empty?
         top_line = lines.shift
         if top_line[0] != x && top_line[1] != x
