@@ -1,3 +1,3 @@
-lines = File.readlines('8-input').collect { |l| l.strip }
+lines = File.readlines('8-input').collect(&:strip)
 
 p lines.collect { |l| l.split('|')[1].strip.split(' ') }.flatten.filter { |n| [2, 3, 4, 7].include? n.length }.count

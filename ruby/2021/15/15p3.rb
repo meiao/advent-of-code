@@ -67,7 +67,7 @@ end
 
 def read_file(filename)
   matrix = []
-  lines = IO.readlines(filename).collect { |l| l.strip }
+  lines = IO.readlines(filename).collect(&:strip)
   lines.each do |line|
     matrix << line.split('').map(&:to_i)
   end
