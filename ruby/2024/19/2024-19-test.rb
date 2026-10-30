@@ -5,7 +5,7 @@ require_relative '2024-19'
 class Test2024_19 < Minitest::Test
   def test_part1_small
     file_name = File.join(File.dirname(__FILE__), './input.small')
-    input = File.open(file_name).readlines.map(&:strip)
+    input = File.readlines(file_name).map(&:strip)
     available_towels = input.shift
     input.shift # removes empty line
     solver = Solver.new
@@ -14,7 +14,7 @@ class Test2024_19 < Minitest::Test
 
   def test_part1_large
     file_name = File.join(File.dirname(__FILE__), './input')
-    input = File.open(file_name).readlines.map(&:strip)
+    input = File.readlines(file_name).map(&:strip)
     available_towels = input.shift
     input.shift # removes empty line
     solver = Solver.new
@@ -23,7 +23,7 @@ class Test2024_19 < Minitest::Test
 
   def test_part2_small
     file_name = File.join(File.dirname(__FILE__), './input.small')
-    input = File.open(file_name).readlines.map(&:strip)
+    input = File.readlines(file_name).map(&:strip)
     available_towels = input.shift
     input.shift # removes empty line
     solver = Solver.new
@@ -32,7 +32,7 @@ class Test2024_19 < Minitest::Test
 
   def test_part2_large
     file_name = File.join(File.dirname(__FILE__), './input')
-    input = File.open(file_name).readlines.map(&:strip)
+    input = File.readlines(file_name).map(&:strip)
     available_towels = input.shift
     input.shift # removes empty line
     solver = Solver.new

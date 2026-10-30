@@ -17,7 +17,7 @@ class Test2025_05 < Minitest::Test
 
   def read_input
     file_name = File.join(File.dirname(__FILE__), './input')
-    input = File.open(file_name).readlines.join
+    input = File.readlines(file_name).join
     input.split("\n\n").map { |section| section.split("\n") }
   end
 end

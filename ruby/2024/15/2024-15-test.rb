@@ -5,7 +5,7 @@ require_relative '2024-15'
 class Test2024_15 < Minitest::Test
   def test_part1_smaller
     file_name = File.join(File.dirname(__FILE__), './input.smaller')
-    input = File.open(file_name).readlines.map(&:strip).join
+    input = File.readlines(file_name).map(&:strip).join
     map_name = File.join(File.dirname(__FILE__), './map.smaller')
     map = File.open(map_name).readlines.map(&:strip)
     solver = Solver.new
@@ -14,7 +14,7 @@ class Test2024_15 < Minitest::Test
 
   def test_part1_small
     file_name = File.join(File.dirname(__FILE__), './input.small')
-    input = File.open(file_name).readlines.map(&:strip).join
+    input = File.readlines(file_name).map(&:strip).join
     map_name = File.join(File.dirname(__FILE__), './map.small')
     map = File.open(map_name).readlines.map(&:strip)
     solver = Solver.new
@@ -23,7 +23,7 @@ class Test2024_15 < Minitest::Test
 
   def test_part1_large
     file_name = File.join(File.dirname(__FILE__), './input')
-    input = File.open(file_name).readlines.map(&:strip).join
+    input = File.readlines(file_name).map(&:strip).join
     map_name = File.join(File.dirname(__FILE__), './map')
     map = File.open(map_name).readlines.map(&:strip)
     solver = Solver.new
@@ -32,7 +32,7 @@ class Test2024_15 < Minitest::Test
 
   def test_part2_small
     file_name = File.join(File.dirname(__FILE__), './input.small')
-    input = File.open(file_name).readlines.map(&:strip).join
+    input = File.readlines(file_name).map(&:strip).join
     map_name = File.join(File.dirname(__FILE__), './map.small')
     map = File.open(map_name).readlines.map(&:strip)
     solver = Solver.new
@@ -41,7 +41,7 @@ class Test2024_15 < Minitest::Test
 
   def test_part2_large
     file_name = File.join(File.dirname(__FILE__), './input')
-    input = File.open(file_name).readlines.map(&:strip).join
+    input = File.readlines(file_name).map(&:strip).join
     map_name = File.join(File.dirname(__FILE__), './map')
     map = File.open(map_name).readlines.map(&:strip)
     solver = Solver.new
