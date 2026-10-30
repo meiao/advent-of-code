@@ -126,7 +126,7 @@ class Calculator
   end
 end
 
-data = IO.readlines('18-input').collect { |l| l.strip }
+data = IO.readlines('18-input').collect(&:strip)
 calc = Calculator.new(data[0])
 data[1..].each do |l|
   calc.add(l)

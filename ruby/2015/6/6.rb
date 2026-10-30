@@ -21,7 +21,7 @@ class Action
   end
 
   def applies?(x, y)
-    @x1 <= x && x <= @x2 && @y1 <= y && y <= @y2
+    x.between?(@x1, @x2) && y.between(@y1, @y2)
   end
 
   def apply(cur_state)

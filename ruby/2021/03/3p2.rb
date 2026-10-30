@@ -1,4 +1,4 @@
-lines = File.readlines('3-input').collect { |l| l.strip }
+lines = File.readlines('3-input').collect(&:strip)
 
 def count_ones(row, lines)
   sum = 0

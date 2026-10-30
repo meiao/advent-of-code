@@ -1,4 +1,4 @@
-lines = File.readlines('8-input').collect { |l| l.strip }
+lines = File.readlines('8-input').collect(&:strip)
 
 class Panel
   def initialize(line)

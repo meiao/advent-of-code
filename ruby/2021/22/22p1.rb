@@ -70,7 +70,7 @@ class Cube
   end
 end
 
-data = IO.readlines('22-input').collect { |l| l.strip }
+data = IO.readlines('22-input').collect(&:strip)
 cubes = []
 
 data.each do |line|

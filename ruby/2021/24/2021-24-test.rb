@@ -16,5 +16,4 @@ class Test2021_24 < Minitest::Test
     solver = Solver.new
     assert_equal(2, solver.solve2(input))
   end
-
 end

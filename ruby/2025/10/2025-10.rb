@@ -90,7 +90,7 @@ class Solver
 
   # checks whether the remaining buttons can change the indexes that still require changing
   def viable?(state, final_state, buttons)
-    needed = (0..(state.size() - 1)).select { |i| state[i] != final_state[i] }
+    needed = (0..(state.size() - 1)).reject { |i| state[i] == final_state[i] }
     available = buttons.flatten.uniq
     needed.all? { |i| available.include?(i) }
   end
@@ -110,7 +110,7 @@ class Solver
   # if no such index, will try to solve the index that requires the least
   # clicks
   def easiest_index(buttons, status, joltage)
-    tally = buttons.flatten.tally.to_a.sort { |a, b| a[1] <=> b[1] }[0]
+    tally = buttons.flatten.tally.to_a.min { |a, b| a[1] <=> b[1] }
     return tally[0] if tally[1] <= 2
 
     clicks_needed = joltage.zip(status).map { |v| v[0] - v[1] }

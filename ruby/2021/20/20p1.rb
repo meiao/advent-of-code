@@ -78,7 +78,7 @@ class Enhancer
   end
 end
 
-data = IO.readlines('20-input').collect { |l| l.strip }
+data = IO.readlines('20-input').collect(&:strip)
 
 algo = data.shift
 data.shift # remove empty line

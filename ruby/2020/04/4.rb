@@ -25,7 +25,7 @@ def byr(value)
   return false if (value =~ /^\d\d\d\d$/).nil?
 
   v = value.to_i
-  1920 <= v && v <= 2002
+  v.between?(1920, 2002)
 end
 
 def iyr(value)
@@ -33,7 +33,7 @@ def iyr(value)
   return false if (value =~ /^\d\d\d\d$/).nil?
 
   v = value.to_i
-  2010 <= v && v <= 2020
+  v.between?(2010, 2020)
 end
 
 def eyr(value)
@@ -41,7 +41,7 @@ def eyr(value)
   return false if (value =~ /^\d\d\d\d$/).nil?
 
   v = value.to_i
-  2020 <= v && v <= 2030
+  v.between?(2020, 2030)
 end
 
 def hgt(value)
@@ -49,9 +49,9 @@ def hgt(value)
   return false if (value =~ /^\d\d(\dcm)|(in)$/).nil?
 
   v = value.to_i
-  return 150 <= v && v <= 193 if value.include?('cm')
+  return v.between?(150, 193) if value.include?('cm')
 
-  59 <= v && v <= 76
+  v.between?(59, 76)
 end
 
 def hcl(value)

@@ -1,6 +1,6 @@
 class Solver
   def initialize(file)
-    data = File.readlines(file).collect { |l| l.strip }
+    data = File.readlines(file).collect(&:strip)
 
     @base = data.shift
     data.shift # removes empty line
@@ -35,7 +35,7 @@ class Solver
     current_pairs = {}
     current_pairs.default = 0
     (@base.length - 1).times do |i|
-      current_pairs[@base[i..i + 1]] += 1
+      current_pairs[@base[i..(i + 1)]] += 1
     end
 
     @base.each_char do |c|

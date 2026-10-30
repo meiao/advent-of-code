@@ -51,7 +51,7 @@ class Solver
   end
 end
 
-lines = File.readlines('9-input').collect { |l| l.strip }
+lines = File.readlines('9-input').collect(&:strip)
 lines = lines.collect { |l| l.split('').collect { |n| n.to_i } }
 
 p Solver.new(lines).solve
